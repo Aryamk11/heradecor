@@ -1,188 +1,309 @@
-/* Section title */
-.section-title {
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
-    color: #A98C7B;
+/* --- Final and Complete style.css File --- */
+
+/* 1. Font Import */
+@import url('https://cdn.jsdelivr.net/gh/rastikerdar/sahel-font@v3.4.0/dist/font-face.css');
+
+/* 2. Root Variables & Global Styles */
+:root {
+    --bg-color: #F5F5F4;
+    --text-color: #3A3A3A;
+    --accent-color: #A98C7B;
+    --font-family: 'Sahel', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Product grid */
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* 3. New Header Styles */
+.site-header {
+    background: #fff;
+    border-bottom: 1px solid #e9e6e3;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    height: 70px;
     gap: 1.5rem;
 }
 
-.product-card {
-    background-color: #fff;
+.brand-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.brand-accent {
+    color: var(--accent-color);
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover, .signin-link:hover, .cart-link:hover {
+    color: var(--accent-color);
+}
+
+.nav-link.active {
+    color: var(--accent-color);
+    font-weight: 700;
+}
+
+.nav-spacer {
+    flex-grow: 1;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.signin-link {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.cart-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.cart-link:hover {
+    background-color: #8E705E;
+    color: #fff;
+}
+
+.cart-badge {
+    background: rgba(0,0,0,0.2);
+    border-radius: 4px;
+    padding: 0.1rem 0.4rem;
+    font-size: 0.8rem;
+}
+
+/* 4. Pop-up Search Bar Styles */
+.search-bar-container {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #fff;
     padding: 1rem;
-    border-radius: 8px;
-    border: 1px solid #ddd;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    border-top: 1px solid #e9e6e3;
+}
+
+.search-bar-container.is-visible {
+    display: block;
+}
+
+.search-form {
+    display: flex;
+    max-width: 800px;
+    margin: 0 auto;
+    gap: 0.5rem;
+}
+
+.search-form input {
+    flex-grow: 1;
+    border: 1px solid #ccc;
+    padding: 0.75rem;
+    border-radius: 6px;
+    font-family: 'Sahel', sans-serif;
+    font-size: 1rem;
+}
+
+.search-submit-btn, .search-close-btn {
+    border: none;
+    padding: 0 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Sahel', sans-serif;
+}
+
+.search-submit-btn {
+    background-color: var(--text-color);
+    color: #fff;
+}
+
+.search-close-btn {
+    background-color: #eee;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    padding: 0 1rem;
+}
+
+/* 5. Main Content Styles */
+main h2 {
     text-align: center;
-    transition: transform 0.2s ease;
+    font-size: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    padding-bottom: 4rem;
+}
+
+.product-card {
+    background: #FFFFFF;
+    border: 1px solid #EAEAEA;
+    text-align: center;
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
 }
 
 .product-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
 }
 
 .product-card img {
-    max-width: 100%;
-    border-radius: 6px;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
 }
 
 .product-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.product-card .price {
+    color: var(--accent-color);
+    font-weight: 700;
     font-size: 1.1rem;
-    margin-bottom: 0.3rem;
-    color: #3A3A3A;
 }
 
-.product-card p {
-    color: #A98C7B;
-    font-weight: bold;
-}
-
-/* Modal */
+/* 6. Product Detail Modal Styles */
 .modal {
     display: none;
     position: fixed;
-    top: 0;
+    z-index: 200;
     left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
     justify-content: center;
     align-items: center;
 }
 
 .modal-content {
     background-color: #fff;
-    padding: 1.5rem;
+    margin: auto;
+    padding: 2rem;
     border-radius: 8px;
     max-width: 500px;
     width: 90%;
     position: relative;
     text-align: right;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: scale(0.95);}
+  to {opacity: 1; transform: scale(1);}
 }
 
 .close-btn {
     position: absolute;
     top: 10px;
-    left: 15px;
-    font-size: 1.5rem;
+    left: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #aaa;
     cursor: pointer;
-}
-/* header color vars */
-:root{
-  --bg: #F5F5F4;
-  --text: #3A3A3A;
-  --accent: #A98C7B;
-  --muted: #efede9;
-  --white: #ffffff;
+    line-height: 1;
 }
 
-/* Header base */
-.site-header{
-  position: sticky;
-  top: 0;
-  z-index: 80;
-  background: var(--white);
-  border-bottom: 1px solid #e9e6e3;
-  transition: box-shadow .18s ease, padding .18s ease, transform .18s ease;
+.close-btn:hover {
+    color: #333;
 }
 
-/* shrink effect when scrolled */
-.site-header.scrolled{
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-  transform: translateY(0);
+#modal-title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
 }
-
-/* inner row */
-.header-inner{
-  display:flex;
-  align-items:center;
-  gap:1rem;
-  height:76px;
-  padding:0.6rem 0;
-  flex-direction: row-reverse;
-}
-
-/* brand */
-.brand-link{ display:flex; align-items:center; text-decoration:none; color:var(--text); }
-.brand-title{ font-size:1.2rem; margin:0; font-weight:700; color:var(--text); letter-spacing:.4px; }
-.brand-accent{ color:var(--accent); margin-left:6px; font-weight:800; }
-
-/* desktop search */
-.search-form{ display:flex; align-items:center; gap:.5rem; background:var(--muted); padding:6px; border-radius:8px; flex-direction: row-reverse; }
-.search-form input{
-  border:0; outline:none; background:transparent; padding:6px 8px; width:220px; font-size:0.95rem; color:var(--text);
-}
-.search-form .search-btn{ background:none; border:0; padding:0 6px; color:var(--text); cursor:pointer; }
-
-/* nav links (desktop) */
-.header-nav{ display:flex; gap:1rem; margin-inline-start:auto; margin-inline-end:1rem; margin-inline-start: 1rem;
-    margin-inline-end: auto;}
-.nav-link{ text-decoration:none; color:var(--text); font-weight:600; padding:6px; border-radius:6px; transition:background .12s, color .12s; }
-.nav-link:hover{ color:var(--accent); background:transparent; }
-
-/* actions */
-.header-actions{ display:flex; align-items:center; gap:0.5rem; flex-direction: row-reverse;}
-.icon-btn{
-  background:transparent; border:0; display:inline-flex; align-items:center; justify-content:center; padding:6px; cursor:pointer; color:var(--text);
-}
-.signin-btn{ display:flex; align-items:center; gap:6px; text-decoration:none; color:var(--text); font-weight:600; padding:6px 10px; border-radius:6px; }
-.signin-btn:hover{ color:var(--accent); }
-
-.cart-btn{ position:relative; }
-.cart-badge{
-  position:absolute; inset-inline-start:4px; top:-6px; min-width:18px; height:18px; display:inline-flex;
-  align-items:center; justify-content:center; background:var(--accent); color:#fff; font-size:0.75rem; border-radius:999px; padding:0 6px;
-}
-
-/* mobile hamburger: hide on desktop */
-.hamburger{ display:none; }
-
-/* Mobile drawer */
-.mobile-drawer{
-  position:fixed; inset:0; display:none; background:rgba(0,0,0,0.35); z-index:90; align-items:flex-start; justify-content:flex-end;
-}
-.mobile-drawer .drawer-inner{
-  background:var(--white); width:320px; padding:1rem; height:100vh; overflow:auto;
-}
-.drawer-search{ display:flex; gap:.5rem; margin-bottom:1rem; }
-.drawer-search input{ flex:1; padding:8px; border:1px solid #eee; border-radius:6px; }
-.drawer-nav{ display:flex; flex-direction:column; gap:.5rem; margin-bottom:1rem; }
-.drawer-link{ text-decoration:none; padding:10px; border-radius:6px; color:var(--text); background:transparent; font-weight:600; }
-.drawer-link:hover{ background:#faf8f6; color:var(--accent); }
-.drawer-actions a{ display:block; padding:8px 0; }
-
-/* responsive */
-@media (max-width: 900px){
-  .search-form{ display:none; }
-  .header-nav{ display:none; }
-  .signin-text{ display:none; }
-  .hamburger{ display:inline-flex; }
-  .brand-title{ font-size:1rem; }
-  .header-inner{ height:64px; }
-}
-/* --- Add this to your style.css file --- */
-
-/* Style for the active navigation link */
-nav a.active {
+#modal-price {
+    font-size: 1.3rem;
     color: var(--accent-color);
     font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+#modal-description {
+    font-size: 1rem;
+    line-height: 1.7;
 }
 
-/* Contact Page Specific Styles */
+/* 7. Contact Page Styles */
 .contact-section {
-    max-width: 700px; /* Make the contact section narrower */
+    max-width: 700px;
+    margin: 2rem auto;
     text-align: center;
 }
 
 .contact-form {
     margin-top: 2rem;
-    text-align: right; /* Align form labels to the right */
+    text-align: right;
 }
 
 .contact-form label {
@@ -216,5 +337,14 @@ nav a.active {
 }
 
 .contact-form .btn:hover {
-    background-color: #8E705E; /* A slightly darker accent color */
+    background-color: #8E705E;
+}
+
+/* 8. Footer Styles */
+.site-footer {
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 4rem;
+    border-top: 1px solid #ddd;
+    font-size: 0.9rem;
 }

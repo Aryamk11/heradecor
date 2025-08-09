@@ -1,129 +1,138 @@
-// Generate products in grid
-const grid = document.getElementById('product-grid');
+/* --- Final and Complete script.js File --- */
 
-products.forEach(product => {
-    const card = document.createElement('div');
-    card.classList.add('product-card');
-    card.innerHTML = `
-        <img src="${product.image}" alt="${product.title}">
-        <h3>${product.title}</h3>
-        <p>${product.price}</p>
-    `;
-    card.addEventListener('click', () => {
-        showProductDetail(product);
-    });
-    grid.appendChild(card);
-});
-
-// Show modal with product details
-function showProductDetail(product) {
-    document.getElementById('modal-title').textContent = product.title;
-    document.getElementById('modal-price').textContent = product.price;
-    document.getElementById('modal-description').textContent = product.description;
-    document.getElementById('product-modal').style.display = 'flex';
-}
-
-// Close modal
-function closeModal() {
-    document.getElementById('product-modal').style.display = 'none';
-}
-
-// Close modal when clicking outside
-window.onclick = function(event) {
-    const modal = document.getElementById('product-modal');
-    if (event.target === modal) {
-        modal.style.display = 'none';
-    }
-};
-/* --- Header behavior: mobile toggle, cart count, search stub, shrink on scroll --- */
-const hamburger = document.getElementById('hamburger');
-const mobileDrawer = document.getElementById('mobile-drawer');
-const siteHeader = document.getElementById('site-header');
-const cartCountEl = document.getElementById('cart-count');
-const drawerCartCount = document.getElementById('drawer-cart-count');
-
-hamburger && hamburger.addEventListener('click', () => {
-  const open = mobileDrawer.style.display === 'flex';
-  mobileDrawer.style.display = open ? 'none' : 'flex';
-  mobileDrawer.setAttribute('aria-hidden', open ? 'true' : 'false');
-});
-
-// close drawer when clicking backdrop
-mobileDrawer && mobileDrawer.addEventListener('click', (e) => {
-  if (e.target === mobileDrawer) {
-    mobileDrawer.style.display = 'none';
-    mobileDrawer.setAttribute('aria-hidden', 'true');
-  }
-});
-
-// shrink header on scroll
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 12) siteHeader.classList.add('scrolled');
-  else siteHeader.classList.remove('scrolled');
-});
-
-// a small API to update cart visual count (use this when user adds product)
-function updateCartCount(n){
-  const val = Number(cartCountEl.textContent || 0) + Number(n || 0);
-  cartCountEl.textContent = val;
-  drawerCartCount.textContent = val;
-  // simple pulse effect
-  cartCountEl.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.25)' }, { transform: 'scale(1)' }], { duration: 300 });
-}
-
-// example: call updateCartCount(1) when product added
-// updateCartCount(1);
-
-// search handler stub (hook to your product search)
-const searchForm = document.getElementById('search-form');
-searchForm && searchForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const q = document.getElementById('search-input').value.trim();
-  if (!q) return;
-  // TODO: run local search/filter on products array
-  console.log('search for:', q);
-});
-
-// drawer search stub
-const drawerSearch = document.getElementById('drawer-search');
-drawerSearch && drawerSearch.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const q = document.getElementById('drawer-search-input').value.trim();
-  mobileDrawer.style.display = 'none'; // close drawer
-  console.log('drawer search:', q);
-});
-// --- Add this code below the 'products' array in script.js ---
-
-// This function takes the product array and builds the HTML
-function displayProducts(productList) {
-    // Find the empty .product-grid container in the HTML
-    const productGrid = document.querySelector('.product-grid');
-    
-    // If the container doesn't exist, stop the function
-    if (!productGrid) return;
-
-    // Clear any existing content in the grid
-    productGrid.innerHTML = '';
-
-    // Loop through each product in our array
-    productList.forEach(product => {
-        // Create a new div element for the product card
-        const card = document.createElement('div');
-        card.className = 'product-card';
-
-        // Use template literals to create the inner HTML for the card
-        card.innerHTML = `
-            <img src="${product.image}" alt="${product.name}">
-            <h3>${product.name}</h3>
-            <p class="price">${product.price}</p>
-        `;
-        
-        // Add the newly created card to the grid
-        productGrid.appendChild(card);
-    });
-}
-
-// This makes sure our script runs only after the full HTML page has loaded
+// Wait for the entire HTML document to be loaded and ready
 document.addEventListener('DOMContentLoaded', () => {
-    displayProducts(products);
+
+    // --- 1. ELEMENT SELECTIONS ---
+    // Get all the necessary elements from the page once.
+    const productGrid = document.querySelector('.product-grid');
+    const productModal = document.getElementById('product-modal');
+    
+    const searchToggleButton = document.getElementById('search-toggle-btn');
+    const searchBarContainer = document.getElementById('search-bar-container');
+    const searchCloseButton = document.getElementById('search-close-btn');
+    const searchForm = document.getElementById('search-form');
+    const searchInput = document.getElementById('search-input');
+    const modalCloseBtn = document.querySelector('.close-btn');
+
+
+    // --- 2. INITIALIZATION ---
+    // Display all products when the page first loads, if a product grid exists on the page.
+    if (productGrid) {
+        displayProducts(products);
+    }
+
+
+    // --- 3. MAIN FUNCTIONS ---
+
+    /**
+     * Takes an array of product objects and displays them in the product grid.
+     * @param {Array} productList The array of products to display.
+     */
+    function displayProducts(productList) {
+        if (!productGrid) return; // Exit if there's no grid on the current page
+
+        productGrid.innerHTML = ''; // Clear any previous products from the grid
+
+        productList.forEach(product => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <img src="${product.image}" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <p class="price">${product.price}</p>
+            `;
+            
+            // Add an event listener to each card to show details when clicked
+            card.addEventListener('click', () => {
+                showProductDetail(product);
+            });
+
+            productGrid.appendChild(card);
+        });
+    }
+
+    /**
+     * Populates and shows the product detail modal.
+     * @param {object} product The product object to show details for.
+     */
+    function showProductDetail(product) {
+        if (!productModal) return;
+
+        productModal.querySelector('#modal-title').textContent = product.name;
+        productModal.querySelector('#modal-price').textContent = product.price;
+        productModal.querySelector('#modal-description').textContent = product.description;
+        
+        productModal.style.display = 'flex';
+    }
+
+    /**
+     * Hides the product detail modal.
+     */
+    function closeModal() {
+        if (productModal) {
+            productModal.style.display = 'none';
+        }
+    }
+
+
+    // --- 4. EVENT LISTENERS ---
+
+    // Listener for the main close button (X) inside the modal
+    if (modalCloseBtn) {
+        modalCloseBtn.addEventListener('click', closeModal);
+    }
+    
+    // Listener to close the modal if the user clicks on the dark background
+    window.addEventListener('click', (event) => {
+        if (event.target === productModal) {
+            closeModal();
+        }
+    });
+
+    // Listener for the "Search" link in the header to show/hide the search bar
+    if (searchToggleButton) {
+        searchToggleButton.addEventListener('click', (e) => {
+            e.preventDefault(); // Stop the link from trying to navigate
+            searchBarContainer.classList.toggle('is-visible');
+
+            // For good user experience, focus the input field when the bar opens
+            if (searchBarContainer.classList.contains('is-visible')) {
+                searchInput.focus();
+            }
+        });
+    }
+
+    // Listener for the close button inside the search bar
+    if (searchCloseButton) {
+        searchCloseButton.addEventListener('click', () => {
+            searchBarContainer.classList.remove('is-visible');
+        });
+    }
+
+    // Listener for when the user submits a search query
+    if (searchForm) {
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const query = searchInput.value.trim().toLowerCase();
+            
+            // Hide the search bar after submitting
+            searchBarContainer.classList.remove('is-visible');
+            
+            if (!query) {
+                // If the search is empty, show all products again
+                displayProducts(products);
+                return;
+            }
+
+            // Filter the products array based on the query
+            const filteredProducts = products.filter(product =>
+                product.name.toLowerCase().includes(query) ||
+                product.description.toLowerCase().includes(query)
+            );
+            
+            // Display only the filtered results
+            displayProducts(filteredProducts);
+        });
+    }
 });
