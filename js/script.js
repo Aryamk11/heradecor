@@ -92,3 +92,38 @@ drawerSearch && drawerSearch.addEventListener('submit', (e) => {
   mobileDrawer.style.display = 'none'; // close drawer
   console.log('drawer search:', q);
 });
+// --- Add this code below the 'products' array in script.js ---
+
+// This function takes the product array and builds the HTML
+function displayProducts(productList) {
+    // Find the empty .product-grid container in the HTML
+    const productGrid = document.querySelector('.product-grid');
+    
+    // If the container doesn't exist, stop the function
+    if (!productGrid) return;
+
+    // Clear any existing content in the grid
+    productGrid.innerHTML = '';
+
+    // Loop through each product in our array
+    productList.forEach(product => {
+        // Create a new div element for the product card
+        const card = document.createElement('div');
+        card.className = 'product-card';
+
+        // Use template literals to create the inner HTML for the card
+        card.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p class="price">${product.price}</p>
+        `;
+        
+        // Add the newly created card to the grid
+        productGrid.appendChild(card);
+    });
+}
+
+// This makes sure our script runs only after the full HTML page has loaded
+document.addEventListener('DOMContentLoaded', () => {
+    displayProducts(products);
+});
