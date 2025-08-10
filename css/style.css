@@ -5,7 +5,6 @@
 
 /* 2. Root Variables & Global Styles */
 :root {
-    /* "Earthy Clay & Linen" Palette */
     --bg-color: #F9F6F2;
     --header-bg: #EDEAE6;
     --card-bg: #FFFFFF;
@@ -51,9 +50,40 @@ img {
 .section-title {
     text-align: center;
     font-size: 2rem;
-    margin-top: 2rem;
+    margin-top: 4rem;
     margin-bottom: 2.5rem;
     font-weight: 700;
+}
+
+/* --- Buttons --- */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    border-radius: 6px;
+    font-weight: 600;
+    text-align: center;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+    border: 1px solid transparent;
+    font-family: var(--font-family);
+}
+.btn-primary {
+    background-color: var(--accent-color);
+    color: #fff;
+}
+.btn-primary:hover {
+    background-color: var(--accent-hover-color);
+    transform: translateY(-2px);
+}
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-color);
+    border-color: #DCD8D3;
+}
+.btn-secondary:hover {
+    background-color: #fff;
+    border-color: var(--accent-color);
+    color: var(--accent-color);
 }
 
 
@@ -65,30 +95,25 @@ img {
     top: 0;
     z-index: 100;
 }
-
 .header-inner {
     display: flex;
     align-items: center;
     height: 70px;
     gap: 1.5rem;
 }
-
 .brand-title {
     font-size: 1.25rem;
     font-weight: 700;
     color: var(--text-color);
 }
-
 .brand-accent {
     color: var(--accent-color);
 }
-
 .header-nav {
     display: flex;
     align-items: center;
     gap: 1.5rem;
 }
-
 .nav-link {
     text-decoration: none;
     color: var(--text-color);
@@ -100,12 +125,9 @@ img {
     position: relative;
     padding-bottom: 4px;
 }
-
 .nav-link:hover, .signin-link:hover, .cart-link:hover {
     color: var(--accent-color);
 }
-
-/* Style for the active page link */
 .nav-link.active {
     color: var(--accent-color);
     font-weight: 700;
@@ -119,24 +141,19 @@ img {
     height: 2px;
     background-color: var(--accent-color);
 }
-
-
 .nav-spacer {
     flex-grow: 1;
 }
-
 .header-actions {
     display: flex;
     align-items: center;
     gap: 1.5rem;
 }
-
 .signin-link {
     text-decoration: none;
     color: var(--text-color);
     font-weight: 600;
 }
-
 .cart-link {
     display: flex;
     align-items: center;
@@ -149,12 +166,10 @@ img {
     font-weight: 600;
     transition: background-color 0.2s ease;
 }
-
 .cart-link:hover {
     background-color: var(--accent-hover-color);
     color: #fff;
 }
-
 .cart-badge {
     background: rgba(0,0,0,0.2);
     border-radius: 4px;
@@ -174,18 +189,15 @@ img {
     box-shadow: 0 8px 16px rgba(0,0,0,0.05);
     border-top: 1px solid #DCD8D3;
 }
-
 .search-bar-container.is-visible {
     display: block;
 }
-
 .search-form {
     display: flex;
     max-width: 800px;
     margin: 0 auto;
     gap: 0.5rem;
 }
-
 .search-form input {
     flex-grow: 1;
     border: 1px solid #DCD8D3;
@@ -196,7 +208,6 @@ img {
     font-size: 1rem;
     color: var(--text-color);
 }
-
 .search-submit-btn, .search-close-btn {
     border: none;
     padding: 0 1.5rem;
@@ -205,7 +216,6 @@ img {
     cursor: pointer;
     font-family: 'Sahel', sans-serif;
 }
-
 .search-submit-btn {
     background-color: var(--accent-color);
     color: #fff;
@@ -214,7 +224,6 @@ img {
 .search-submit-btn:hover {
     background-color: var(--accent-hover-color);
 }
-
 .search-close-btn {
     background-color: #DCD8D3;
     color: var(--text-color);
@@ -222,20 +231,37 @@ img {
     padding: 0 1rem;
 }
 
-/* 5. Main Content & Product Grid Styles */
+/* 5. Hero Section (Homepage) */
+.hero {
+    background-color: var(--header-bg);
+    padding: 5rem 0;
+    text-align: center;
+    background-image: linear-gradient(rgba(249, 246, 242, 0.8), rgba(249, 246, 242, 1)), url('images/photo_7_2025-08-09_17-19-44.jpg');
+    background-size: cover;
+    background-position: center;
+}
+.hero-title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+.hero-subtitle {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto 2rem auto;
+}
+
+/* 6. Product Grid Styles */
 .product-grid {
     display: grid;
-    /* UPDATED: Adjusted minmax for a better 5-column layout on large screens */
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 2rem;
     padding-bottom: 4rem;
 }
-
 .product-card {
     background: var(--card-bg);
     border: 1px solid #EAEAEA;
     text-align: center;
-    padding-bottom: 1.5rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
     border-radius: 12px;
@@ -243,49 +269,50 @@ img {
     display: flex;
     flex-direction: column;
 }
-
 .product-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(92, 75, 65, 0.1);
 }
-
 .product-card-image-container {
     aspect-ratio: 1 / 1;
     overflow: hidden;
 }
-
 .product-card-image-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    margin-bottom: 1rem;
-    border-radius: 0;
+    transition: transform 0.4s ease;
 }
-
+.product-card:hover .product-card-image-container img {
+    transform: scale(1.05);
+}
 .product-card-content {
-    padding: 0 1.5rem;
+    padding: 1.5rem;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
-
 .product-card h3 {
     font-size: 1.1rem;
-    margin-top: 1rem;
     margin-bottom: 0.5rem;
     font-weight: 700;
 }
-
 .product-card .price {
     color: var(--text-color);
     font-weight: 600;
     font-size: 1rem;
-    margin-top: auto; /* Pushes price to the bottom */
+    margin-top: auto;
 }
 
+/* 7. CTA Container (Homepage) */
+.cta-container {
+    text-align: center;
+    margin-top: -1rem;
+    margin-bottom: 4rem;
+}
 
-/* 6. Product Detail Modal Styles */
+/* 8. Product Detail Modal Styles */
 .modal {
     display: none;
     position: fixed;
@@ -299,7 +326,6 @@ img {
     justify-content: center;
     align-items: center;
 }
-
 .modal-content {
     background-color: var(--bg-color);
     margin: auto;
@@ -315,12 +341,10 @@ img {
     flex-direction: column;
     gap: 0.5rem;
 }
-
 @keyframes fadeIn {
   from {opacity: 0; transform: scale(0.95);}
   to {opacity: 1; transform: scale(1);}
 }
-
 .close-btn {
     position: absolute;
     top: 10px;
@@ -331,18 +355,15 @@ img {
     cursor: pointer;
     line-height: 1;
 }
-
 .close-btn:hover {
     color: var(--text-color);
 }
-
 .modal-image {
     width: 100%;
     object-fit: cover;
     border-radius: 8px;
     margin-bottom: 1rem;
 }
-
 #modal-title {
     font-size: 1.8rem;
     margin-bottom: 0.5rem;
@@ -358,7 +379,6 @@ img {
     line-height: 1.7;
     margin-top: 1rem;
 }
-
 .modal-details {
     background-color: var(--header-bg);
     border-radius: 6px;
@@ -367,34 +387,32 @@ img {
     font-size: 0.95rem;
     border: 1px solid #DCD8D3;
 }
-
 .modal-details p {
     margin-bottom: 0.5rem;
 }
-
 .modal-details p:last-child {
     margin-bottom: 0;
 }
 
-
-/* 7. Contact Page Styles */
+/* 9. Contact Page Styles */
 .contact-section {
     max-width: 700px;
-    margin: 2rem auto;
+    margin: 4rem auto;
     text-align: center;
 }
-
+.contact-section h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
 .contact-form {
     margin-top: 2rem;
     text-align: right;
 }
-
 .contact-form label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 700;
 }
-
 .contact-form input,
 .contact-form textarea {
     width: 100%;
@@ -406,25 +424,14 @@ img {
     font-family: var(--font-family);
     font-size: 1rem;
 }
-
+/* Re-using the .btn class for the submit button */
 .contact-form .btn {
-    display: inline-block;
-    background-color: var(--accent-color);
-    color: #fff;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: var(--font-family);
-    font-size: 1rem;
-    transition: background-color 0.2s ease;
+    width: 100%;
+    font-size: 1.1rem;
 }
 
-.contact-form .btn:hover {
-    background-color: var(--accent-hover-color);
-}
 
-/* 8. Footer Styles */
+/* 10. Footer Styles */
 .site-footer {
     background-color: var(--header-bg);
     text-align: center;
@@ -434,7 +441,7 @@ img {
     border-top: 1px solid #DCD8D3;
 }
 
-/* 9. Responsive adjustments */
+/* 11. Responsive adjustments */
 @media (max-width: 768px) {
     .header-inner {
         flex-wrap: wrap;
@@ -443,7 +450,7 @@ img {
         padding-bottom: 1rem;
     }
     .header-nav {
-        order: 3; /* Move nav below brand */
+        order: 3;
         width: 100%;
         justify-content: center;
         gap: 1rem;
@@ -454,6 +461,15 @@ img {
     }
     .brand {
        flex-grow: 1;
+    }
+    .hero {
+        padding: 3rem 0;
+    }
+    .hero-title {
+        font-size: 2rem;
+    }
+    .hero-subtitle {
+        font-size: 1rem;
     }
     .product-grid {
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));

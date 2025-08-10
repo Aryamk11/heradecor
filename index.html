@@ -7,15 +7,15 @@
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
+
+<!-- Header Section -->
 <header class="site-header" id="site-header">
     <div class="container header-inner">
-
         <div class="brand">
             <a href="index.html" class="brand-link">
                 <h1 class="brand-title">کادو هنری <span class="brand-accent">هرا</span></h1>
             </a>
         </div>
-
         <nav class="header-nav" aria-label="منوی اصلی">
             <a href="#" id="search-toggle-btn" class="nav-link">
                 جستجو
@@ -28,9 +28,7 @@
             <a href="contact.html" class="nav-link">تماس با ما</a>
             <a href="#" class="nav-link">درباره ما</a>
         </nav>
-        
         <div class="nav-spacer"></div>
-
         <div class="header-actions">
             <a href="#" class="nav-link signin-link">ورود</a>
             <a href="#" class="cart-link">
@@ -38,9 +36,7 @@
                 <span class="cart-badge" id="cart-count">0</span>
             </a>
         </div>
-
     </div>
-
     <div class="search-bar-container" id="search-bar-container">
         <form class="search-form" id="search-form" role="search">
             <input type="search" id="search-input" placeholder="نام محصول را وارد کنید..." />
@@ -50,54 +46,54 @@
     </div>
 </header>
 
-
+<main>
     <!-- Hero Section -->
-    <main>
-        <section class="hero">
-            <div class="hero-text">
-                <h2>هنر، زیبایی و اصالت در یک جا</h2>
-                <p>منتخب‌ترین هدایا و دکورهای هنری دست‌ساز برای خانه و عزیزانتان</p>
-            </div>
-            <div class="hero-image">
-                <img src="https://via.placeholder.com/500x300" alt="محصول نمونه">
-            </div>
-        </section>
+    <section class="hero">
+        <div class="hero-content container">
+            <h2 class="hero-title">هنر، زیبایی و اصالت در یک جا</h2>
+            <p class="hero-subtitle">منتخب‌ترین هدایا و دکورهای هنری دست‌ساز برای خانه و عزیزانتان</p>
+            <a href="products.html" class="btn btn-primary">مشاهده مجموعه</a>
+        </div>
+    </section>
 
-        <!-- Product Grid -->
-        <section class="products container">
-            <h2 class="section-title">محصولات جدید</h2>
-            <div class="product-grid" id="product-grid">
-                <!-- Products will be inserted here via JS -->
-            </div>
-        </section>
-    </main>
+    <!-- Featured Product Grid -->
+    <section class="featured-products container">
+        <h2 class="section-title">جدیدترین‌ها</h2>
+        <!-- This grid will be populated with a limited number of products -->
+        <div class="product-grid" id="featured-product-grid">
+            <!-- Featured products will be inserted here via JS -->
+        </div>
+        <div class="cta-container">
+            <a href="products.html" class="btn btn-secondary">مشاهده همه محصولات</a>
+        </div>
+    </section>
+</main>
 
-    <!-- Product Detail Modal -->
-<div class="modal" id="product-modal">  <div class="modal-content">
+<!-- Product Detail Modal -->
+<div class="modal" id="product-modal">
+    <div class="modal-content">
         <span class="close-btn">&times;</span>
-        
         <img id="modal-image" src="" alt="تصویر محصول" class="modal-image">
-        
         <div class="modal-text-content">
             <h3 id="modal-title"></h3>
             <p id="modal-price"></p>
-            
             <div class="modal-details">
                 <p><strong>جنس:</strong> <span id="modal-material"></span></p>
                 <p><strong>ابعاد:</strong> <span id="modal-dimensions"></span></p>
             </div>
-    
             <p id="modal-description"></p>
         </div>
     </div>
 </div>
 
-    <!-- Footer -->
-    <footer>
+<!-- Footer -->
+<footer class="site-footer">
+    <div class="container">
         <p>© 2025 کادو هنری هرا | تمامی حقوق محفوظ است</p>
-    </footer>
+    </div>
+</footer>
 
-    <script src="./js/products.js"></script>
-    <script src="./js/script.js"></script>
+<script src="./js/products.js"></script>
+<script src="./js/script.js"></script>
 </body>
 </html>
