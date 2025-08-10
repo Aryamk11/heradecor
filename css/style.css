@@ -1,13 +1,17 @@
-/* --- Final and Complete style.css File --- */
+/* --- Final and Complete style.css File (New "Earthy Clay & Linen" Palette) --- */
 
 /* 1. Font Import */
 @import url('https://cdn.jsdelivr.net/gh/rastikerdar/sahel-font@v3.4.0/dist/font-face.css');
 
 /* 2. Root Variables & Global Styles */
 :root {
-    --bg-color: #F5F5F4;
-    --text-color: #3A3A3A;
-    --accent-color: #A98C7B;
+    /* New "Earthy Clay & Linen" Palette */
+    --bg-color: #F9F6F2;
+    --header-bg: #EDEAE6;
+    --card-bg: #FFFFFF;
+    --text-color: #5C4B41;
+    --accent-color: #C89F82;
+    --accent-hover-color: #B48E71;
     --font-family: 'Sahel', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -42,8 +46,8 @@ img {
 
 /* 3. New Header Styles */
 .site-header {
-    background: #fff;
-    border-bottom: 1px solid #e9e6e3;
+    background: var(--header-bg);
+    border-bottom: 1px solid #DCD8D3; /* Matched to new palette */
     position: sticky;
     top: 0;
     z-index: 100;
@@ -121,7 +125,7 @@ img {
 }
 
 .cart-link:hover {
-    background-color: #8E705E;
+    background-color: var(--accent-hover-color);
     color: #fff;
 }
 
@@ -139,10 +143,10 @@ img {
     top: 100%;
     left: 0;
     width: 100%;
-    background: #fff;
+    background: var(--header-bg);
     padding: 1rem;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-    border-top: 1px solid #e9e6e3;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+    border-top: 1px solid #DCD8D3;
 }
 
 .search-bar-container.is-visible {
@@ -158,11 +162,13 @@ img {
 
 .search-form input {
     flex-grow: 1;
-    border: 1px solid #ccc;
+    border: 1px solid #DCD8D3;
+    background: #fff;
     padding: 0.75rem;
     border-radius: 6px;
     font-family: 'Sahel', sans-serif;
     font-size: 1rem;
+    color: var(--text-color);
 }
 
 .search-submit-btn, .search-close-btn {
@@ -175,12 +181,16 @@ img {
 }
 
 .search-submit-btn {
-    background-color: var(--text-color);
+    background-color: var(--accent-color);
     color: #fff;
+    transition: background-color 0.2s ease;
+}
+.search-submit-btn:hover {
+    background-color: var(--accent-hover-color);
 }
 
 .search-close-btn {
-    background-color: #eee;
+    background-color: #DCD8D3;
     color: var(--text-color);
     font-size: 1.5rem;
     padding: 0 1rem;
@@ -202,12 +212,14 @@ main h2 {
 }
 
 .product-card {
-    background: #FFFFFF;
+    background: var(--card-bg);
     border: 1px solid #EAEAEA;
     text-align: center;
-    padding: 1.5rem;
+    padding-bottom: 1.5rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
+    border-radius: 12px;
+    overflow: hidden;
 }
 
 .product-card:hover {
@@ -216,20 +228,23 @@ main h2 {
 }
 
 .product-card img {
+    width: 100%;
     margin-bottom: 1rem;
-    border-radius: 4px;
+    border-radius: 0;
 }
 
 .product-card h3 {
     font-size: 1.2rem;
     margin-bottom: 0.5rem;
     font-weight: 700;
+    padding: 0 1.5rem;
 }
 
 .product-card .price {
-    color: var(--accent-color);
-    font-weight: 700;
+    color: var(--text-color);
+    font-weight: 600;
     font-size: 1.1rem;
+    padding: 0 1.5rem;
 }
 
 /* 6. Product Detail Modal Styles */
@@ -242,21 +257,25 @@ main h2 {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.6);
+    background-color: rgba(45, 36, 30, 0.6); /* Darker backdrop for better focus */
     justify-content: center;
     align-items: center;
 }
 
 .modal-content {
-    background-color: #fff;
+    background-color: var(--bg-color);
     margin: auto;
     padding: 2rem;
     border-radius: 8px;
-    max-width: 500px;
+    max-width: 800px;
     width: 90%;
     position: relative;
     text-align: right;
     animation: fadeIn 0.3s;
+    border: 1px solid #DCD8D3;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
 }
 
 @keyframes fadeIn {
@@ -276,7 +295,17 @@ main h2 {
 }
 
 .close-btn:hover {
-    color: #333;
+    color: var(--text-color);
+}
+
+.modal-image {
+    flex: 0 0 45%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.modal-text-content {
+    flex: 1;
 }
 
 #modal-title {
@@ -293,6 +322,24 @@ main h2 {
     font-size: 1rem;
     line-height: 1.7;
 }
+
+.modal-details {
+    background-color: var(--header-bg);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+    border: 1px solid #DCD8D3;
+}
+
+.modal-details p {
+    margin-bottom: 0.5rem;
+}
+
+.modal-details p:last-child {
+    margin-bottom: 0;
+}
+
 
 /* 7. Contact Page Styles */
 .contact-section {
@@ -317,7 +364,8 @@ main h2 {
     width: 100%;
     padding: 0.75rem;
     margin-bottom: 1rem;
-    border: 1px solid #ddd;
+    border: 1px solid #DCD8D3;
+    background: #fff;
     border-radius: 4px;
     font-family: var(--font-family);
     font-size: 1rem;
@@ -333,18 +381,19 @@ main h2 {
     cursor: pointer;
     font-family: var(--font-family);
     font-size: 1rem;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.2s ease;
 }
 
 .contact-form .btn:hover {
-    background-color: #8E705E;
+    background-color: var(--accent-hover-color);
 }
 
 /* 8. Footer Styles */
 .site-footer {
+    background-color: var(--header-bg);
     text-align: center;
     padding: 2rem 0;
     margin-top: 4rem;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #DCD8D3;
     font-size: 0.9rem;
-}
+} 

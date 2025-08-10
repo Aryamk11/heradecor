@@ -56,15 +56,30 @@ document.addEventListener('DOMContentLoaded', () => {
      * Populates and shows the product detail modal.
      * @param {object} product The product object to show details for.
      */
-    function showProductDetail(product) {
-        if (!productModal) return;
+// Replace the old showProductDetail function in script.js
 
-        productModal.querySelector('#modal-title').textContent = product.name;
-        productModal.querySelector('#modal-price').textContent = product.price;
-        productModal.querySelector('#modal-description').textContent = product.description;
-        
-        productModal.style.display = 'flex';
-    }
+function showProductDetail(product) {
+    if (!productModal) return;
+
+    // Select all the elements inside the modal
+    const modalImage = productModal.querySelector('#modal-image');
+    const modalTitle = productModal.querySelector('#modal-title');
+    const modalPrice = productModal.querySelector('#modal-price');
+    const modalMaterial = productModal.querySelector('#modal-material');
+    const modalDimensions = productModal.querySelector('#modal-dimensions');
+    const modalDescription = productModal.querySelector('#modal-description');
+
+    // Populate the elements with the product's data
+    modalImage.src = product.image;
+    modalTitle.textContent = product.name;
+    modalPrice.textContent = product.price;
+    modalMaterial.textContent = product.material;
+    modalDimensions.textContent = product.dimensions;
+    modalDescription.textContent = product.description;
+    
+    // Display the modal
+    productModal.style.display = 'flex';
+}
 
     /**
      * Hides the product detail modal.

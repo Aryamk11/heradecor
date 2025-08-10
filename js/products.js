@@ -1,31 +1,49 @@
-// This array holds all your product information. It's your single source of truth.
+// js/products.js
+
 const products = [
     {
         id: 1,
-        name: 'گلدان سرامیکی دست‌ساز',
+        name: 'تابلو گربه‌های اشرافی',
         price: '۴۵۰,۰۰۰ تومان',
-        image: 'images/photo_1_2025-08-09_17-19-44.jpg' // Use a real path to your image
+        image: 'images/photo_1_2025-08-09_17-19-44.jpg',
+        description: 'این تابلو با قابی از چوب پتینه‌کاری شده، تصویری کلاسیک و دلنشین از چند گربه بازیگوش را به نمایش می‌گذارد که برای فضاهای دنج و صمیمی بسیار مناسب است.',
+        dimensions: 'قطر: ۳۵ سانتی‌متر',
+        material: 'قاب چوبی، چاپ روی بوم'
     },
     {
         id: 2,
-        name: 'سینی چوبی بافت‌دار',
-        price: '۷۲۰,۰۰۰ تومان',
-        image: 'images/photo_1_2025-08-09_17-19-44.jpg' // Use a real path to your image
+        name: 'تابلو گل‌های بهاری',
+        price: '۵۵۰,۰۰۰ تومان',
+        image: 'images/photo_5_2025-08-09_17-19-44.jpg',
+        description: 'نقاشی دیجیتال با جزئیات دقیق از دسته‌ای گل‌های رنگارنگ که حس طراوت و زندگی بهاری را به دکوراسیون شما اضافه می‌کند. قاب سفید این اثر، زیبایی آن را دوچندان کرده است.',
+        dimensions: 'قطر: ۴۰ سانتی‌متر',
+        material: 'قاب چوبی سفید، چاپ مخمل'
     },
     {
         id: 3,
-        name: 'جاشمعی فلزی برنزی',
-        price: '۳۱۰,۰۰۰ تومان',
-        image: 'images/photo_1_2025-08-09_17-19-44.jpg' // Use a real path to your image
+        name: 'تابلو دلدادگان',
+        price: '۷۲۰,۰۰۰ تومان',
+        image: 'images/photo_3_2025-08-09_17-19-44.jpg',
+        description: 'تصویری رمانتیک و چشم‌نواز از یک زوج در منظره‌ای کلاسیک. استفاده از رنگ‌های گرم و قاب سفید، این اثر را به گزینه‌ای عالی برای اتاق خواب یا هدیه‌ای عاشقانه تبدیل کرده است.',
+        dimensions: 'قطر: ۴۵ سانتی‌متر',
+        material: 'قاب چوبی، چاپ روی بوم'
     },
     {
         id: 4,
-        name: 'کاسه دکوری طرح سنگ',
-        price: '۵۵۰,۰۰۰ تومان',
-        image: 'images/photo_1_2025-08-09_17-19-44.jpg' // Use a real path to your image
+        name: 'تابلو ضیافت در باغ',
+        price: '۶۸۰,۰۰۰ تومان',
+        image: 'images/photo_4_2025-08-09_17-19-44.jpg',
+        description: 'این تابلوی زیبا با قاب آبی پاستلی، یک مهمانی اشرافی در باغی پر از گل‌های رز را به تصویر می‌کشد و می‌تواند نقطه‌ی کانونی زیبایی در پذیرایی شما باشد.',
+        dimensions: 'قطر: ۴۰ سانتی‌متر',
+        material: 'قاب چوبی آبی، چاپ مخمل'
+    },
+    {
+        id: 5,
+        name: 'تابلو بانوی ویکتوریایی',
+        price: '۴۸۰,۰۰۰ تومان',
+        image: 'images/photo_9_2025-08-09_17-19-44.jpg',
+        description: 'پرتره‌ای زیبا و باوقار از یک بانوی اشرافی با لباس دوره ویکتوریا. قاب سبز نعنایی این اثر، جلوه‌ای خاص و منحصربه‌فرد به آن بخشیده است.',
+        dimensions: 'قطر: ۳۵ سانتی‌متر',
+        material: 'قاب چوبی سبز، چاپ روی بوم'
     }
-    // Add more product objects here in the future
 ];
-
-// We will add the code to display these products in the next step.
-console.log("Product data loaded successfully!");
