@@ -1,29 +1,48 @@
-/* --- Final and Complete script.js File --- */
-
 // Wait for the entire HTML document to be loaded and ready
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- 1. ELEMENT SELECTIONS ---
-    // Get all the necessary elements from the page once.
     const productGrid = document.querySelector('.product-grid');
     const productModal = document.getElementById('product-modal');
-    
     const searchToggleButton = document.getElementById('search-toggle-btn');
     const searchBarContainer = document.getElementById('search-bar-container');
     const searchCloseButton = document.getElementById('search-close-btn');
     const searchForm = document.getElementById('search-form');
     const searchInput = document.getElementById('search-input');
-    const modalCloseBtn = document.querySelector('.close-btn');
+    const modalCloseBtn = productModal ? productModal.querySelector('.close-btn') : null;
 
 
     // --- 2. INITIALIZATION ---
-    // Display all products when the page first loads, if a product grid exists on the page.
+    // Display products if a product grid exists on the page.
     if (productGrid) {
-        displayProducts(products);
+        // Shuffle the products for a random order on each load
+        const shuffledProducts = shuffleArray([...products]);
+        displayProducts(shuffledProducts);
     }
 
 
     // --- 3. MAIN FUNCTIONS ---
+
+    /**
+     * Shuffles an array in place using the Fisher-Yates (aka Knuth) algorithm.
+     * @param {Array} array The array to shuffle.
+     * @returns {Array} The shuffled array.
+     */
+    function shuffleArray(array) {
+        let currentIndex = array.length, randomIndex;
+
+        // While there remain elements to shuffle.
+        while (currentIndex !== 0) {
+            // Pick a remaining element.
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+
+            // And swap it with the current element.
+            [array[currentIndex], array[randomIndex]] = [
+                array[randomIndex], array[currentIndex]];
+        }
+        return array;
+    }
 
     /**
      * Takes an array of product objects and displays them in the product grid.
@@ -37,10 +56,15 @@ document.addEventListener('DOMContentLoaded', () => {
         productList.forEach(product => {
             const card = document.createElement('div');
             card.className = 'product-card';
+            // UPDATED card structure for better image handling
             card.innerHTML = `
-                <img src="${product.image}" alt="${product.name}">
-                <h3>${product.name}</h3>
-                <p class="price">${product.price}</p>
+                <div class="product-card-image-container">
+                    <img src="${product.image}" alt="${product.name}" loading="lazy">
+                </div>
+                <div class="product-card-content">
+                    <h3>${product.name}</h3>
+                    <p class="price">${product.price}</p>
+                </div>
             `;
             
             // Add an event listener to each card to show details when clicked
@@ -56,30 +80,29 @@ document.addEventListener('DOMContentLoaded', () => {
      * Populates and shows the product detail modal.
      * @param {object} product The product object to show details for.
      */
-// Replace the old showProductDetail function in script.js
+    function showProductDetail(product) {
+        if (!productModal) return;
 
-function showProductDetail(product) {
-    if (!productModal) return;
+        // Select all the elements inside the modal
+        const modalImage = productModal.querySelector('#modal-image');
+        const modalTitle = productModal.querySelector('#modal-title');
+        const modalPrice = productModal.querySelector('#modal-price');
+        const modalMaterial = productModal.querySelector('#modal-material');
+        const modalDimensions = productModal.querySelector('#modal-dimensions');
+        const modalDescription = productModal.querySelector('#modal-description');
 
-    // Select all the elements inside the modal
-    const modalImage = productModal.querySelector('#modal-image');
-    const modalTitle = productModal.querySelector('#modal-title');
-    const modalPrice = productModal.querySelector('#modal-price');
-    const modalMaterial = productModal.querySelector('#modal-material');
-    const modalDimensions = productModal.querySelector('#modal-dimensions');
-    const modalDescription = productModal.querySelector('#modal-description');
-
-    // Populate the elements with the product's data
-    modalImage.src = product.image;
-    modalTitle.textContent = product.name;
-    modalPrice.textContent = product.price;
-    modalMaterial.textContent = product.material;
-    modalDimensions.textContent = product.dimensions;
-    modalDescription.textContent = product.description;
-    
-    // Display the modal
-    productModal.style.display = 'flex';
-}
+        // Populate the elements with the product's data
+        modalImage.src = product.image;
+        modalImage.alt = product.name;
+        modalTitle.textContent = product.name;
+        modalPrice.textContent = product.price;
+        modalMaterial.textContent = product.material;
+        modalDimensions.textContent = product.dimensions;
+        modalDescription.textContent = product.description;
+        
+        // Display the modal
+        productModal.style.display = 'flex';
+    }
 
     /**
      * Hides the product detail modal.
@@ -99,11 +122,13 @@ function showProductDetail(product) {
     }
     
     // Listener to close the modal if the user clicks on the dark background
-    window.addEventListener('click', (event) => {
-        if (event.target === productModal) {
-            closeModal();
-        }
-    });
+    if (productModal) {
+        productModal.addEventListener('click', (event) => {
+            if (event.target === productModal) {
+                closeModal();
+            }
+        });
+    }
 
     // Listener for the "Search" link in the header to show/hide the search bar
     if (searchToggleButton) {
@@ -135,8 +160,8 @@ function showProductDetail(product) {
             searchBarContainer.classList.remove('is-visible');
             
             if (!query) {
-                // If the search is empty, show all products again
-                displayProducts(products);
+                // If the search is empty, show all products again (shuffled)
+                displayProducts(shuffleArray([...products]));
                 return;
             }
 
@@ -149,5 +174,20 @@ function showProductDetail(product) {
             // Display only the filtered results
             displayProducts(filteredProducts);
         });
+    }
+
+    // Add 'active' class to the current page's nav link
+    const currentPage = window.location.pathname.split("/").pop();
+    if (currentPage) {
+        const activeLink = document.querySelector(`.header-nav a[href="${currentPage}"]`);
+        if (activeLink) {
+            activeLink.classList.add('active');
+        }
+    } else {
+        // Fallback for the root index.html
+        const homeLink = document.querySelector('.header-nav a[href="index.html"]');
+        if(homeLink) {
+            homeLink.classList.add('active');
+        }
     }
 });

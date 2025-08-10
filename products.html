@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>محصولات - کادو هنری هرا</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 
+<!-- Header Section: Consistent across all pages -->
 <header class="site-header" id="site-header">
     <div class="container header-inner">
 
@@ -26,7 +26,7 @@
                     <circle cx="11" cy="11" r="6" />
                 </svg>
             </a>
-            <a href="products.html" class="nav-link">محصولات</a>
+            <a href="products.html" class="nav-link active">محصولات</a>
             <a href="contact.html" class="nav-link">تماس با ما</a>
             <a href="#" class="nav-link">درباره ما</a>
         </nav>
@@ -43,6 +43,7 @@
 
     </div>
 
+    <!-- Pop-up Search Bar -->
     <div class="search-bar-container" id="search-bar-container">
         <form class="search-form" id="search-form" role="search">
             <input type="search" id="search-input" placeholder="نام محصول را وارد کنید..." />
@@ -52,21 +53,45 @@
     </div>
 </header>
 
-    <main>
-        <div class="container">
-            <h2>همه محصولات</h2>
-            <div class="product-grid">
+<!-- Main Content for All Products Page -->
+<main>
+    <section class="container products-page-section">
+        <h2 class="section-title">همه محصولات</h2>
+        
+        <!-- The grid where products will be dynamically inserted by script.js -->
+        <div class="product-grid" id="product-grid">
+            <!-- Products will be inserted here via JS -->
+        </div>
+    </section>
+</main>
+
+<!-- Product Detail Modal: Reused from index.html -->
+<div class="modal" id="product-modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <img id="modal-image" src="" alt="تصویر محصول" class="modal-image">
+        <div class="modal-text-content">
+            <h3 id="modal-title"></h3>
+            <p id="modal-price"></p>
+            <div class="modal-details">
+                <p><strong>جنس:</strong> <span id="modal-material"></span></p>
+                <p><strong>ابعاد:</strong> <span id="modal-dimensions"></span></p>
             </div>
+            <p id="modal-description"></p>
         </div>
-    </main>
+    </div>
+</div>
 
-    <footer class="site-footer">
-        <div class="container">
-            <p>&copy; 2025 Arya. تمام حقوق محفوظ است.</p>
-        </div>
-    </footer>
+<!-- Footer Section: Consistent across all pages -->
+<footer class="site-footer">
+    <div class="container">
+        <p>© 2025 کادو هنری هرا | تمامی حقوق محفوظ است</p>
+    </div>
+</footer>
 
-    <script src="js/script.js"></script>
+<!-- JavaScript files -->
+<script src="./js/products.js"></script>
+<script src="./js/script.js"></script>
 
 </body>
 </html>

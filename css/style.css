@@ -21,6 +21,10 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: var(--font-family);
     background-color: var(--bg-color);
@@ -44,7 +48,16 @@ img {
     display: block;
 }
 
-/* 3. New Header Styles */
+.section-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 2.5rem;
+    font-weight: 700;
+}
+
+
+/* 3. Header Styles */
 .site-header {
     background: var(--header-bg);
     border-bottom: 1px solid #DCD8D3;
@@ -84,16 +97,29 @@ img {
     align-items: center;
     gap: 0.3rem;
     transition: color 0.2s ease;
+    position: relative;
+    padding-bottom: 4px;
 }
 
 .nav-link:hover, .signin-link:hover, .cart-link:hover {
     color: var(--accent-color);
 }
 
+/* Style for the active page link */
 .nav-link.active {
     color: var(--accent-color);
     font-weight: 700;
 }
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--accent-color);
+}
+
 
 .nav-spacer {
     flex-grow: 1;
@@ -196,17 +222,11 @@ img {
     padding: 0 1rem;
 }
 
-/* 5. Main Content Styles */
-main h2 {
-    text-align: center;
-    font-size: 2rem;
-    margin-top: 2rem;
-    margin-bottom: 2.5rem;
-}
-
+/* 5. Main Content & Product Grid Styles */
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    /* UPDATED: Adjusted minmax for a better 5-column layout on large screens */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 2rem;
     padding-bottom: 4rem;
 }
@@ -220,34 +240,52 @@ main h2 {
     cursor: pointer;
     border-radius: 12px;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 20px rgba(92, 75, 65, 0.1);
 }
 
-.product-card img {
+.product-card-image-container {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+}
+
+.product-card-image-container img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
     margin-bottom: 1rem;
     border-radius: 0;
 }
 
+.product-card-content {
+    padding: 0 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .product-card h3 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    margin-top: 1rem;
     margin-bottom: 0.5rem;
     font-weight: 700;
-    padding: 0 1.5rem;
 }
 
 .product-card .price {
     color: var(--text-color);
     font-weight: 600;
-    font-size: 1.1rem;
-    padding: 0 1.5rem;
+    font-size: 1rem;
+    margin-top: auto; /* Pushes price to the bottom */
 }
 
-/* 6. Product Detail Modal Styles (New smaller, vertical layout) */
+
+/* 6. Product Detail Modal Styles */
 .modal {
     display: none;
     position: fixed;
@@ -267,14 +305,14 @@ main h2 {
     margin: auto;
     padding: 2rem;
     border-radius: 8px;
-    max-width: 450px; /* MODAL IS NOW SMALLER */
+    max-width: 450px;
     width: 90%;
     position: relative;
     text-align: right;
     animation: fadeIn 0.3s;
     border: 1px solid #DCD8D3;
     display: flex;
-    flex-direction: column; /* LAYOUT IS NOW VERTICAL */
+    flex-direction: column;
     gap: 0.5rem;
 }
 
@@ -305,10 +343,6 @@ main h2 {
     margin-bottom: 1rem;
 }
 
-.modal-text-content {
-    /* No specific styles needed for vertical layout */
-}
-
 #modal-title {
     font-size: 1.8rem;
     margin-bottom: 0.5rem;
@@ -322,7 +356,7 @@ main h2 {
 #modal-description {
     font-size: 1rem;
     line-height: 1.7;
-    margin-top: 1rem; /* Space above description */
+    margin-top: 1rem;
 }
 
 .modal-details {
@@ -398,4 +432,34 @@ main h2 {
     margin-top: 4rem;
     font-size: 0.9rem;
     border-top: 1px solid #DCD8D3;
+}
+
+/* 9. Responsive adjustments */
+@media (max-width: 768px) {
+    .header-inner {
+        flex-wrap: wrap;
+        height: auto;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    .header-nav {
+        order: 3; /* Move nav below brand */
+        width: 100%;
+        justify-content: center;
+        gap: 1rem;
+        padding-top: 0.5rem;
+    }
+    .nav-spacer {
+        display: none;
+    }
+    .brand {
+       flex-grow: 1;
+    }
+    .product-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+    .section-title {
+        font-size: 1.8rem;
+    }
 }
