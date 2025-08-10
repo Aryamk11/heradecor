@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تماس با ما - کادوی هنری هرا</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>سبد خرید - کادو هنری هرا</title>
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 
@@ -46,33 +45,51 @@
         </form>
     </div>
 </header>
-    <main>
-        <div class="container contact-section">
-            <h2>با ما در تماس باشید</h2>
-            <p>برای سوالات، پیشنهادات و یا سفارشات خاص می‌توانید از طریق فرم زیر با ما در ارتباط باشید.</p>
-            
-            <form class="contact-form">
-                <label for="name">نام شما</label>
-                <input type="text" id="name" name="name" required>
-                
-                <label for="email">ایمیل شما</label>
-                <input type="email" id="email" name="email" required>
-                
-                <label for="message">پیام شما</label>
-                <textarea id="message" name="message" rows="6" required></textarea>
-                
-                <button type="submit" class="btn">ارسال پیام</button>
-            </form>
+
+<!-- Main Content for Cart Page -->
+<main>
+    <div class="cart-page-container container">
+        <h1 class="section-title">سبد خرید شما</h1>
+        <div class="cart-layout">
+            <!-- Cart Items will be dynamically inserted here -->
+            <div class="cart-items-list" id="cart-items-list">
+                <!-- Example of an empty cart message -->
+                <p class="cart-empty-message">سبد خرید شما خالی است.</p>
+            </div>
+
+            <!-- Cart Summary -->
+            <div class="cart-summary" id="cart-summary">
+                <h2>خلاصه سفارش</h2>
+                <div class="summary-row">
+                    <span>جمع کل</span>
+                    <span id="summary-total">۰ تومان</span>
+                </div>
+                <div class="summary-row">
+                    <span>تخفیف</span>
+                    <span>۰ تومان</span>
+                </div>
+                <hr>
+                <div class="summary-row total-row">
+                    <span>مبلغ قابل پرداخت</span>
+                    <span id="summary-grand-total">۰ تومان</span>
+                </div>
+                <button class="btn btn-primary checkout-btn">ادامه فرآیند خرید</button>
+            </div>
         </div>
-    </main>
+    </div>
+</main>
 
-    <footer class="site-footer">
-        <div class="container">
-            <p>&copy; 2025 Arya. تمام حقوق محفوظ است.</p>
-        </div>
-    </footer>
+<!-- Footer -->
+<footer class="site-footer">
+    <div class="container">
+        <p>© 2025 کادو هنری هرا | تمامی حقوق محفوظ است</p>
+    </div>
+</footer>
 
-    <script src="js/script.js"></script>
-
+<script src="./js/products.js"></script>
+<!-- The new cart logic file -->
+<script src="./js/cart.js"></script>
+<!-- The main script file -->
+<script src="./js/script.js"></script>
 </body>
 </html>

@@ -1,10 +1,10 @@
-/* --- Final and Complete script.js File --- */
+/* --- js/script.js (Corrected & Complete) --- */
 
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- 1. ELEMENT SELECTIONS ---
-    const productGrid = document.getElementById('product-grid'); // For all products page
-    const featuredProductGrid = document.getElementById('featured-product-grid'); // For homepage
+    const productGrid = document.getElementById('product-grid');
+    const featuredProductGrid = document.getElementById('featured-product-grid');
     const productModal = document.getElementById('product-modal');
     const searchToggleButton = document.getElementById('search-toggle-btn');
     const searchBarContainer = document.getElementById('search-bar-container');
@@ -13,29 +13,59 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('search-input');
     const modalCloseBtn = productModal ? productModal.querySelector('.close-btn') : null;
 
-
     // --- 2. INITIALIZATION ---
+    
+    // Update cart badge on every page load, requires cart.js to be loaded first
+    if (typeof updateCartBadge === 'function') {
+        updateCartBadge();
+    }
 
     // Logic for the main products page (products.html)
     if (productGrid) {
-        const shuffledProducts = shuffleArray([...products]);
-        displayProducts(shuffledProducts, productGrid);
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchQuery = urlParams.get('search');
+        if (searchQuery) {
+            const lowerCaseQuery = searchQuery.toLowerCase();
+            const filteredProducts = products.filter(product =>
+                product.name.toLowerCase().includes(lowerCaseQuery) ||
+                product.description.toLowerCase().includes(lowerCaseQuery)
+            );
+            displayProducts(filteredProducts, productGrid);
+        } else {
+            const shuffledProducts = shuffleArray([...products]);
+            displayProducts(shuffledProducts, productGrid);
+        }
     }
 
     // Logic for the featured products on the homepage (index.html)
     if (featuredProductGrid) {
-        const featuredProducts = products.slice(0, 5); // Get the first 5 products as featured
+        const featuredProducts = products.slice(0, 5);
         displayProducts(featuredProducts, featuredProductGrid);
+    }
+    
+    // Logic for the cart page (cart.html)
+    if (document.getElementById('cart-items-list') && typeof displayCartItems === 'function') {
+        displayCartItems();
+    }
+    
+    // Set active class on navigation link
+    const currentPage = window.location.pathname.split("/").pop() || 'index.html';
+    document.querySelectorAll('.header-nav a.nav-link').forEach(link => {
+        if (link.getAttribute('href') === currentPage) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+    // Special case for cart link, which is styled differently
+    if (currentPage === 'cart.html') {
+         const cartLink = document.querySelector('a.cart-link');
+         if (cartLink) cartLink.classList.add('active');
     }
 
 
-    // --- 3. MAIN FUNCTIONS ---
+    // --- 3. FUNCTIONS ---
 
-    /**
-     * Shuffles an array in place using the Fisher-Yates algorithm.
-     * @param {Array} array The array to shuffle.
-     * @returns {Array} The shuffled array.
-     */
     function shuffleArray(array) {
         let currentIndex = array.length, randomIndex;
         while (currentIndex !== 0) {
@@ -46,16 +76,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return array;
     }
 
-    /**
-     * Takes an array of products and a grid element to display them in.
-     * @param {Array} productList The array of products to display.
-     * @param {HTMLElement} gridElement The grid element to append cards to.
-     */
     function displayProducts(productList, gridElement) {
         if (!gridElement) return;
-
-        gridElement.innerHTML = ''; // Clear the grid
-
+        gridElement.innerHTML = '';
         productList.forEach(product => {
             const card = document.createElement('div');
             card.className = 'product-card';
@@ -68,49 +91,52 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p class="price">${product.price}</p>
                 </div>
             `;
-            
-            card.addEventListener('click', () => {
-                showProductDetail(product);
-            });
-
+            card.addEventListener('click', () => showProductDetail(product));
             gridElement.appendChild(card);
         });
     }
 
-    /**
-     * Populates and shows the product detail modal.
-     * @param {object} product The product object to show details for.
-     */
     function showProductDetail(product) {
         if (!productModal) return;
 
-        const modalImage = productModal.querySelector('#modal-image');
-        const modalTitle = productModal.querySelector('#modal-title');
-        const modalPrice = productModal.querySelector('#modal-price');
-        const modalMaterial = productModal.querySelector('#modal-material');
-        const modalDimensions = productModal.querySelector('#modal-dimensions');
-        const modalDescription = productModal.querySelector('#modal-description');
+        productModal.querySelector('#modal-image').src = product.image;
+        productModal.querySelector('#modal-image').alt = product.name;
+        productModal.querySelector('#modal-title').textContent = product.name;
+        productModal.querySelector('#modal-price').textContent = product.price;
+        productModal.querySelector('#modal-material').textContent = product.material;
+        productModal.querySelector('#modal-dimensions').textContent = product.dimensions;
+        productModal.querySelector('#modal-description').textContent = product.description;
 
-        modalImage.src = product.image;
-        modalImage.alt = product.name;
-        modalTitle.textContent = product.name;
-        modalPrice.textContent = product.price;
-        modalMaterial.textContent = product.material;
-        modalDimensions.textContent = product.dimensions;
-        modalDescription.textContent = product.description;
+        let modalTextContent = productModal.querySelector('.modal-text-content');
+        let modalActions = modalTextContent.querySelector('.modal-actions');
+        if (modalActions) {
+            modalActions.remove();
+        }
+        
+        modalActions = document.createElement('div');
+        modalActions.className = 'modal-actions';
+        
+        const addToCartBtn = document.createElement('button');
+        addToCartBtn.className = 'btn btn-primary';
+        addToCartBtn.textContent = 'افزودن به سبد خرید';
+        addToCartBtn.onclick = () => {
+            if (typeof addToCart === 'function') {
+                addToCart(product.id);
+            }
+            closeModal();
+        };
+        
+        modalActions.appendChild(addToCartBtn);
+        modalTextContent.appendChild(modalActions);
         
         productModal.style.display = 'flex';
     }
 
-    /**
-     * Hides the product detail modal.
-     */
     function closeModal() {
         if (productModal) {
             productModal.style.display = 'none';
         }
     }
-
 
     // --- 4. EVENT LISTENERS ---
 
@@ -145,36 +171,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (searchForm) {
         searchForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const query = searchInput.value.trim().toLowerCase();
-            
-            // Redirect to products page with search query
-            window.location.href = `products.html?search=${encodeURIComponent(query)}`;
+            const query = searchInput.value.trim();
+            if (query) {
+                window.location.href = `products.html?search=${encodeURIComponent(query)}`;
+            }
         });
-    }
-    
-    // Handle search query on products page load
-    if (productGrid) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const searchQuery = urlParams.get('search');
-        if (searchQuery) {
-            const filteredProducts = products.filter(product =>
-                product.name.toLowerCase().includes(searchQuery) ||
-                product.description.toLowerCase().includes(searchQuery)
-            );
-            displayProducts(filteredProducts, productGrid);
-        }
-    }
-
-    // Add 'active' class to the current page's nav link
-    const currentPage = window.location.pathname.split("/").pop();
-    const homeLink = document.querySelector('.header-nav a[href="index.html"]');
-    
-    if (currentPage === '' || currentPage === 'index.html') {
-         if(homeLink) homeLink.classList.add('active');
-    } else {
-        const activeLink = document.querySelector(`.header-nav a[href="${currentPage}"]`);
-        if (activeLink) {
-            activeLink.classList.add('active');
-        }
     }
 });
