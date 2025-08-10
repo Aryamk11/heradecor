@@ -1,11 +1,11 @@
-/* --- Final and Complete style.css File (New "Earthy Clay & Linen" Palette) --- */
+/* --- Final and Complete style.css File --- */
 
 /* 1. Font Import */
 @import url('https://cdn.jsdelivr.net/gh/rastikerdar/sahel-font@v3.4.0/dist/font-face.css');
 
 /* 2. Root Variables & Global Styles */
 :root {
-    /* New "Earthy Clay & Linen" Palette */
+    /* "Earthy Clay & Linen" Palette */
     --bg-color: #F9F6F2;
     --header-bg: #EDEAE6;
     --card-bg: #FFFFFF;
@@ -47,7 +47,7 @@ img {
 /* 3. New Header Styles */
 .site-header {
     background: var(--header-bg);
-    border-bottom: 1px solid #DCD8D3; /* Matched to new palette */
+    border-bottom: 1px solid #DCD8D3;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -247,7 +247,7 @@ main h2 {
     padding: 0 1.5rem;
 }
 
-/* 6. Product Detail Modal Styles */
+/* 6. Product Detail Modal Styles (New smaller, vertical layout) */
 .modal {
     display: none;
     position: fixed;
@@ -257,7 +257,7 @@ main h2 {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(45, 36, 30, 0.6); /* Darker backdrop for better focus */
+    background-color: rgba(45, 36, 30, 0.6);
     justify-content: center;
     align-items: center;
 }
@@ -267,15 +267,15 @@ main h2 {
     margin: auto;
     padding: 2rem;
     border-radius: 8px;
-    max-width: 800px;
+    max-width: 450px; /* MODAL IS NOW SMALLER */
     width: 90%;
     position: relative;
     text-align: right;
     animation: fadeIn 0.3s;
     border: 1px solid #DCD8D3;
     display: flex;
-    flex-direction: row;
-    gap: 2rem;
+    flex-direction: column; /* LAYOUT IS NOW VERTICAL */
+    gap: 0.5rem;
 }
 
 @keyframes fadeIn {
@@ -299,35 +299,37 @@ main h2 {
 }
 
 .modal-image {
-    flex: 0 0 45%;
+    width: 100%;
     object-fit: cover;
     border-radius: 8px;
+    margin-bottom: 1rem;
 }
 
 .modal-text-content {
-    flex: 1;
+    /* No specific styles needed for vertical layout */
 }
 
 #modal-title {
     font-size: 1.8rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 }
 #modal-price {
     font-size: 1.3rem;
     color: var(--accent-color);
     font-weight: 700;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 #modal-description {
     font-size: 1rem;
     line-height: 1.7;
+    margin-top: 1rem; /* Space above description */
 }
 
 .modal-details {
     background-color: var(--header-bg);
     border-radius: 6px;
     padding: 0.75rem 1rem;
-    margin: 1.5rem 0;
+    margin: 1rem 0;
     font-size: 0.95rem;
     border: 1px solid #DCD8D3;
 }
@@ -394,6 +396,6 @@ main h2 {
     text-align: center;
     padding: 2rem 0;
     margin-top: 4rem;
-    border-top: 1px solid #DCD8D3;
     font-size: 0.9rem;
-} 
+    border-top: 1px solid #DCD8D3;
+}
