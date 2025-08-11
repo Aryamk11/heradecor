@@ -1,0 +1,33 @@
+/* css/components.css */
+/* Contains styles for reusable components used across multiple pages. */
+
+/* --- Product Card --- */
+.product-card { background: var(--card-bg); border: 1px solid #EAEAEA; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+.product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(92, 75, 65, 0.1); }
+.product-card-image-container { aspect-ratio: 1 / 1; overflow: hidden; }
+.product-card-image-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+.product-card:hover .product-card-image-container img { transform: scale(1.05); }
+.product-card-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+.product-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; font-weight: 700; }
+.product-card .price { color: var(--text-color); font-weight: 600; font-size: 1rem; margin-top: auto; }
+
+/* --- Product Modal --- */
+.modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(45, 36, 30, 0.6); justify-content: center; align-items: center; }
+.modal-content { background-color: var(--bg-color); margin: auto; padding: 2rem; border-radius: 8px; max-width: 450px; width: 90%; position: relative; text-align: right; animation: fadeIn 0.3s; border: 1px solid #DCD8D3; display: flex; flex-direction: column; gap: 0.5rem; }
+@keyframes fadeIn { from {opacity: 0; transform: scale(0.95);} to {opacity: 1; transform: scale(1);} }
+.close-btn { position: absolute; top: 10px; left: 20px; font-size: 2rem; font-weight: bold; color: #aaa; cursor: pointer; line-height: 1; }
+.close-btn:hover { color: var(--text-color); }
+.modal-image { width: 100%; object-fit: cover; border-radius: 8px; margin-bottom: 1rem; }
+.modal-text-content { display: flex; flex-direction: column; }
+#modal-title { font-size: 1.8rem; margin-bottom: 0.5rem; }
+#modal-price { font-size: 1.3rem; color: var(--accent-color); font-weight: 700; margin-bottom: 1rem; }
+#modal-description { font-size: 1rem; line-height: 1.7; margin-top: 1rem; }
+.modal-details { background-color: var(--header-bg); border-radius: 6px; padding: 0.75rem 1rem; margin: 1rem 0; font-size: 0.95rem; border: 1px solid #DCD8D3; }
+.modal-details p { margin-bottom: 0.5rem; }
+.modal-details p:last-child { margin-bottom: 0; }
+.modal-actions { margin-top: 1.5rem; }
+.modal-actions .btn { width: 100%; padding: 0.8rem; font-size: 1.1rem; }
+
+/* --- Notification --- */
+.notification { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background-color: var(--text-color); color: #fff; padding: 1rem 2rem; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.4s ease-in-out; }
+.notification.show { opacity: 1; visibility: visible; bottom: 40px; }

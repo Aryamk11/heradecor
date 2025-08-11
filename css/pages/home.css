@@ -1,0 +1,22 @@
+/* css/pages/home.css */
+/* Contains styles specific to the homepage (index.html). */
+
+.hero { background-color: var(--header-bg); padding: 5rem 0; text-align: center; background-image: linear-gradient(rgba(237, 234, 230, 0.8), rgba(237, 234, 230, 1)), url('../../images/photo_7_2025-08-09_17-19-44.jpg'); background-size: cover; background-position: center; }
+.hero-title { font-size: 2.8rem; font-weight: 700; margin-bottom: 1rem; }
+.hero-subtitle { font-size: 1.2rem; max-width: 600px; margin: 0 auto 2rem auto; }
+.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; padding-bottom: 4rem; }
+.cta-container { text-align: center; margin-top: -1rem; margin-bottom: 4rem; }
+.category-previews-section { padding-bottom: 4rem; }
+.category-previews-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+.category-card { position: relative; height: 300px; border-radius: 12px; overflow: hidden; display: flex; align-items: flex-end; padding: 2rem; background-size: cover; background-position: center; color: #fff; transition: transform 0.3s ease; }
+.category-card:hover { transform: translateY(-5px); }
+.category-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0)); transition: background-color 0.3s ease; }
+.category-card:hover::before { background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.1)); }
+.category-card-content { position: relative; z-index: 2; }
+.category-card h3 { font-size: 2rem; font-weight: 700; }
+.category-card p { font-size: 1.1rem; opacity: 0.8; }
+#category-art { background-image: url('../../images/photo_3_2025-08-09_17-19-44.jpg'); }
+#category-decor { background-image: url('../../images/photo_10_2025-08-09_17-19-44.jpg'); }
+.brand-story-section { background-color: var(--header-bg); padding: 4rem 0; text-align: center; }
+.brand-story-section h3 { font-size: 1.8rem; margin-bottom: 1rem; }
+.brand-story-section p { max-width: 700px; margin: 0 auto 2rem auto; font-size: 1.1rem; line-height: 1.8; }

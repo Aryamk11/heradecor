@@ -1,0 +1,43 @@
+/* css/layout.css */
+/* Contains styles for major layout sections like header and footer. */
+
+/* --- Header --- */
+#header-placeholder { position: sticky; top: 0; z-index: 100; }
+.site-header { background: var(--header-bg); border-bottom: 1px solid #DCD8D3; }
+.header-inner { display: flex; align-items: center; height: 70px; gap: 1.5rem; }
+.brand-title { font-size: 1.25rem; font-weight: 700; color: var(--text-color); }
+.brand-accent { color: var(--accent-color); }
+.header-nav { display: flex; align-items: center; gap: 1.5rem; }
+.nav-link { text-decoration: none; color: var(--text-color); font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem; transition: color 0.2s ease; position: relative; padding-bottom: 4px; }
+.nav-link:hover, .signin-link:hover { color: var(--accent-color); }
+.cart-link:hover span { color: #fff; }
+.nav-link.active { color: var(--accent-color); font-weight: 700; }
+.nav-link.active::after { content: ''; position: absolute; bottom: 0; right: 0; width: 100%; height: 2px; background-color: var(--accent-color); }
+.nav-spacer { flex-grow: 1; }
+.header-actions { display: flex; align-items: center; gap: 1.5rem; }
+.signin-link { text-decoration: none; color: var(--text-color); font-weight: 600; }
+.cart-link { display: flex; align-items: center; gap: 0.5rem; background-color: var(--accent-color); color: #fff; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-weight: 600; transition: background-color 0.2s ease; }
+.cart-link.active, .cart-link:hover { background-color: var(--accent-hover-color); color: #fff; }
+.cart-badge { background: rgba(0,0,0,0.2); border-radius: 4px; padding: 0.1rem 0.4rem; font-size: 0.8rem; }
+.search-bar-container { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: var(--header-bg); padding: 1rem; box-shadow: 0 8px 16px rgba(0,0,0,0.05); border-top: 1px solid #DCD8D3; }
+.search-bar-container.is-visible { display: block; }
+.search-form { display: flex; max-width: 800px; margin: 0 auto; gap: 0.5rem; }
+.search-form input { flex-grow: 1; border: 1px solid #DCD8D3; background: #fff; padding: 0.75rem; border-radius: 6px; font-family: 'Sahel', sans-serif; font-size: 1rem; color: var(--text-color); }
+.search-submit-btn, .search-close-btn { border: none; padding: 0 1.5rem; border-radius: 6px; font-weight: 600; cursor: pointer; font-family: 'Sahel', sans-serif; }
+.search-submit-btn { background-color: var(--accent-color); color: #fff; transition: background-color 0.2s ease; }
+.search-submit-btn:hover { background-color: var(--accent-hover-color); }
+.search-close-btn { background-color: #DCD8D3; color: var(--text-color); font-size: 1.5rem; padding: 0 1rem; }
+
+/* --- Footer --- */
+#footer-placeholder { margin-top: 4rem; }
+.brand-story-section + #footer-placeholder, .about-page-container + #footer-placeholder { margin-top: 0; }
+.site-footer { background-color: var(--header-bg); text-align: center; padding: 2rem 0; font-size: 0.9rem; border-top: 1px solid #DCD8D3; }
+.footer-content { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+.footer-social-links { display: flex; gap: 1.5rem; }
+.social-link { color: var(--text-color); transition: color 0.2s ease, transform 0.2s ease; }
+.social-link:hover { color: var(--accent-color); transform: translateY(-2px); }
+.site-footer .footer-copyright {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.8;
+}
