@@ -30,17 +30,8 @@ img { max-width: 100%; display: block; }
 .btn-secondary:hover { background-color: #fff; border-color: var(--accent-color); color: var(--accent-color); }
 
 /* 3. Header Styles */
-/* NEW: Apply sticky positioning to the placeholder div */
-#header-placeholder {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.site-header {
-    background: var(--header-bg);
-    border-bottom: 1px solid #DCD8D3;
-}
+#header-placeholder { position: sticky; top: 0; z-index: 100; }
+.site-header { background: var(--header-bg); border-bottom: 1px solid #DCD8D3; }
 .header-inner { display: flex; align-items: center; height: 70px; gap: 1.5rem; }
 .brand-title { font-size: 1.25rem; font-weight: 700; color: var(--text-color); }
 .brand-accent { color: var(--accent-color); }
@@ -170,13 +161,32 @@ img { max-width: 100%; display: block; }
 .notification.show { opacity: 1; visibility: visible; bottom: 40px; }
 
 /* 15. Footer Styles */
-#footer-placeholder {
-    margin-top: 4rem;
-}
-.brand-story-section + #footer-placeholder, .about-page-container + #footer-placeholder {
-    margin-top: 0;
-}
+#footer-placeholder { margin-top: 4rem; }
+.brand-story-section + #footer-placeholder, .about-page-container + #footer-placeholder { margin-top: 0; }
 .site-footer { background-color: var(--header-bg); text-align: center; padding: 2rem 0; font-size: 0.9rem; border-top: 1px solid #DCD8D3; }
+/* NEW: Styles for updated footer content */
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+.footer-social-links {
+    display: flex;
+    gap: 1.5rem;
+}
+.social-link {
+    color: var(--text-color);
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+.social-link:hover {
+    color: var(--accent-color);
+    transform: translateY(-2px);
+}
+.footer-copyright {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
 
 /* 16. Responsive adjustments */
 @media (max-width: 768px) {
