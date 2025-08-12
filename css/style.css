@@ -15,6 +15,7 @@
 @import url('pages/about.css');
 @import url('pages/cart.css');
 @import url('pages/contact.css');
+@import url('pages/products.css');
 
 /* 5. Responsive adjustments */
 @media (max-width: 768px) {

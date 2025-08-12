@@ -4,29 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>محصولات - کادو هنری هرا</title>
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/style.css?v=1.2"> <!-- Cache-busting -->
 </head>
 <body>
 
 <div id="header-placeholder"></div>
 
-<!-- Main Content for All Products Page -->
 <main>
     <section class="container products-page-section">
-        <h2 class="section-title">همه محصولات</h2>
+        <h2 class="section-title" id="products-page-title">همه محصولات</h2>
+
+        <!-- NEW: Filter Bar -->
+        <div class="filter-bar" id="filter-bar">
+            <button class="filter-btn active" data-category="all">همه</button>
+            <button class="filter-btn" data-category="تابلو هنری">تابلو هنری</button>
+            <button class="filter-btn" data-category="دکوری">دکوری</button>
+        </div>
         
-        <!-- The grid where products will be dynamically inserted by script.js -->
         <div class="product-grid" id="product-grid">
             <!-- Products will be inserted here via JS -->
         </div>
     </section>
 </main>
-
-<!-- Product Detail Modal: Reused from index.html -->
+<!-- Product Detail Modal -->
 <div class="modal" id="product-modal">
     <div class="modal-content">
         <span class="close-btn">&times;</span>
-        <img id="modal-image" src="" alt="تصویر محصول" class="modal-image">
+        <div class="modal-image-container">
+             <img id="modal-image" src="" alt="تصویر محصول" class="modal-image">
+        </div>
         <div class="modal-text-content">
             <h3 id="modal-title"></h3>
             <p id="modal-price"></p>
@@ -35,15 +41,18 @@
                 <p><strong>ابعاد:</strong> <span id="modal-dimensions"></span></p>
             </div>
             <p id="modal-description"></p>
+            <!-- Add to cart button will be injected here by script.js -->
         </div>
     </div>
 </div>
-
 <div id="footer-placeholder"></div>
 
-<!-- JavaScript files -->
 <script src="./js/products.js"></script>
-<script src="./js/script.js"></script>
-<script src="./js/templates.js"></script>
+<script src="./js/cart.js"></script>
+<script src="./js/header-template.js"></script> 
+<script src="./js/footer-template.js"></script> 
+<script src="./js/script.js"></script> 
+
+
 </body>
 </html>

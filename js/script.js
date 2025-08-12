@@ -1,4 +1,4 @@
-/* --- js/script.js (Corrected & Complete) --- */
+/* js/script.js - Final Version */
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -6,79 +6,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const productGrid = document.getElementById('product-grid');
     const featuredProductGrid = document.getElementById('featured-product-grid');
     const productModal = document.getElementById('product-modal');
-    const searchToggleButton = document.getElementById('search-toggle-btn');
-    const searchBarContainer = document.getElementById('search-bar-container');
-    const searchCloseButton = document.getElementById('search-close-btn');
-    const searchForm = document.getElementById('search-form');
-    const searchInput = document.getElementById('search-input');
-    const modalCloseBtn = productModal ? productModal.querySelector('.close-btn') : null;
+    const filterBar = document.getElementById('filter-bar');
+    const pageTitle = document.getElementById('products-page-title');
+    const cartItemsList = document.getElementById('cart-items-list');
 
-    // --- 2. INITIALIZATION ---
-    
-    // Update cart badge on every page load, requires cart.js to be loaded first
-    if (typeof updateCartBadge === 'function') {
-        updateCartBadge();
-    }
+    // --- 2. CORE FUNCTIONS ---
 
-    // Logic for the main products page (products.html)
-    if (productGrid) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const searchQuery = urlParams.get('search');
-        if (searchQuery) {
-            const lowerCaseQuery = searchQuery.toLowerCase();
-            const filteredProducts = products.filter(product =>
-                product.name.toLowerCase().includes(lowerCaseQuery) ||
-                product.description.toLowerCase().includes(lowerCaseQuery)
-            );
-            displayProducts(filteredProducts, productGrid);
-        } else {
-            const shuffledProducts = shuffleArray([...products]);
-            displayProducts(shuffledProducts, productGrid);
-        }
-    }
-
-    // Logic for the featured products on the homepage (index.html)
-    if (featuredProductGrid) {
-        const featuredProducts = products.slice(0, 5);
-        displayProducts(featuredProducts, featuredProductGrid);
-    }
-    
-    // Logic for the cart page (cart.html)
-    if (document.getElementById('cart-items-list') && typeof displayCartItems === 'function') {
-        displayCartItems();
-    }
-    
-    // Set active class on navigation link
-    const currentPage = window.location.pathname.split("/").pop() || 'index.html';
-    document.querySelectorAll('.header-nav a.nav-link').forEach(link => {
-        if (link.getAttribute('href') === currentPage) {
-            link.classList.add('active');
-        } else {
-            link.classList.remove('active');
-        }
-    });
-    // Special case for cart link, which is styled differently
-    if (currentPage === 'cart.html') {
-         const cartLink = document.querySelector('a.cart-link');
-         if (cartLink) cartLink.classList.add('active');
-    }
-
-
-    // --- 3. FUNCTIONS ---
-
-    function shuffleArray(array) {
-        let currentIndex = array.length, randomIndex;
-        while (currentIndex !== 0) {
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
-            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-        }
-        return array;
-    }
-
+    /**
+     * Renders a list of products into a specified grid element.
+     * @param {Array} productList - The array of product objects to display.
+     * @param {HTMLElement} gridElement - The DOM element to insert the product cards into.
+     */
     function displayProducts(productList, gridElement) {
         if (!gridElement) return;
-        gridElement.innerHTML = '';
+        gridElement.innerHTML = ''; // Clear previous content
+
+        if (productList.length === 0) {
+            gridElement.innerHTML = `<p class="grid-empty-message">محصولی یافت نشد.</p>`;
+            return;
+        }
+
         productList.forEach(product => {
             const card = document.createElement('div');
             card.className = 'product-card';
@@ -96,22 +43,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    /**
+     * Populates and shows the product detail modal.
+     * @param {object} product - The product object to display.
+     */
     function showProductDetail(product) {
         if (!productModal) return;
 
         productModal.querySelector('#modal-image').src = product.image;
-        productModal.querySelector('#modal-image').alt = product.name;
         productModal.querySelector('#modal-title').textContent = product.name;
         productModal.querySelector('#modal-price').textContent = product.price;
         productModal.querySelector('#modal-material').textContent = product.material;
         productModal.querySelector('#modal-dimensions').textContent = product.dimensions;
         productModal.querySelector('#modal-description').textContent = product.description;
 
-        let modalTextContent = productModal.querySelector('.modal-text-content');
+        const modalTextContent = productModal.querySelector('.modal-text-content');
         let modalActions = modalTextContent.querySelector('.modal-actions');
-        if (modalActions) {
-            modalActions.remove();
-        }
+        if (modalActions) modalActions.remove();
         
         modalActions = document.createElement('div');
         modalActions.className = 'modal-actions';
@@ -132,49 +80,128 @@ document.addEventListener('DOMContentLoaded', () => {
         productModal.style.display = 'flex';
     }
 
+    /**
+     * Hides the product detail modal.
+     */
     function closeModal() {
         if (productModal) {
             productModal.style.display = 'none';
         }
     }
 
-    // --- 4. EVENT LISTENERS ---
+    /**
+     * Sets the visual active state on a filter button.
+     * @param {HTMLElement} activeButton - The button to mark as active.
+     */
+    function updateActiveFilterButton(activeButton) {
+        // Remove 'active' from all buttons in the bar
+        filterBar.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        // Add 'active' to the clicked button
+        activeButton.classList.add('active');
+    }
 
-    if (modalCloseBtn) {
-        modalCloseBtn.addEventListener('click', closeModal);
+    /**
+     * Highlights the correct navigation link based on the current page.
+     */
+    function setActiveNavLink() {
+        const currentPage = window.location.pathname.split("/").pop() || 'index.html';
+        const effectivePage = (currentPage === '') ? 'index.html' : currentPage;
+    
+        document.querySelectorAll('.header-nav a.nav-link, a.cart-link').forEach(link => {
+            link.classList.remove('active');
+            const linkHref = link.getAttribute('href').replace('./', '');
+            if (linkHref === effectivePage) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    // --- 3. EVENT LISTENERS ---
+
+    function attachUniversalListeners() {
+        if (productModal) {
+            productModal.querySelector('.close-btn').addEventListener('click', closeModal);
+            productModal.addEventListener('click', (event) => {
+                if (event.target === productModal) closeModal();
+            });
+        }
+    }
+
+    // --- 4. PAGE-SPECIFIC INITIALIZATION ---
+
+    function initializeHomePage() {
+        if (featuredProductGrid) {
+            const featuredProducts = products.slice(0, 5);
+            displayProducts(featuredProducts, featuredProductGrid);
+        }
+    }
+
+    function initializeProductsPage() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchQuery = urlParams.get('search');
+        const categoryQuery = urlParams.get('category');
+
+        if (searchQuery) {
+            const lowerCaseQuery = searchQuery.toLowerCase();
+            const filteredProducts = products.filter(product =>
+                product.name.toLowerCase().includes(lowerCaseQuery) ||
+                product.description.toLowerCase().includes(lowerCaseQuery) ||
+                product.tags.some(tag => tag.toLowerCase().includes(lowerCaseQuery))
+            );
+            displayProducts(filteredProducts, productGrid);
+            if (pageTitle) pageTitle.textContent = `نتایج جستجو برای: "${searchQuery}"`;
+        } else if (categoryQuery) {
+            const filteredProducts = products.filter(p => p.category === categoryQuery);
+            displayProducts(filteredProducts, productGrid);
+            if (pageTitle) pageTitle.textContent = categoryQuery;
+            const activeButton = filterBar.querySelector(`[data-category="${categoryQuery}"]`);
+            if (activeButton) updateActiveFilterButton(activeButton);
+        } else {
+            displayProducts(products, productGrid); // Display all by default
+            if (pageTitle) pageTitle.textContent = 'همه محصولات';
+        }
+
+        if (filterBar) {
+            filterBar.addEventListener('click', (e) => {
+                if (e.target.matches('.filter-btn')) {
+                    const button = e.target;
+                    const category = button.dataset.category;
+                    
+                    updateActiveFilterButton(button);
+
+                    if (pageTitle) pageTitle.textContent = button.textContent;
+                    
+                    const filtered = category === 'all' 
+                        ? products 
+                        : products.filter(p => p.category === category);
+                    
+                    displayProducts(filtered, productGrid);
+                }
+            });
+        }
     }
     
-    if (productModal) {
-        productModal.addEventListener('click', (event) => {
-            if (event.target === productModal) {
-                closeModal();
-            }
-        });
+    function initializeCartPage() {
+        if (typeof displayCartItems === 'function') {
+            displayCartItems();
+        }
     }
 
-    if (searchToggleButton) {
-        searchToggleButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            searchBarContainer.classList.toggle('is-visible');
-            if (searchBarContainer.classList.contains('is-visible')) {
-                searchInput.focus();
-            }
-        });
+    // --- 5. SCRIPT EXECUTION ---
+    
+    function main() {
+        // Functions to run on every page
+        setActiveNavLink();
+        attachUniversalListeners();
+        if (typeof updateCartBadge === 'function') {
+            updateCartBadge();
+        }
+
+        // Page-specific initializers
+        if (featuredProductGrid) initializeHomePage();
+        if (productGrid) initializeProductsPage();
+        if (cartItemsList) initializeCartPage();
     }
 
-    if (searchCloseButton) {
-        searchCloseButton.addEventListener('click', () => {
-            searchBarContainer.classList.remove('is-visible');
-        });
-    }
-
-    if (searchForm) {
-        searchForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const query = searchInput.value.trim();
-            if (query) {
-                window.location.href = `products.html?search=${encodeURIComponent(query)}`;
-            }
-        });
-    }
+    main(); // Run the application
 });
