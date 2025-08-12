@@ -36,8 +36,4 @@
 .footer-social-links { display: flex; gap: 1.5rem; }
 .social-link { color: var(--text-color); transition: color 0.2s ease, transform 0.2s ease; }
 .social-link:hover { color: var(--accent-color); transform: translateY(-2px); }
-.site-footer .footer-copyright {
-    font-size: 0.9rem;
-    color: var(--text-color);
-    opacity: 0.8;
-}
+.site-footer .footer-copyright { font-size: 0.9rem; color: var(--text-color); opacity: 0.8; }

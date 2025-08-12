@@ -1,6 +1,8 @@
 /* css/base.css */
 /* Contains global styles, variables, and basic element styling. */
 
+@import url('https://cdn.jsdelivr.net/gh/rastikerdar/sahel-font@v3.4.0/dist/font-face.css');
+
 :root {
     --bg-color: #F9F6F2;
     --header-bg: #EDEAE6;
