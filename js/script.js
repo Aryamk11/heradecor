@@ -1,4 +1,4 @@
-/* js/script.js - Final Version */
+/* js/script.js - Final Version w/ Notifications */
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -42,6 +42,28 @@ document.addEventListener('DOMContentLoaded', () => {
             gridElement.appendChild(card);
         });
     }
+    
+    /**
+     * Shows a notification message at the bottom of the screen.
+     * @param {string} message - The message to display.
+     */
+    function showNotification(message) {
+        let notification = document.getElementById('notification-toast');
+        // If the notification element doesn't exist, create it dynamically
+        if (!notification) {
+            notification = document.createElement('div');
+            notification.id = 'notification-toast';
+            notification.className = 'notification'; // This class is styled in components.css
+            document.body.appendChild(notification);
+        }
+
+        // Set message, show the notification, then hide it after 3 seconds
+        notification.textContent = message;
+        notification.classList.add('show');
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 3000);
+    }
 
     /**
      * Populates and shows the product detail modal.
@@ -70,6 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
         addToCartBtn.onclick = () => {
             if (typeof addToCart === 'function') {
                 addToCart(product.id);
+                // --- THIS IS THE NEW LINE ---
+                showNotification(`"${product.name}" به سبد خرید اضافه شد`);
             }
             closeModal();
         };
@@ -94,9 +118,8 @@ document.addEventListener('DOMContentLoaded', () => {
      * @param {HTMLElement} activeButton - The button to mark as active.
      */
     function updateActiveFilterButton(activeButton) {
-        // Remove 'active' from all buttons in the bar
+        if (!filterBar) return;
         filterBar.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-        // Add 'active' to the clicked button
         activeButton.classList.add('active');
     }
 
@@ -157,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const activeButton = filterBar.querySelector(`[data-category="${categoryQuery}"]`);
             if (activeButton) updateActiveFilterButton(activeButton);
         } else {
-            displayProducts(products, productGrid); // Display all by default
+            displayProducts(products, productGrid);
             if (pageTitle) pageTitle.textContent = 'همه محصولات';
         }
 
@@ -190,18 +213,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 5. SCRIPT EXECUTION ---
     
     function main() {
-        // Functions to run on every page
         setActiveNavLink();
         attachUniversalListeners();
         if (typeof updateCartBadge === 'function') {
             updateCartBadge();
         }
 
-        // Page-specific initializers
         if (featuredProductGrid) initializeHomePage();
         if (productGrid) initializeProductsPage();
         if (cartItemsList) initializeCartPage();
     }
 
-    main(); // Run the application
+    main();
 });
