@@ -37,3 +37,95 @@
 .social-link { color: var(--text-color); transition: color 0.2s ease, transform 0.2s ease; }
 .social-link:hover { color: var(--accent-color); transform: translateY(-2px); }
 .site-footer .footer-copyright { font-size: 0.9rem; color: var(--text-color); opacity: 0.8; }
+
+
+/* --- Mobile Navigation Styles (Slide-Out Sidebar) --- */
+
+.mobile-menu-toggle {
+    display: none; /* Hidden by default */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 1001; /* Ensure it's above other content */
+}
+
+.mobile-menu-toggle svg {
+    stroke: var(--text-color);
+}
+
+/* This is the main overlay that darkens the background */
+.mobile-nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.mobile-nav-overlay.is-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* This is the actual slide-out menu panel */
+.mobile-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 280px; /* Width of the slide-out menu */
+    max-width: 75vw; /* Ensure it doesn't take too much space on small mobiles */
+    height: 100%;
+    background-color: #ffffff;
+    box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+    transform: translateX(100%); /* Start off-screen */
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    padding: 4rem 2rem;
+    gap: 1.5rem;
+}
+
+/* When the overlay is active, slide the menu in */
+.mobile-nav-overlay.is-active .mobile-nav {
+    transform: translateX(0);
+}
+
+.mobile-nav .nav-link {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-color);
+    text-decoration: none;
+    text-align: right;
+    width: 100%;
+}
+
+.mobile-nav hr {
+    width: 100%;
+    border: 0;
+    border-top: 1px solid var(--border-color);
+    margin: 1rem 0;
+}
+
+
+/* --- Responsive Header Adjustments --- */
+@media (max-width: 768px) {
+    .header-nav,
+    .nav-spacer,
+    .header-actions .signin-link {
+        display: none; /* Hide desktop links */
+    }
+
+    .mobile-menu-toggle {
+        display: block; /* Show hamburger button */
+    }
+
+    .header-inner {
+        justify-content: space-between;
+    }
+}

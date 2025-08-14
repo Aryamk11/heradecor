@@ -1,4 +1,4 @@
-/* js/script.js - Final Version w/ Checkout & Contact Logic */
+/* js/script.js - Final Version w/ Mobile Nav */
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -11,10 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartItemsList = document.getElementById('cart-items-list');
     const checkoutForm = document.getElementById('checkout-form');
     const contactForm = document.getElementById('contact-form');
+    // Mobile Nav Elements are selected in the main function after they are loaded
 
-
-    // --- 2. CORE FUNCTIONS ---
-
+    // --- 2. CORE FUNCTIONS --- (No changes here)
     function displayProducts(productList, gridElement) {
         if (!gridElement) return;
         gridElement.innerHTML = '';
@@ -55,11 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
         productModal.querySelector('#modal-material').textContent = product.material;
         productModal.querySelector('#modal-dimensions').textContent = product.dimensions;
         productModal.querySelector('#modal-description').textContent = product.description;
-
         const modalTextContent = productModal.querySelector('.modal-text-content');
         let modalActions = modalTextContent.querySelector('.modal-actions');
         if (modalActions) modalActions.remove();
-        
         modalActions = document.createElement('div');
         modalActions.className = 'modal-actions';
         const addToCartBtn = document.createElement('button');
@@ -107,13 +104,30 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }
+    
+    // --- NEW FUNCTION FOR MOBILE MENU ---
+    function initializeMobileMenu() {
+        const menuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileNavOverlay = document.getElementById('mobile-nav-overlay');
+
+        if (menuToggle && mobileNavOverlay) {
+            menuToggle.addEventListener('click', () => {
+                mobileNavOverlay.classList.toggle('is-active');
+            });
+            // Close menu if a link is clicked
+            mobileNavOverlay.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileNavOverlay.classList.remove('is-active');
+                });
+            });
+        }
+    }
 
     function initializeProductsPage() {
         const urlParams = new URLSearchParams(window.location.search);
         const searchQuery = urlParams.get('search');
         const categoryQuery = urlParams.get('category');
         let productsToDisplay = products;
-
         if (searchQuery) {
             const lowerCaseQuery = searchQuery.toLowerCase();
             productsToDisplay = products.filter(p => p.name.toLowerCase().includes(lowerCaseQuery) || p.tags.some(t => t.toLowerCase().includes(lowerCaseQuery)));
@@ -127,7 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pageTitle) pageTitle.textContent = 'همه محصولات';
         }
         displayProducts(productsToDisplay, productGrid);
-
         if (filterBar) {
             filterBar.addEventListener('click', (e) => {
                 if (e.target.matches('.filter-btn')) {
@@ -146,9 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!checkoutForm) return;
         checkoutForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            // In a real app, you would validate fields and process payment here.
-            localStorage.removeItem('cart'); // Clear the cart
-            window.location.href = 'order-confirmation.html'; // Redirect to thank you page
+            localStorage.removeItem('cart');
+            window.location.href = 'order-confirmation.html';
         });
     }
 
@@ -172,6 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Run on all pages
         setActiveNavLink();
         attachUniversalListeners();
+        initializeMobileMenu(); // --- ADD THIS CALL ---
         if (typeof updateCartBadge === 'function') updateCartBadge();
 
         // Page-specific logic
