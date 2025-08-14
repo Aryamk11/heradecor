@@ -26,15 +26,14 @@
                     <span>سبد خرید</span>
                     <span class="cart-badge" id="cart-count">0</span>
                 </a>
+                <!-- Mobile Menu Button (MOVED HERE) -->
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="باز کردن منو">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+                </button>
             </div>
-
-            <!-- Mobile Menu Button -->
-            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="باز کردن منو">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-            </button>
         </div>
 
-        <!-- Search Bar (Remains the same) -->
+        <!-- Search Bar -->
         <div class="search-bar-container" id="search-bar-container">
             <form class="search-form" id="search-form" role="search">
                 <input type="search" id="search-input" placeholder="نام محصول را وارد کنید..." />
@@ -45,7 +44,11 @@
 
         <!-- Mobile Navigation Overlay -->
         <div class="mobile-nav-overlay" id="mobile-nav-overlay">
-            <nav class="mobile-nav">
+            <nav class="mobile-nav" id="mobile-nav">
+                <div class="mobile-nav-header">
+                    <h3 class="brand-accent">منو</h3>
+                    <button class="mobile-nav-close" id="mobile-nav-close" aria-label="بستن منو">&times;</button>
+                </div>
                 <a href="index.html" class="nav-link">صفحه اصلی</a>
                 <a href="products.html" class="nav-link">محصولات</a>
                 <a href="about.html" class="nav-link">درباره ما</a>

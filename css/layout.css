@@ -39,33 +39,35 @@
 .site-footer .footer-copyright { font-size: 0.9rem; color: var(--text-color); opacity: 0.8; }
 
 
-/* --- Mobile Navigation Styles (Slide-Out Sidebar) --- */
 
+/* --- Mobile Navigation Styles (Slide-Out Sidebar) --- */
 .mobile-menu-toggle {
-    display: none; /* Hidden by default */
+    display: none;
     background: none;
     border: none;
     cursor: pointer;
     padding: 0.5rem;
-    z-index: 1001; /* Ensure it's above other content */
+    margin-right: 0.5rem; /* Space between cart and menu button */
+    z-index: 1001;
 }
 
 .mobile-menu-toggle svg {
-    stroke: var(--text-color);
+    color: var(--text-color);
+    width: 28px;
+    height: 28px;
 }
 
-/* This is the main overlay that darkens the background */
 .mobile-nav-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .mobile-nav-overlay.is-active {
@@ -73,56 +75,99 @@
     visibility: visible;
 }
 
-/* This is the actual slide-out menu panel */
 .mobile-nav {
     position: fixed;
     top: 0;
     right: 0;
-    width: 280px; /* Width of the slide-out menu */
-    max-width: 75vw; /* Ensure it doesn't take too much space on small mobiles */
+    width: 280px;
+    max-width: 75vw;
     height: 100%;
     background-color: #ffffff;
-    box-shadow: -2px 0 8px rgba(0,0,0,0.1);
-    transform: translateX(100%); /* Start off-screen */
-    transition: transform 0.3s ease-in-out;
+    box-shadow: -2px 0 15px rgba(0,0,0,0.15);
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smoother animation */
     display: flex;
     flex-direction: column;
-    padding: 4rem 2rem;
-    gap: 1.5rem;
+    padding: 1.5rem;
 }
 
-/* When the overlay is active, slide the menu in */
 .mobile-nav-overlay.is-active .mobile-nav {
     transform: translateX(0);
 }
 
+.mobile-nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 1rem;
+}
+
+.mobile-nav-header h3 {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.mobile-nav-close {
+    background: none;
+    border: none;
+    font-size: 2.5rem;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--text-color-light);
+    padding: 0;
+}
+
 .mobile-nav .nav-link {
     font-size: 1.2rem;
-    font-weight: 600;
+    font-weight: 500;
     color: var(--text-color);
     text-decoration: none;
     text-align: right;
     width: 100%;
+    padding: 0.75rem 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    
+    /* Animation setup */
+    opacity: 0;
+    transform: translateX(20px);
 }
+
+.mobile-nav .nav-link:hover {
+    background-color: #f7f7f7;
+}
+
+/* Staggered animation for links when menu opens */
+.mobile-nav-overlay.is-active .mobile-nav .nav-link {
+    opacity: 1;
+    transform: translateX(0);
+}
+.mobile-nav-overlay.is-active .nav-link:nth-child(2) { transition-delay: 0.1s; }
+.mobile-nav-overlay.is-active .nav-link:nth-child(3) { transition-delay: 0.15s; }
+.mobile-nav-overlay.is-active .nav-link:nth-child(4) { transition-delay: 0.2s; }
+.mobile-nav-overlay.is-active .nav-link:nth-child(5) { transition-delay: 0.25s; }
+.mobile-nav-overlay.is-active .nav-link:nth-child(7) { transition-delay: 0.3s; }
+
 
 .mobile-nav hr {
     width: 100%;
     border: 0;
     border-top: 1px solid var(--border-color);
-    margin: 1rem 0;
+    margin: 0.5rem 0;
 }
-
 
 /* --- Responsive Header Adjustments --- */
 @media (max-width: 768px) {
     .header-nav,
     .nav-spacer,
     .header-actions .signin-link {
-        display: none; /* Hide desktop links */
+        display: none;
     }
 
     .mobile-menu-toggle {
-        display: block; /* Show hamburger button */
+        display: block;
     }
 
     .header-inner {
