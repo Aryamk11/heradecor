@@ -3,92 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>کادو هنری هرا</title>
+    <title>کادو هنری هرا - فروشگاه آنلاین آثار هنری و دکوری</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="فروشگاه آنلاین کادو و تابلوهای هنری هرا. مجموعه‌ای بی‌نظیر از آثار هنری دست‌ساز و دکوری‌های خاص برای هدیه دادن و زیبایی بخشیدن به خانه شما.">
+    <meta name="keywords" content="کادو هنری, تابلو دکوراتیو, هدیه خاص, دکوری دست‌ساز, فروشگاه هنری, هرا دکور">
+    <link rel="icon" href="./log.jpg" type="image/jpeg">
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://heradecor.ir/">
+    <meta property="og:title" content="کادو هنری هرا - فروشگاه آنلاین آثار هنری و دکوری">
+    <meta property="og:description" content="مجموعه‌ای بی‌نظیر از تابلوهای دکوراتیو و دکوری‌های دست‌ساز، بهترین انتخاب برای یک هدیه خاص و ماندگار.">
+    <meta property="og:image" content="https://heradecor.ir/images/photo_4_2025-08-09_17-19-44.jpg">
+    
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 
-<!-- Header will be loaded here by JavaScript -->
 <div id="header-placeholder"></div>
 
 <main>
-    <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-content container">
-            <h2 class="hero-title">هنر، زیبایی و اصالت در یک جا</h2>
-            <p class="hero-subtitle">منتخب‌ترین هدایا و دکورهای هنری دست‌ساز برای خانه و عزیزانتان</p>
-            <a href="products.html" class="btn btn-primary">مشاهده مجموعه</a>
-        </div>
-    </section>
-
-    <!-- Featured Product Grid -->
-    <section class="featured-products container">
-        <h2 class="section-title">جدیدترین‌ها</h2>
-        <div class="product-grid" id="featured-product-grid">
-            <!-- Featured products will be inserted here via JS -->
-        </div>
-        <div class="cta-container">
-            <a href="products.html" class="btn btn-secondary">مشاهده همه محصولات</a>
-        </div>
-    </section>
-
-    <!-- Category Previews Section -->
-    <section class="category-previews-section container">
-        <h2 class="section-title">دسته‌بندی‌ها</h2>
-        <div class="category-previews-grid">
-            <a href="products.html?category=تابلو%20هنری" class="category-card" id="category-art">
-                <div class="category-card-content">
-                    <h3>تابلوهای هنری</h3>
-                    <p>مشاهده</p>
-                </div>
-            </a>
-            <a href="products.html?category=دکوری" class="category-card" id="category-decor">
-                <div class="category-card-content">
-                    <h3>دکوری و تزیینی</h3>
-                    <p>مشاهده</p>
-                </div>
-            </a>
-        </div>
-    </section>
-
-    <!-- Brand Story Snippet -->
-    <section class="brand-story-section">
         <div class="container">
-            <h3>داستان هرا</h3>
-            <p>در "هرا"، ما باور داریم که هر وسیله‌ای در خانه شما می‌تواند داستانی برای گفتن داشته باشد. ما با عشق و دقت، آثاری را خلق می‌کنیم که نه تنها زیبا هستند، بلکه حسی از گرما و اصالت را به فضای شما می‌بخشند. از انتخاب شما سپاسگزاریم.</p>
-            <a href="about.html" class="btn btn-secondary">بیشتر بخوانید</a>
+            <h1>هنری برای ماندگار شدن</h1>
+            <p>مجموعه‌ای از بهترین کادوهای هنری و تابلوهای دکوراتیو برای کسانی که دوستشان دارید.</p>
+            <a href="products.html" class="btn btn-primary">مشاهده همه محصولات</a>
+        </div>
+    </section>
+
+    <section class="featured-products">
+        <div class="container">
+            <h2 class="section-title">محصولات منتخب</h2>
+            <div class="product-grid" id="featured-product-grid">
+                <!-- Products will be loaded by script.js -->
+            </div>
+        </div>
+    </section>
+
+    <section class="category-showcase">
+        <div class="container">
+            <h2 class="section-title">دسته‌بندی‌ها</h2>
+            <div class="category-grid">
+                <a href="products.html?category=تابلو%20هنری" class="category-card" id="category-art">
+                    <div class="category-card-content">
+                        <h3>تابلوهای هنری</h3>
+                    </div>
+                </a>
+                <a href="products.html?category=دکوری" class="category-card" id="category-decor">
+                    <div class="category-card-content">
+                        <h3>دکوری‌های خاص</h3>
+                    </div>
+                </a>
+            </div>
         </div>
     </section>
 </main>
 
-<!-- Product Detail Modal -->
-<div class="modal" id="product-modal">
-    <div class="modal-content">
-        <span class="close-btn">&times;</span>
-        <div class="modal-image-container">
-             <img id="modal-image" src="" alt="تصویر محصول" class="modal-image">
-        </div>
-        <div class="modal-text-content">
-            <h3 id="modal-title"></h3>
-            <p id="modal-price"></p>
-            <div class="modal-details">
-                <p><strong>جنس:</strong> <span id="modal-material"></span></p>
-                <p><strong>ابعاد:</strong> <span id="modal-dimensions"></span></p>
-            </div>
-            <p id="modal-description"></p>
-            <!-- Add to cart button will be injected here by script.js -->
-        </div>
-    </div>
-</div>
-
 <div id="footer-placeholder"></div>
 
-<!-- Script loading order is crucial -->
 <script src="./js/products.js"></script>
 <script src="./js/cart.js"></script>
-<script src="./js/header-template.js"></script> 
-<script src="./js/footer-template.js"></script> 
-<script src="./js/script.js"></script> 
+<script src="./js/header-template.js"></script>
+<script src="./js/footer-template.js"></script>
+<script src="./js/modal-template.js"></script>
+<script src="./js/script.js"></script>
 
 </body>
 </html>

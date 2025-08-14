@@ -4,55 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>محصولات - کادو هنری هرا</title>
-    <link rel="stylesheet" href="./css/style.css?v=1.2"> <!-- Cache-busting -->
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="تمام محصولات هنری و دکوری فروشگاه هرا را مشاهده کنید. انواع تابلوهای کلاسیک، پرتره و دکوری‌های دست‌ساز.">
+    <meta name="keywords" content="همه محصولات, خرید تابلو, خرید کادو هنری, گالری آنلاین">
+    <link rel="icon" href="./log.jpg" type="image/jpeg">
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://heradecor.ir/products.html">
+    <meta property="og:title" content="همه محصولات - کادو هنری هرا">
+    <meta property="og:description" content="تمام محصولات هنری و دکوری فروشگاه هرا را مشاهده کنید. انواع تابلوهای کلاسیک، پرتره و دکوری‌های دست‌ساز.">
+    <meta property="og:image" content="https://heradecor.ir/images/photo_5_2025-08-09_17-19-44.jpg">
+
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 
 <div id="header-placeholder"></div>
 
-<main>
-    <section class="container products-page-section">
-        <h2 class="section-title" id="products-page-title">همه محصولات</h2>
-
-        <!-- NEW: Filter Bar -->
+<main class="products-page-main">
+    <div class="container">
+        <h1 class="section-title" id="products-page-title">همه محصولات</h1>
         <div class="filter-bar" id="filter-bar">
             <button class="filter-btn active" data-category="all">همه</button>
             <button class="filter-btn" data-category="تابلو هنری">تابلو هنری</button>
             <button class="filter-btn" data-category="دکوری">دکوری</button>
         </div>
-        
         <div class="product-grid" id="product-grid">
-            <!-- Products will be inserted here via JS -->
-        </div>
-    </section>
-</main>
-<!-- Product Detail Modal -->
-<div class="modal" id="product-modal">
-    <div class="modal-content">
-        <span class="close-btn">&times;</span>
-        <div class="modal-image-container">
-             <img id="modal-image" src="" alt="تصویر محصول" class="modal-image">
-        </div>
-        <div class="modal-text-content">
-            <h3 id="modal-title"></h3>
-            <p id="modal-price"></p>
-            <div class="modal-details">
-                <p><strong>جنس:</strong> <span id="modal-material"></span></p>
-                <p><strong>ابعاد:</strong> <span id="modal-dimensions"></span></p>
-            </div>
-            <p id="modal-description"></p>
-            <!-- Add to cart button will be injected here by script.js -->
+            <!-- Products will be loaded by script.js -->
         </div>
     </div>
-</div>
+</main>
+
 <div id="footer-placeholder"></div>
 
 <script src="./js/products.js"></script>
 <script src="./js/cart.js"></script>
-<script src="./js/header-template.js"></script> 
-<script src="./js/footer-template.js"></script> 
-<script src="./js/script.js"></script> 
-
+<script src="./js/header-template.js"></script>
+<script src="./js/footer-template.js"></script>
+<script src="./js/modal-template.js"></script>
+<script src="./js/script.js"></script>
 
 </body>
 </html>
