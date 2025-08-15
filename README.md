@@ -2,7 +2,7 @@
 
 یک وب‌سایت فروشگاهی front-end سریع و واکنش‌گرا برای «کادویی هنری هرا».
 
-**URL زنده:** [heradecor.ir](https://www.google.com/search?q=https://heradecor.ir "null")
+**URL:** [heradecor.ir](https://www.google.com/search?q=https://heradecor.ir "null")
 
 ### Technology Stack
 
