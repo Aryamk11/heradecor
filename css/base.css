@@ -1,7 +1,7 @@
 /* css/base.css */
 /* Contains global styles, variables, and basic element styling. */
 
-@import url('https://cdn.jsdelivr.net/gh/rastikerdar/sahel-font@v3.4.0/dist/font-face.css');
+/* @import url('https://cdn.jsdelivr.net/gh/rastikerdar/sahel-font@v3.4.0/dist/font-face.css'); */ /* REMOVED FOR PERFORMANCE */
 
 :root {
     --primary-color: #8D6B5F;

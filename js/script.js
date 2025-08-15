@@ -1,4 +1,4 @@
-/* js/script.js - Final Version w/ Polished Mobile Nav */
+/* js/script.js - Final Version w/ Font Lazy-Loading */
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -25,6 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
+    // --- NEW: FONT LAZY-LOADING ---
+    function lazyLoadFonts() {
+        const fontLink = document.createElement('link');
+        fontLink.href = 'https://cdn.jsdelivr.net/gh/rastikerdar/sahel-font@v3.4.0/dist/font-face.css';
+        fontLink.rel = 'stylesheet';
+        document.head.appendChild(fontLink);
+    }
+
     // --- REBUILT MOBILE MENU LOGIC ---
     function initializeMobileMenu() {
         const menuToggle = document.getElementById('mobile-menu-toggle');
@@ -103,4 +111,5 @@ document.addEventListener('DOMContentLoaded', () => {
                 `})}
 
     main();
+    window.addEventListener('load', lazyLoadFonts); // Lazy load fonts after everything else
 });
