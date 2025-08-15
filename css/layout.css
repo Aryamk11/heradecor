@@ -105,4 +105,13 @@
             top: 50%;
             transform: translate(-50%, -50%);
         }
+
+        /* NEW: Mobile Footer Optimization */
+        .site-footer {
+            padding: 1.5rem 0; /* Reduced vertical padding */
+        }
+        .social-link svg {
+            width: 20px; /* Smaller icon size */
+            height: 20px;
+        }
     }
