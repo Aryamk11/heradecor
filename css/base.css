@@ -20,10 +20,18 @@
 html { scroll-behavior: smooth; }
 body {
     font-family: var(--font-family);
-    background-color: var(--bg-color);
+    background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
+
+main {
+    flex-grow: 1;
+}
+
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
@@ -39,4 +47,3 @@ img { max-width: 100%; display: block; }
     .brand-accent {
         color: var(--accent-color);
     }
-    
