@@ -1,4 +1,4 @@
-    /* css/layout.css - Definitive Version */
+/* css/layout.css - Definitive Version */
 
     /* --- Header --- */
     .site-header {
@@ -94,5 +94,15 @@
         .mobile-menu-toggle {
             display: block;
         }
+        /* Establish positioning context for the header */
+        .header-inner {
+            position: relative;
+        }
+        /* Center the brand logo */
+        .brand {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
     }
-    
