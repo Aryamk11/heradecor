@@ -4,14 +4,17 @@
 @import url('https://cdn.jsdelivr.net/gh/rastikerdar/sahel-font@v3.4.0/dist/font-face.css');
 
 :root {
-    --bg-color: #F9F6F2;
-    --header-bg: #EDEAE6;
-    --card-bg: #FFFFFF;
-    --text-color: #5C4B41;
-    --accent-color: #C89F82;
-    --accent-hover-color: #B48E71;
+    --primary-color: #8D6B5F;
+    --primary-hover-color: #7a5c51;
+    --accent-color: #A47E6F;
+    --background-color: #FDFBF8;
+    --text-color: #4E423F;
+    --text-color-light: #968986;
+    --border-color: #EAE3DD;
     --font-family: 'Sahel', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
+
+
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }

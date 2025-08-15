@@ -3,33 +3,35 @@
     const headerHTML = `
     <header class="site-header" id="site-header">
         <div class="container header-inner">
-            <div class="brand">
-                <a href="index.html" class="brand-link">
-                    <h1 class="brand-title">کادو هنری <span class="brand-accent">هرا</span></h1>
-                </a>
+            <!-- Right side (in RTL) -->
+            <div class="header-group">
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="باز کردن منو">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+                </button>
+                <div class="brand">
+                    <a href="index.html" class="brand-link">
+                        <h1 class="brand-title">کادو هنری <span class="brand-accent">هرا</span></h1>
+                    </a>
+                </div>
             </div>
 
-            <!-- Desktop Navigation -->
+            <!-- Center (Desktop Only) -->
             <nav class="header-nav" aria-label="منوی اصلی">
-                <a href="#" id="search-toggle-btn" class="nav-link">
-                    جستجو
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 21l-4.35-4.35" /><circle cx="11" cy="11" r="6" /></svg>
-                </a>
+                <a href="#" id="search-toggle-btn" class="nav-link">جستجو <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 21l-4.35-4.35" /><circle cx="11" cy="11" r="6" /></svg></a>
                 <a href="products.html" class="nav-link">محصولات</a>
                 <a href="contact.html" class="nav-link">تماس با ما</a>
                 <a href="about.html" class="nav-link">درباره ما</a>
             </nav>
-            <div class="nav-spacer"></div>
-            <div class="header-actions">
-                <a href="#" class="nav-link signin-link">ورود</a>
-                <a href="cart.html" class="cart-link">
-                    <span>سبد خرید</span>
-                    <span class="cart-badge" id="cart-count">0</span>
-                </a>
-                <!-- Mobile Menu Button (MOVED HERE) -->
-                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="باز کردن منو">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
-                </button>
+            
+            <!-- Left side (in RTL) -->
+            <div class="header-group">
+                <div class="header-actions">
+                    <a href="#" class="nav-link signin-link">ورود</a>
+                    <a href="cart.html" class="cart-link">
+                        <span>سبد خرید</span>
+                        <span class="cart-badge" id="cart-count">0</span>
+                    </a>
+                </div>
             </div>
         </div>
 
