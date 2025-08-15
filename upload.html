@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hera Art Shop | Firestore Product Uploader</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f4f4; }
+        button { font-size: 1.2rem; padding: 1rem 2rem; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <button id="uploadButton">Upload Products to Firestore</button>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <script>
+        // *******************************************************************
+        // 1. PASTE YOUR FIREBASE CONFIG OBJECT HERE
+        // *******************************************************************
+const firebaseConfig = {
+  apiKey: "AIzaSyC8iE5lRcfQDFAkBbIV9XVzRdDYOMeaQT4",
+  authDomain: "heradecor-5b215.firebaseapp.com",
+  projectId: "heradecor-5b215",
+  storageBucket: "heradecor-5b215.firebasestorage.app",
+  messagingSenderId: "628717891164",
+  appId: "1:628717891164:web:d8775da48346ed0a9ec099",
+  measurementId: "G-9WBF3WQ6VJ"
+};
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // *******************************************************************
+        // 2. YOUR STATIC PRODUCT DATA
+        // *******************************************************************
+        const products = [
+            { id: 1, name: 'تابلو گربه‌های اشرافی', price: '۴۵۰,۰۰۰ تومان', priceValue: 450000, image: 'images/photo_1_2025-08-09_17-19-44.webp', description: 'این تابلو با قابی از چوب پتینه‌کاری شده، تصویری کلاسیک و دلنشین از چند گربه بازیگوش را به نمایش می‌گذارد.', dimensions: 'قطر: ۳۵ سانتی‌متر', material: 'قاب چوبی، چاپ روی بوم', category: 'تابلو هنری', tags: ['کلاسیک', 'حیوانات', 'کرم'] },
+            { id: 2, name: 'تابلو گل‌های بهاری', price: '۵۵۰,۰۰۰ تومان', priceValue: 550000, image: 'images/photo_5_2025-08-09_17-19-44.webp', description: 'نقاشی دیجیتال با جزئیات دقیق از دسته‌ای گل‌های رنگارنگ که حس طراوت و زندگی بهاری را به دکوراسیون شما اضافه می‌کند.', dimensions: 'قطر: ۴۰ سانتی‌متر', material: 'قاب چوبی سفید، چاپ مخمل', category: 'تابلو هنری', tags: ['گل', 'رنگارنگ', 'سفید'] },
+            { id: 3, name: 'تابلو دلدادگان', price: '۷۲۰,۰۰۰ تومان', priceValue: 720000, image: 'images/photo_3_2025-08-09_17-19-44.webp', description: 'تصویری رمانتیک و چشم‌نواز از یک زوج در منظره‌ای کلاسیک. گزینه‌ای عالی برای اتاق خواب یا هدیه‌ای عاشقانه.', dimensions: 'قطر: ۴۵ سانتی‌متر', material: 'قاب چوبی، چاپ روی بوم', category: 'تابلو هنری', tags: ['رمانتیک', 'کلاسیک', 'سفید'] },
+            { id: 4, name: 'تابلو ضیافت در باغ', price: '۶۸۰,۰۰۰ تومان', priceValue: 680000, image: 'images/photo_4_2025-08-09_17-19-44.webp', description: 'این تابلوی زیبا با قاب آبی پاستلی، یک مهمانی اشرافی در باغی پر از گل‌های رز را به تصویر می‌کشد.', dimensions: 'قطر: ۴۰ سانتی‌متر', material: 'قاب چوبی آبی، چاپ مخمل', category: 'تابلو هنری', tags: ['کلاسیک', 'گل', 'آبی'] },
+            { id: 5, name: 'تابلو بانوی ویکتوریایی', price: '۴۸۰,۰۰۰ تومان', priceValue: 480000, image: 'images/photo_9_2025-08-09_17-19-44.webp', description: 'پرتره‌ای زیبا و باوقار از یک بانوی اشرافی با لباس دوره ویکتوریا. قاب سبز نعنایی این اثر، جلوه‌ای خاص به آن بخشیده است.', dimensions: 'قطر: ۳۵ سانتی‌متر', material: 'قاب چوبی سبز، چاپ روی بوم', category: 'تابلو هنری', tags: ['پرتره', 'کلاسیک', 'سبز'] },
+            { id: 6, name: 'گلدان سرامیکی کلاسیک', price: '۵۱۰,۰۰۰ تومان', priceValue: 510000, image: 'images/photo_10_2025-08-09_17-19-44.webp', description: 'یک گلدان سرامیکی زیبا با طرح گل‌های نقاشی شده با دست. این اثر برای دکورهای مدرن و مینیمال بسیار مناسب است.', dimensions: 'ارتفاع: ۲۰ سانتی‌متر', material: 'سرامیک دست‌ساز', category: 'دکوری', tags: ['دست‌ساز', 'گل', 'آبی'] },
+            { id: 7, name: 'تابلو پرتره زنانه', price: '۶۲۰,۰۰۰ تومان', priceValue: 620000, image: 'images/photo_13_2025-08-09_17-19-44.webp', description: 'پرتره‌ای دلنشین و آرام از یک بانو با نگاهی نافذ. قاب سبز ملایم این اثر، حس آرامش را به فضای شما می‌آورد.', dimensions: 'قطر: ۴۰ سانتی‌متر', material: 'قاب چوبی، چاپ روی بوم', category: 'تابلو هنری', tags: ['پرتره', 'کلاسیک', 'سبز'] },
+            { id: 8, name: 'تابلو وداع در پل', price: '۷۵۰,۰۰۰ تومان', priceValue: 750000, image: 'images/photo_8_2025-08-09_17-19-44.webp', description: 'صحنه‌ای رمانتیک از یک زوج در حال عبور از پلی سنگی. اثری خاص برای فضاهای رمانتیک.', dimensions: 'قطر: ۴۵ سانتی‌متر', material: 'قاب چوبی سفید، چاپ روی بوم', category: 'تابلو هنری', tags: ['رمانتیک', 'منظره', 'سفید'] },
+            { id: 9, name: 'تابلو بچه‌گربه‌های بازیگوش', price: '۴۹۰,۰۰۰ تومان', priceValue: 490000, image: 'images/photo_2_2025-08-09_17-19-44.webp', description: 'تصویری دوست‌داشتنی از چند بچه‌گربه در کنار هم. این تابلو با قاب آبی، انتخابی عالی برای اتاق کودک است.', dimensions: 'قطر: ۳۵ سانتی‌متر', material: 'قاب چوبی، چاپ مخمل', category: 'تابلو هنری', tags: ['حیوانات', 'کودک', 'آبی'] },
+            { id: 10, name: 'تابلو مادر و دختر', price: '۸۵۰,۰۰۰ تومان', priceValue: 850000, image: 'images/photo_12_2025-08-09_17-19-44.webp', description: 'یک پرتره باشکوه و رسمی از یک مادر و دختر با لباس‌های مجلسی. این اثر حس نوستالژی و اصالت را به دکوراسیون شما می‌بخشد.', dimensions: 'قطر: ۴۵ سانتی‌متر', material: 'قاب چوبی، چاپ روی بوم', category: 'تابلو هنری', tags: ['پرتره', 'کلاسیک', 'کرم'] },
+            { id: 11, name: 'تابلو راز و نیاز', price: '۶۵۰,۰۰۰ تومان', priceValue: 650000, image: 'images/photo_6_2025-08-09_17-19-44.webp', description: 'دو بانوی جوان در فضایی صمیمی و طبیعی. رنگ‌های ملایم و قاب سفید پتینه‌کاری شده، این اثر را بسیار دلنشین کرده است.', dimensions: 'قطر: ۴۰ سانتی‌متر', material: 'قاب چوبی، چاپ روی بوم', category: 'تابلو هنری', tags: ['کلاسیک', 'پرتره', 'سفید'] },
+            { id: 12, name: 'تابلو نامه عاشقانه', price: '۵۸۰,۰۰۰ تومان', priceValue: 580000, image: 'images/photo_11_2025-08-09_17-19-44.webp', description: 'بانویی در حال خواندن یک نامه در اتاقی با دکور کلاسیک. این تابلو داستانی و پر از جزئیات، بیننده را به دنیای دیگری می‌برد.', dimensions: 'قطر: ۴۰ سانتی‌متر', material: 'قاب چوبی، چاپ مخمل', category: 'تابلو هنری', tags: ['کلاسیک', 'داستانی', 'کرم'] },
+            { id: 13, name: 'ست شمع و بادبزن', price: '۷۱۰,۰۰۰ تومان', priceValue: 710000, image: 'images/photo_7_2025-08-09_17-19-44.webp', description: 'ترکیبی هنرمندانه از گل‌ها، شمع و بادبزن که با نورپردازی دراماتیک، فضایی اسرارآمیز و زیبا خلق کرده است.', dimensions: 'متغیر', material: 'مخمل، چوب، پارافین', category: 'دکوری', tags: ['طبیعت بی‌جان', 'کلاسیک', 'سفید'] }
+        ];
+
+        // *******************************************************************
+        // 3. UPLOAD LOGIC
+        // *******************************************************************
+        const uploadButton = document.getElementById('uploadButton');
+
+        async function uploadProducts() {
+            const productsCollection = db.collection('products');
+            console.log('Starting upload...');
+            uploadButton.textContent = 'Uploading...';
+            uploadButton.disabled = true;
+
+            for (const product of products) {
+                try {
+                    // Use the product's 'id' as the document ID in Firestore
+                    const docRef = productsCollection.doc(String(product.id));
+                    
+                    // Create a new object without the 'id' field to store in the document
+                    const productData = { ...product };
+                    delete productData.id;
+
+                    await docRef.set(productData);
+                    console.log(`SUCCESS: Uploaded product ${product.id} - ${product.name}`);
+                } catch (error) {
+                    console.error(`ERROR: Failed to upload product ${product.id}:`, error);
+                }
+            }
+
+            console.log('--- UPLOAD COMPLETE ---');
+            uploadButton.textContent = 'Upload Complete!';
+        }
+
+        uploadButton.addEventListener('click', uploadProducts);
+    </script>
+</body>
+</html>

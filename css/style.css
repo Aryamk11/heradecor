@@ -26,8 +26,26 @@
     .hero { padding: 3rem 0; }
     .hero-title { font-size: 2rem; }
     .hero-subtitle { font-size: 1rem; }
-    .product-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
-    .section-title { font-size: 1.8rem; }
+
+    /* --- IMPROVEMENT: Full-width hero button --- */
+    .hero .btn-primary {
+        width: 100%;
+        max-width: 320px; /* Prevents button from being too wide on tablets */
+        font-size: 1.1rem;
+    }
+
+    /* --- IMPROVEMENT: Better grid spacing --- */
+    .product-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1.5rem; /* Increased from 1rem */
+    }
+
+    /* --- IMPROVEMENT: Adjusted section title size --- */
+    .section-title {
+        font-size: 1.6rem; /* Reduced from 1.8rem */
+        margin-top: 3rem;
+    }
+
     .category-previews-grid { grid-template-columns: 1fr; }
     .brand-story-section { padding: 3rem 20px; }
     .about-hero-image { height: 250px; }
