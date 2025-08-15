@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- NEW: FONT LAZY-LOADING ---
     function lazyLoadFonts() {
         const fontLink = document.createElement('link');
-        fontLink.href = 'https://cdn.jsdelivr.net/gh/rastikerdar/sahel-font@v3.4.0/dist/font-face.css';
+        fontLink.href = 'https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap'; /* FONT URL UPDATED */
         fontLink.rel = 'stylesheet';
         document.head.appendChild(fontLink);
     }

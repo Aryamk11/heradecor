@@ -1,8 +1,6 @@
 /* css/base.css */
 /* Contains global styles, variables, and basic element styling. */
 
-/* @import url('https://cdn.jsdelivr.net/gh/rastikerdar/sahel-font@v3.4.0/dist/font-face.css'); */ /* REMOVED FOR PERFORMANCE */
-
 :root {
     --primary-color: #8D6B5F;
     --primary-hover-color: #7a5c51;
@@ -11,7 +9,7 @@
     --text-color: #4E423F;
     --text-color-light: #968986;
     --border-color: #EAE3DD;
-    --font-family: 'Sahel', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* FONT UPDATED */
 }
 
 
