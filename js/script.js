@@ -1,4 +1,4 @@
-/* js/script.js - Refactored for Supabase */
+/* js/script.js - Refactored for Supabase & Search Functionality */
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const { data, error } = await supabase
                 .from('products')
                 .select('*')
-                .order('id', { ascending: true }); // Ensure consistent order
+                .order('id', { ascending: true }); 
 
             if (error) throw error;
             return data;
@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function main() {
         attachUniversalListeners();
         initializeMobileMenu();
+        initializeSearch();
         if (typeof updateCartBadge === 'function') updateCartBadge();
 
         const featuredProductGrid = document.getElementById('featured-product-grid');
@@ -42,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setActiveNavLink();
     }
     
+    // MODIFIED THIS FUNCTION
     function initializeProductsPage() {
         const productGrid = document.getElementById('product-grid');
         const filterBar = document.getElementById('filter-bar');
@@ -49,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const urlParams = new URLSearchParams(window.location.search);
         const categoryQuery = urlParams.get('category');
+        const searchQuery = urlParams.get('search'); // <-- ADDED
         let productsToDisplay = allProducts;
 
         if (categoryQuery) {
@@ -56,6 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pageTitle) pageTitle.textContent = categoryQuery;
             const activeButton = filterBar.querySelector(`[data-category="${categoryQuery}"]`);
             if (activeButton) updateActiveFilterButton(activeButton);
+        } else if (searchQuery) { // <-- ADDED THIS BLOCK
+            productsToDisplay = allProducts.filter(p => 
+                p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                p.description.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+            if (pageTitle) pageTitle.textContent = `نتایج جستجو برای: "${searchQuery}"`;
         } else {
             if (pageTitle) pageTitle.textContent = 'همه محصولات';
         }
@@ -67,6 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (e.target.matches('.filter-btn')) {
                     const button = e.target;
                     const category = button.dataset.category;
+                    // Clear search params when a category is clicked
+                    const url = new URL(window.location);
+                    url.searchParams.delete('search');
+                    history.pushState({}, '', url);
+
                     updateActiveFilterButton(button);
                     if (pageTitle) pageTitle.textContent = button.textContent;
                     const filtered = category === 'all' ? allProducts : allProducts.filter(p => p.category === category);
@@ -76,7 +90,55 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- UNCHANGED HELPER FUNCTIONS ---
+// js/script.js - Find and replace this function
+
+function initializeSearch() {
+    // MODIFIED: Use querySelectorAll to find both desktop and mobile buttons
+    const searchToggleBtns = document.querySelectorAll('.search-toggle-btn');
+    const searchBarContainer = document.getElementById('search-bar-container');
+    const searchCloseBtn = document.getElementById('search-close-btn');
+    const searchForm = document.getElementById('search-form');
+    const searchInput = document.getElementById('search-input');
+
+    if (!searchToggleBtns.length || !searchBarContainer || !searchCloseBtn || !searchForm) return;
+
+    // MODIFIED: Loop through buttons and add a listener to each one
+    searchToggleBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            searchBarContainer.classList.toggle('is-visible');
+            if (searchBarContainer.classList.contains('is-visible')) {
+                searchInput.focus();
+            }
+        });
+    });
+
+    searchCloseBtn.addEventListener('click', () => {
+        searchBarContainer.classList.remove('is-visible');
+    });
+
+    searchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const query = searchInput.value.trim();
+        if (query) {
+            window.location.href = `products.html?search=${encodeURIComponent(query)}`;
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        // Ensure the clicked target is not a toggle button itself
+        const isToggleButton = e.target.classList.contains('search-toggle-btn') || e.target.closest('.search-toggle-btn');
+        if (!searchBarContainer.contains(e.target) && searchBarContainer.classList.contains('is-visible') && !isToggleButton) {
+            searchBarContainer.classList.remove('is-visible');
+        }
+    });
+
+    searchBarContainer.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+}
+
     function displayProducts(productList, gridElement){if(!gridElement)return;gridElement.innerHTML="";if(productList.length===0){gridElement.innerHTML=`<p class="grid-empty-message">محصولی یافت نشد.</p>`;return}productList.forEach(product=>{const card=document.createElement("div");card.className="product-card";card.innerHTML=`
                 <div class="product-card-image-container"><img src="${product.image}" alt="${product.name}" loading="lazy"></div>
                 <div class="product-card-content"><h3>${product.name}</h3><p class="price">${product.price}</p></div>

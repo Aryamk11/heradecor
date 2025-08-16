@@ -13,7 +13,7 @@
                     </a>
                 </div>
                 <nav class="header-nav" aria-label="منوی اصلی">
-                    <a href="#" id="search-toggle-btn" class="nav-link">جستجو</a>
+                    <a href="#" class="nav-link search-toggle-btn">جستجو</a>
                     <a href="products.html" class="nav-link">محصولات</a>
                     <a href="contact.html" class="nav-link">تماس با ما</a>
                     <a href="about.html" class="nav-link">درباره ما</a>
@@ -48,6 +48,7 @@
                     <h3 class="brand-accent">منو</h3>
                     <button class="mobile-nav-close" id="mobile-nav-close" aria-label="بستن منو">&times;</button>
                 </div>
+                <a href="#" class="nav-link search-toggle-btn">جستجو</a>
                 <a href="index.html" class="nav-link">صفحه اصلی</a>
                 <a href="products.html" class="nav-link">محصولات</a>
                 <a href="about.html" class="nav-link">درباره ما</a>
@@ -61,7 +62,6 @@
 
     const placeholder = document.getElementById('header-placeholder');
     if (placeholder) {
-        // This is the fix: outerHTML replaces the div itself.
         placeholder.outerHTML = headerHTML;
     }
-})();   
+})();
