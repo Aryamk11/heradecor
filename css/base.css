@@ -4,7 +4,6 @@
     --primary-color: #8D6B5F;
     --primary-hover-color: #7a5c51;
     --accent-color: #A47E6F;
-    /* ADDED VARIABLE FOR BUTTON HOVER STATE */
     --accent-hover-color: #8d6f63; 
     --background-color: #FDFBF8;
     --text-color: #4E423F;
@@ -15,18 +14,20 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+
+/* CORRECTED BODY STYLES */
 body {
     font-family: var(--font-family);
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    min-height: 100vh; /* Ensures body takes full height for footer placement */
+    display: flex; /* Kept for main content growth */
+    flex-direction: column; /* Kept for main content growth */
 }
 
 main {
-    flex-grow: 1;
+    flex-grow: 1; /* Pushes footer down on short pages */
 }
 
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }

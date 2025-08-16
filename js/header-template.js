@@ -1,4 +1,4 @@
-// js/header-template.js
+// js/header-template.js - CORRECTED
 (function() {
     const headerHTML = `
     <header class="site-header" id="site-header">
@@ -61,6 +61,7 @@
 
     const placeholder = document.getElementById('header-placeholder');
     if (placeholder) {
-        placeholder.innerHTML = headerHTML;
+        // This is the fix: outerHTML replaces the div itself.
+        placeholder.outerHTML = headerHTML;
     }
-})();
+})();   
