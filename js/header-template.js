@@ -3,7 +3,6 @@
     const headerHTML = `
     <header class="site-header" id="site-header">
         <div class="container header-inner">
-            <!-- This group contains the brand, nav, and mobile toggle -->
             <div class="header-group-right">
                 <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="باز کردن منو">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
@@ -21,10 +20,9 @@
                 </nav>
             </div>
 
-            <!-- This group contains the user actions -->
             <div class="header-group-left">
                 <div class="header-actions">
-                    <a href="#" class="nav-link signin-link">ورود</a>
+                    <a href="#" class="nav-link signin-link desktop-only">ورود</a>
                     <a href="cart.html" class="cart-link">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
@@ -37,7 +35,6 @@
             </div>
         </div>
 
-        <!-- Search Bar and Mobile Nav Overlay (No Changes) -->
         <div class="search-bar-container" id="search-bar-container">
             <form class="search-form" id="search-form" role="search">
                 <input type="search" id="search-input" placeholder="نام محصول را وارد کنید..." />
@@ -55,6 +52,8 @@
                 <a href="products.html" class="nav-link">محصولات</a>
                 <a href="about.html" class="nav-link">درباره ما</a>
                 <a href="contact.html" class="nav-link">تماس با ما</a>
+                <hr>
+                <a href="#" class="nav-link signin-link">ورود</a>
             </nav>
         </div>
     </header>

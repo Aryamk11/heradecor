@@ -1,117 +1,119 @@
 /* css/layout.css - Definitive Version */
 
-    /* --- Header --- */
-    .site-header {
-        background-color: var(--background-color);
-        border-bottom: 1px solid var(--border-color);
-        padding: 1rem 0;
-        position: sticky;
-        top: 0;
-        z-index: 999;
-    }
+/* --- Header --- */
+.site-header {
+    background-color: var(--background-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 0;
+    position: sticky; /* This makes the header sticky */
+    top: 0;
+    z-index: 999; /* Ensures header is above other content */
+}
 
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-group-right, .header-group-left {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.header-nav {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* --- Cart Link Icon Style --- */
+.cart-link {
+    position: relative;
+    display: flex;
+    color: var(--text-color);
+}
+.cart-link svg { width: 26px; height: 26px; }
+.cart-badge {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--background-color);
+}
+
+/* --- Footer --- */
+.site-footer { background-color: #f9f6f3; padding: 2rem 0; border-top: 1px solid var(--border-color); text-align: center; }
+.footer-content { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+.footer-social-links { display: flex; gap: 1.5rem; }
+.social-link svg { stroke: var(--text-color-light); transition: stroke 0.2s ease; }
+.social-link:hover svg { stroke: var(--primary-color); }
+.footer-copyright { color: var(--text-color-light); font-size: 0.9rem; }
+
+/* --- Mobile Navigation --- */
+.mobile-menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0; z-index: 1001; }
+.mobile-menu-toggle svg { color: var(--text-color); width: 28px; height: 28px; }
+.mobile-nav-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 1050; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+.mobile-nav-overlay.is-active { opacity: 1; visibility: visible; }
+.mobile-nav { position: fixed; top: 0; right: 0; width: 280px; max-width: 75vw; height: 100%; background-color: #ffffff; box-shadow: -2px 0 15px rgba(0,0,0,0.15); transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94); display: flex; flex-direction: column; padding: 1.5rem; z-index: 1051; }
+.mobile-nav-overlay.is-active .mobile-nav { transform: translateX(0); }
+.mobile-nav-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1rem; }
+.mobile-nav-header h3 { font-size: 1.2rem; margin: 0; }
+.mobile-nav-close { background: none; border: none; font-size: 2.5rem; line-height: 1; cursor: pointer; color: var(--text-color-light); padding: 0; }
+.mobile-nav .nav-link { font-size: 1.2rem; font-weight: 500; color: var(--text-color); text-decoration: none; text-align: right; width: 100%; padding: 0.75rem 0.5rem; border-radius: 4px; transition: background-color 0.2s ease, transform 0.2s ease; opacity: 0; transform: translateX(20px); }
+.mobile-nav .nav-link:hover { background-color: #f7f7f7; }
+.mobile-nav-overlay.is-active .mobile-nav .nav-link { opacity: 1; transform: translateX(0); }
+.mobile-nav-overlay.is-active .nav-link:nth-child(2) { transition-delay: 0.1s; }
+.mobile-nav-overlay.is-active .nav-link:nth-child(3) { transition-delay: 0.15s; }
+.mobile-nav-overlay.is-active .nav-link:nth-child(4) { transition-delay: 0.2s; }
+.mobile-nav-overlay.is-active .nav-link:nth-child(5) { transition-delay: 0.25s; }
+.mobile-nav-overlay.is-active .nav-link:nth-child(7) { transition-delay: 0.3s; }
+.mobile-nav hr { width: 100%; border: 0; border-top: 1px solid var(--border-color); margin: 0.5rem 0; }
+
+/* --- Responsive Header & Footer Adjustments --- */
+@media (max-width: 768px) {
+    /* Hide desktop navigation and login link */
+    .header-nav,
+    .signin-link.desktop-only {
+        display: none;
+    }
+    /* Show the hamburger button */
+    .mobile-menu-toggle {
+        display: block;
+    }
+    /* Establish positioning context for the header */
     .header-inner {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .header-group-right, .header-group-left {
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-    }
-
-    .header-nav {
-        display: flex;
-        gap: 1.5rem;
-    }
-
-    .header-actions {
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-    }
-
-    /* --- Cart Link Icon Style --- */
-    .cart-link {
         position: relative;
-        display: flex;
-        color: var(--text-color);
     }
-    .cart-link svg { width: 26px; height: 26px; }
-    .cart-badge {
+    /* Center the brand logo */
+    .brand {
         position: absolute;
-        bottom: -5px;
-        right: -5px;
-        background-color: var(--primary-color);
-        color: white;
-        font-size: 0.7rem;
-        font-weight: 700;
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 2px solid var(--background-color);
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
     }
 
-    /* --- Footer --- */
-    .site-footer { background-color: #f9f6f3; padding: 2rem 0; border-top: 1px solid var(--border-color); text-align: center; }
-    .footer-content { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
-    .footer-social-links { display: flex; gap: 1.5rem; }
-    .social-link svg { stroke: var(--text-color-light); transition: stroke 0.2s ease; }
-    .social-link:hover svg { stroke: var(--primary-color); }
-    .footer-copyright { color: var(--text-color-light); font-size: 0.9rem; }
-
-    /* --- Mobile Navigation --- */
-    .mobile-menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0; z-index: 1001; }
-    .mobile-menu-toggle svg { color: var(--text-color); width: 28px; height: 28px; }
-    .mobile-nav-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 1050; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
-    .mobile-nav-overlay.is-active { opacity: 1; visibility: visible; }
-    .mobile-nav { position: fixed; top: 0; right: 0; width: 280px; max-width: 75vw; height: 100%; background-color: #ffffff; box-shadow: -2px 0 15px rgba(0,0,0,0.15); transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94); display: flex; flex-direction: column; padding: 1.5rem; z-index: 1051; }
-    .mobile-nav-overlay.is-active .mobile-nav { transform: translateX(0); }
-    .mobile-nav-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1rem; }
-    .mobile-nav-header h3 { font-size: 1.2rem; margin: 0; }
-    .mobile-nav-close { background: none; border: none; font-size: 2.5rem; line-height: 1; cursor: pointer; color: var(--text-color-light); padding: 0; }
-    .mobile-nav .nav-link { font-size: 1.2rem; font-weight: 500; color: var(--text-color); text-decoration: none; text-align: right; width: 100%; padding: 0.75rem 0.5rem; border-radius: 4px; transition: background-color 0.2s ease, transform 0.2s ease; opacity: 0; transform: translateX(20px); }
-    .mobile-nav .nav-link:hover { background-color: #f7f7f7; }
-    .mobile-nav-overlay.is-active .mobile-nav .nav-link { opacity: 1; transform: translateX(0); }
-    .mobile-nav-overlay.is-active .nav-link:nth-child(2) { transition-delay: 0.1s; }
-    .mobile-nav-overlay.is-active .nav-link:nth-child(3) { transition-delay: 0.15s; }
-    .mobile-nav-overlay.is-active .nav-link:nth-child(4) { transition-delay: 0.2s; }
-    .mobile-nav-overlay.is-active .nav-link:nth-child(5) { transition-delay: 0.25s; }
-    .mobile-nav hr { width: 100%; border: 0; border-top: 1px solid var(--border-color); margin: 0.5rem 0; }
-
-    /* --- Responsive Header Adjustments --- */
-    @media (max-width: 768px) {
-        /* Hide the desktop navigation menu */
-        .header-nav {
-            display: none;
-        }
-        /* Show the hamburger button */
-        .mobile-menu-toggle {
-            display: block;
-        }
-        /* Establish positioning context for the header */
-        .header-inner {
-            position: relative;
-        }
-        /* Center the brand logo */
-        .brand {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        /* NEW: Mobile Footer Optimization */
-        .site-footer {
-            padding: 1.5rem 0; /* Reduced vertical padding */
-        }
-        .social-link svg {
-            width: 20px; /* Smaller icon size */
-            height: 20px;
-        }
+    /* Mobile Footer Optimization */
+    .site-footer {
+        padding: 1.5rem 0; /* Reduced vertical padding */
     }
+    .social-link svg {
+        width: 20px; /* Smaller icon size */
+        height: 20px;
+    }
+}
