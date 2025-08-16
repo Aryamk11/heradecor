@@ -3,7 +3,7 @@
 const { createClient } = supabase;
 const supabaseClient = createClient(
     'https://eqktbcdigrfgaqnindmm.supabase.co',
-    'eyJhbGciOiJI"UzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxa3RiY2RpZ3JmZ2FxbmluZG1tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUzMDEzMjQsImV4cCI6MjA3MDg3NzMyNH0.khk0abbnloMHidmNXvCFNRXdOpOXvs7UMQJn3EssKOI'
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxa3RiY2RpZ3JmZ2FxbmluZG1tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUzMDEzMjQsImV4cCI6MjA3MDg3NzMyNH0.khk0abbnloMHidmNXvCFNRXdOpOXvs7UMQJn3EssKOI'
 );
 
 // Re-assign the global supabase variable to our initialized client.
