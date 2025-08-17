@@ -11,24 +11,28 @@
 
 /* --- Search Bar --- */
 .search-bar-container {
-    background-color: #fff;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--background-color);
     border-bottom: 1px solid var(--border-color);
     padding: 1rem 20px;
-    display: flex; /* MODIFIED: Always flex for proper alignment */
+    display: flex;
     align-items: center;
     justify-content: center;
-    /* ADDED: Animation Properties */
     visibility: hidden;
     opacity: 0;
-    transform: translateY(-100%);
+    transform: translateY(-10px);
     transition: all 0.3s ease-in-out;
 }
 
 .search-bar-container.is-visible {
-    /* ADDED: Animation End-State */
     visibility: visible;
     opacity: 1;
     transform: translateY(0);
+    z-index: 1000; /* Ensure it appears above the sticky header content */
 }
 
 .search-form {
