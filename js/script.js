@@ -150,8 +150,86 @@ function initializeSearch() {
     function attachUniversalListeners(){const productModal=document.getElementById("product-modal");productModal&&(productModal.querySelector(".close-btn").addEventListener("click",closeModal),productModal.addEventListener("click",event=>{event.target===productModal&&closeModal()}))}
     function lazyLoadFonts(){const fontLink=document.createElement("link");fontLink.href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap",fontLink.rel="stylesheet",document.head.appendChild(fontLink)}
     function initializeMobileMenu(){const menuToggle=document.getElementById("mobile-menu-toggle"),mobileNavOverlay=document.getElementById("mobile-nav-overlay"),mobileNavPanel=document.getElementById("mobile-nav"),closeButton=document.getElementById("mobile-nav-close");if(menuToggle&&mobileNavOverlay&&mobileNavPanel&&closeButton){const openMenu=()=>mobileNavOverlay.classList.add("is-active"),closeMenu=()=>mobileNavOverlay.classList.remove("is-active");menuToggle.addEventListener("click",openMenu),closeButton.addEventListener("click",closeMenu),mobileNavOverlay.addEventListener("click",closeMenu),mobileNavPanel.addEventListener("click",e=>e.stopPropagation()),mobileNavOverlay.querySelectorAll(".nav-link").forEach(link=>{link.addEventListener("click",closeMenu)})}}
-    function initializeCheckoutPage(){const checkoutForm=document.getElementById("checkout-form");checkoutForm&&checkoutForm.addEventListener("submit",e=>{e.preventDefault(),localStorage.removeItem("cart"),window.location.href="order-confirmation.html"})}
-    function initializeContactPage(){const contactForm=document.getElementById("contact-form");contactForm&&contactForm.addEventListener("submit",e=>{e.preventDefault();const container=document.getElementById("contact-section-container");container&&(container.innerHTML=`
+// js/script.js - REPLACE this entire function
+async function initializeCheckoutPage() {
+    const checkoutForm = document.getElementById("checkout-form");
+    if (!checkoutForm) return;
+
+    // Fetch all products once to calculate total price
+    const { data: allProducts, error: productError } = await supabase
+        .from('products')
+        .select('id, priceValue');
+
+    if (productError) {
+        console.error("Could not fetch products for price calculation:", productError);
+        // Optionally, disable the form or show an error to the user
+        return;
+    }
+
+    checkoutForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const submitButton = checkoutForm.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.textContent = 'در حال ثبت سفارش...';
+
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (!user) {
+            alert("برای ثبت سفارش باید وارد حساب کاربری خود شوید.");
+            // Here you might redirect to a login page or open a login modal
+            submitButton.disabled = false;
+            submitButton.textContent = 'ثبت نهایی سفارش';
+            return;
+        }
+
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        if (cart.length === 0) {
+            alert("سبد خرید شما خالی است.");
+            submitButton.disabled = false;
+            submitButton.textContent = 'ثبت نهایی سفارش';
+            return;
+        }
+
+        // Calculate total price on the server-side for security
+        let totalPrice = 0;
+        const detailedCartItems = cart.map(item => {
+            const product = allProducts.find(p => p.id === item.id);
+            if (product) {
+                totalPrice += product.priceValue * item.quantity;
+                return {
+                    product_id: item.id,
+                    quantity: item.quantity,
+                    price_at_purchase: product.priceValue
+                };
+            }
+            return null;
+        }).filter(Boolean); // Filter out any nulls if a product wasn't found
+
+        const orderDetails = {
+            user_id: user.id,
+            customer_name: document.getElementById("name").value,
+            shipping_address: document.getElementById("address").value,
+            phone_number: document.getElementById("phone").value,
+            cart_items: detailedCartItems,
+            total_price: totalPrice
+        };
+
+        try {
+            const { error } = await supabase.from('orders').insert([orderDetails]);
+            if (error) throw error;
+
+            // If successful, clear the cart and redirect
+            localStorage.removeItem("cart");
+            window.location.href = "order-confirmation.html";
+
+        } catch (error) {
+            console.error("Error saving order:", error);
+            alert("خطایی در ثبت سفارش رخ داد. لطفا دوباره تلاش کنید.");
+            submitButton.disabled = false;
+            submitButton.textContent = 'ثبت نهایی سفارش';
+        }
+    });
+}    function initializeContactPage(){const contactForm=document.getElementById("contact-form");contactForm&&contactForm.addEventListener("submit",e=>{e.preventDefault();const container=document.getElementById("contact-section-container");container&&(container.innerHTML=`
                     <h2 class="section-title">پیام شما ارسال شد!</h2>
                     <p style="text-align: center; font-size: 1.2rem;">از تماس شما سپاسگزاریم. به زودی پاسخ خواهیم داد.</p>
                 `)})}
