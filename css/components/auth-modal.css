@@ -63,3 +63,9 @@
     font-weight: 600;
     min-height: 20px;
 }
+.auth-form input[type="tel"],
+.auth-form input[type="password"] {
+    direction: ltr;
+    text-align: left;
+    padding-left: 0.75rem; /* Add some padding for LTR text */
+}

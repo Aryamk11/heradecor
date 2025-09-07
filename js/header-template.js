@@ -1,4 +1,4 @@
-// js/header-template.js - REPLACE the entire file content
+// js/header-template.js - Modified with Forgot Password form
 
 (function() {
     const templateHTML = `
@@ -35,30 +35,7 @@
                 </div>
             </div>
         </div>
-
-        <div class="search-bar-container" id="search-bar-container">
-            <form class="search-form" id="search-form" role="search">
-                <input type="search" id="search-input" placeholder="نام محصول را وارد کنید..." />
-                <button type="submit" class="search-submit-btn">جستجو</button>
-                <button type="button" id="search-close-btn" class="search-close-btn">&times;</button>
-            </form>
-        </div>
-        <div class="mobile-nav-overlay" id="mobile-nav-overlay">
-            <nav class="mobile-nav" id="mobile-nav">
-                <div class="mobile-nav-header">
-                    <h3 class="brand-accent">منو</h3>
-                    <button class="mobile-nav-close" id="mobile-nav-close" aria-label="بستن منو">&times;</button>
-                </div>
-                <a href="#" class="nav-link search-toggle-btn">جستجو</a>
-                <a href="index.html" class="nav-link">صفحه اصلی</a>
-                <a href="products.html" class="nav-link">محصولات</a>
-                <a href="about.html" class="nav-link">درباره ما</a>
-                <a href="contact.html" class="nav-link">تماس با ما</a>
-                <hr>
-                <a href="#" class="nav-link signin-link">ورود</a>
-            </nav>
-        </div>
-    </header>
+        </header>
 
     <div class="modal" id="auth-modal">
         <div class="modal-content auth-modal-content">
@@ -70,6 +47,7 @@
                 <input type="tel" id="login-phone" name="phone" required autocomplete="tel" placeholder="09123456789">
                 <label for="login-password">رمز عبور</label>
                 <input type="password" id="login-password" name="password" required autocomplete="current-password">
+                <p class="auth-forgot-password"><a href="#" id="show-forgot-password-btn">رمز عبور خود را فراموش کرده‌اید؟</a></p>
                 <button type="submit" class="btn btn-primary">ورود</button>
                 <p class="auth-switch">حساب کاربری ندارید؟ <a href="#" id="show-signup-btn">ثبت‌نام کنید</a></p>
             </form>
@@ -83,9 +61,31 @@
                 <button type="submit" class="btn btn-primary">ثبت‌نام</button>
                 <p class="auth-switch">حساب کاربری دارید؟ <a href="#" id="show-login-btn">وارد شوید</a></p>
             </form>
+
+            <form id="forgot-password-form" class="auth-form" style="display: none;">
+                <h3>بازیابی رمز عبور</h3>
+                <p>ما یک کد بازیابی به شماره موبایل شما ارسال خواهیم کرد.</p>
+                <label for="reset-phone">شماره موبایل</label>
+                <input type="tel" id="reset-phone" name="phone" required autocomplete="tel" placeholder="09123456789">
+                <button type="submit" class="btn btn-primary">ارسال کد</button>
+                <p class="auth-switch"><a href="#" id="back-to-login-btn">بازگشت به صفحه ورود</a></p>
+            </form>
+
             <p id="auth-message" class="auth-message"></p>
         </div>
     </div>
     `;
-    document.getElementById('header-placeholder').outerHTML = templateHTML;
+    // Find the placeholder and replace its content
+    const placeholder = document.getElementById('header-placeholder');
+    if (placeholder) {
+        // Use a temporary div to parse the HTML string
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = templateHTML;
+        // Move all children from the temp div to the document body
+        while (tempDiv.firstChild) {
+            document.body.insertBefore(tempDiv.firstChild, document.body.firstChild);
+        }
+        // Remove the original placeholder
+        placeholder.remove();
+    }
 })();
