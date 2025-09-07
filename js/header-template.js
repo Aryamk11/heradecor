@@ -1,6 +1,7 @@
-// js/header-template.js - CORRECTED
+// js/header-template.js - REPLACE the entire file content
+
 (function() {
-    const headerHTML = `
+    const templateHTML = `
     <header class="site-header" id="site-header">
         <div class="container header-inner">
             <div class="header-group-right">
@@ -58,10 +59,33 @@
             </nav>
         </div>
     </header>
-    `;
 
-    const placeholder = document.getElementById('header-placeholder');
-    if (placeholder) {
-        placeholder.outerHTML = headerHTML;
-    }
+    <div class="modal" id="auth-modal">
+        <div class="modal-content auth-modal-content">
+            <span class="close-btn" id="close-auth-modal-btn">&times;</span>
+            
+            <form id="login-form" class="auth-form">
+                <h3>ورود به حساب کاربری</h3>
+                <label for="login-phone">شماره موبایل</label>
+                <input type="tel" id="login-phone" name="phone" required autocomplete="tel" placeholder="09123456789">
+                <label for="login-password">رمز عبور</label>
+                <input type="password" id="login-password" name="password" required autocomplete="current-password">
+                <button type="submit" class="btn btn-primary">ورود</button>
+                <p class="auth-switch">حساب کاربری ندارید؟ <a href="#" id="show-signup-btn">ثبت‌نام کنید</a></p>
+            </form>
+
+            <form id="signup-form" class="auth-form" style="display: none;">
+                <h3>ایجاد حساب کاربری</h3>
+                <label for="signup-phone">شماره موبایل</label>
+                <input type="tel" id="signup-phone" name="phone" required autocomplete="tel" placeholder="09123456789">
+                <label for="signup-password">رمز عبور</label>
+                <input type="password" id="signup-password" name="password" required autocomplete="new-password">
+                <button type="submit" class="btn btn-primary">ثبت‌نام</button>
+                <p class="auth-switch">حساب کاربری دارید؟ <a href="#" id="show-login-btn">وارد شوید</a></p>
+            </form>
+            <p id="auth-message" class="auth-message"></p>
+        </div>
+    </div>
+    `;
+    document.getElementById('header-placeholder').outerHTML = templateHTML;
 })();

@@ -16,6 +16,9 @@
 @import url('pages/cart.css');
 @import url('pages/contact.css');
 @import url('pages/products.css');
+@import url('pages/account.css');
+
+@import url('components/auth-modal.css');
 
 /* 5. Responsive adjustments */
 @media (max-width: 768px) {
