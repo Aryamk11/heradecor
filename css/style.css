@@ -17,7 +17,7 @@
 @import url('pages/contact.css');
 @import url('pages/products.css');
 @import url('pages/account.css');
-
+@import url('pages/product-detail.css');
 @import url('components/auth-modal.css');
 
 /* 5. Responsive adjustments */
