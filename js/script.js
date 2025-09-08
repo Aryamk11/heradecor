@@ -117,6 +117,70 @@ async function initializeAccountPage() {
         document.getElementById('order-history-list').innerHTML = '<p class="error-message">خطا در بارگذاری سفارشات.</p>';
     }
 }
+// ADD THIS ENTIRE FUNCTION
+async function initializeProductDetailPage() {
+    const productDetailContainer = document.getElementById('product-detail-content');
+    if (!productDetailContainer) return; // Only run on the product detail page
+
+    // 1. Get the product ID from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+
+    if (!productId) {
+        productDetailContainer.innerHTML = '<p>محصولی یافت نشد. لطفا به <a href="products.html">صفحه محصولات</a> بازگردید.</p>';
+        return;
+    }
+
+    try {
+        // 2. Fetch the single product from Supabase
+        const { data: product, error } = await supabase
+            .from('products')
+            .select('*')
+            .eq('id', productId)
+            .single(); // .single() gets one object instead of an array
+
+        if (error || !product) throw error || new Error('Product not found');
+
+        // 3. Update SEO tags
+        document.title = `${product.name} - کادو هنری هرا`;
+        document.querySelector('meta[name="description"]').setAttribute('content', product.description);
+
+        // 4. Render the product details HTML
+        productDetailContainer.innerHTML = `
+            <div class="product-detail-image-container">
+                <img src="${product.image}" alt="${product.name}">
+            </div>
+            <div class="product-detail-info">
+                <h1>${product.name}</h1>
+                <p class="product-detail-price">${product.price}</p>
+                <p class="product-detail-description">${product.description}</p>
+                <div class="product-meta">
+                     <p><strong>جنس:</strong> ${product.material}</p>
+                     <p><strong>ابعاد:</strong> ${product.dimensions}</p>
+                </div>
+                <form class="add-to-cart-form" id="add-to-cart-form">
+                    <input type="number" class="quantity-input" value="1" min="1" id="quantity-to-add">
+                    <button type="submit" class="btn btn-primary add-to-cart-btn">افزودن به سبد خرید</button>
+                </form>
+            </div>
+        `;
+
+        // 5. Add event listener to the new "Add to Cart" form
+        const addToCartForm = document.getElementById('add-to-cart-form');
+        addToCartForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const quantity = parseInt(document.getElementById('quantity-to-add').value, 10);
+            for (let i = 0; i < quantity; i++) {
+                addToCart(product.id);
+            }
+            showNotification(`"${product.name}" (${quantity} عدد) به سبد خرید اضافه شد`);
+        });
+
+    } catch (error) {
+        console.error('Error fetching product details:', error);
+        productDetailContainer.innerHTML = '<p>خطا در بارگذاری محصول. لطفا دوباره تلاش کنید.</p>';
+    }
+}
 
     async function main() {
         attachUniversalListeners();
@@ -140,6 +204,7 @@ async function initializeAccountPage() {
         initializeCheckoutPage();
         initializeContactPage();
         initializeAccountPage();
+        initializeProductDetailPage();
         setActiveNavLink();
     }
     
