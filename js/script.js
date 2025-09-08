@@ -183,7 +183,6 @@ async function initializeProductDetailPage() {
 }
 
     async function main() {
-        attachUniversalListeners();
         initializeMobileMenu();
         initializeSearch();
         if (typeof updateCartBadge === 'function') updateCartBadge();
