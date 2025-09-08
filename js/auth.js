@@ -1,4 +1,19 @@
-// js/auth.js - Modified with Forgot Password Logic
+// js/auth.js - Final Version with E.164 Phone Formatting
+
+// Helper function to format the phone number
+function formatPhoneNumber(phone) {
+    let phoneNumber = phone.trim();
+    // Remove leading 0 and add Iranian country code +98
+    if (phoneNumber.startsWith('0')) {
+        return '+98' + phoneNumber.substring(1);
+    }
+    // If it already has a country code, assume it's correct
+    if (phoneNumber.startsWith('+')) {
+        return phoneNumber;
+    }
+    // For numbers entered without a leading 0 (e.g., 912...), just add the country code
+    return '+98' + phoneNumber;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- Form and Modal Selectors ---
@@ -41,7 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (signupForm) {
         signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const { phone, password } = Object.fromEntries(new FormData(e.target));
+            const password = signupForm.password.value;
+            const phone = formatPhoneNumber(signupForm.phone.value); // Format the phone number
             const { error } = await supabase.auth.signUp({ phone, password });
             authMessage.textContent = error ? `خطا: ${error.message}` : 'ثبت‌نام موفقیت‌آمیز بود! اکنون وارد شوید.';
             if (!error) signupForm.reset();
@@ -51,7 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const { phone, password } = Object.fromEntries(new FormData(e.target));
+            const password = loginForm.password.value;
+            const phone = formatPhoneNumber(loginForm.phone.value); // Format the phone number
             const { error } = await supabase.auth.signInWithPassword({ phone, password });
             if (error) {
                 authMessage.textContent = 'شماره موبایل یا رمز عبور اشتباه است.';
@@ -65,9 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (forgotPasswordForm) {
         forgotPasswordForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            // This is a placeholder. Full implementation requires an SMS provider (e.g., Twilio).
-            // This will be part of the future "login with code" feature.
-            const phone = forgotPasswordForm.phone.value;
+            const phone = formatPhoneNumber(forgotPasswordForm.phone.value); // Format the phone number
             authMessage.textContent = `قابلیت بازیابی رمز عبور برای ${phone} در آینده اضافه خواهد شد.`;
         });
     }
