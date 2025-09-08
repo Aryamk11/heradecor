@@ -304,10 +304,37 @@ function initializeSearch() {
     });
 }
 
-    function displayProducts(productList, gridElement){if(!gridElement)return;gridElement.innerHTML="";if(productList.length===0){gridElement.innerHTML=`<p class="grid-empty-message">محصولی یافت نشد.</p>`;return}productList.forEach(product=>{const card=document.createElement("div");card.className="product-card";card.innerHTML=`
-                <div class="product-card-image-container"><img src="${product.image}" alt="${product.name}" loading="lazy"></div>
-                <div class="product-card-content"><h3>${product.name}</h3><p class="price">${product.price}</p></div>
-            `;card.addEventListener("click",()=>showProductDetail(product));gridElement.appendChild(card)})}
+// REPLACE this entire function in js/script.js
+function displayProducts(productList, gridElement) {
+    if (!gridElement) return;
+
+    gridElement.innerHTML = "";
+
+    if (productList.length === 0) {
+        gridElement.innerHTML = `<p class="grid-empty-message">محصولی یافت نشد.</p>`;
+        return;
+    }
+
+    productList.forEach(product => {
+        // The card is now an anchor tag <a> instead of a div
+        const card = document.createElement("a");
+        card.className = "product-card";
+        // The href attribute points to the new detail page with the product's ID
+        card.href = `product-detail.html?id=${product.id}`;
+
+        card.innerHTML = `
+            <div class="product-card-image-container">
+                <img src="${product.image}" alt="${product.name}" loading="lazy">
+            </div>
+            <div class="product-card-content">
+                <h3>${product.name}</h3>
+                <p class="price">${product.price}</p>
+            </div>
+        `;
+        // The old click listener that opened the modal is now gone.
+        gridElement.appendChild(card);
+    });
+}
     function showProductDetail(product){const productModal=document.getElementById("product-modal");if(!productModal)return;productModal.querySelector("#modal-image").src=product.image,productModal.querySelector("#modal-title").textContent=product.name,productModal.querySelector("#modal-price").textContent=product.price,productModal.querySelector("#modal-material").textContent=product.material,productModal.querySelector("#modal-dimensions").textContent=product.dimensions,productModal.querySelector("#modal-description").textContent=product.description;const modalTextContent=productModal.querySelector(".modal-text-content");let modalActions=modalTextContent.querySelector(".modal-actions");modalActions&&modalActions.remove(),modalActions=document.createElement("div"),modalActions.className="modal-actions";const addToCartBtn=document.createElement("button");addToCartBtn.className="btn btn-primary",addToCartBtn.textContent="افزودن به سبد خرید",addToCartBtn.onclick=()=>{"function"==typeof addToCart&&(addToCart(product.id),showNotification(`"${product.name}" به سبد خرید اضافه شد`)),closeModal()},modalActions.appendChild(addToCartBtn),modalTextContent.appendChild(modalActions),productModal.style.display="flex"}
     function closeModal(){const productModal=document.getElementById("product-modal");productModal&&(productModal.style.display="none")}
     function showNotification(message){let notification=document.getElementById("notification-toast");notification||(notification=document.createElement("div"),notification.id="notification-toast",notification.className="notification",document.body.appendChild(notification)),notification.textContent=message,notification.classList.add("show"),setTimeout(()=>notification.classList.remove("show"),3e3)}
