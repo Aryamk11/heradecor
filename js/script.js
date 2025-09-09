@@ -209,6 +209,44 @@ async function main() {
     }
 
 // js/script.js - REPLACE just this function
+// js/script.js - ADD THIS MISSING FUNCTION
+
+function initializeContactPage() {
+    const contactForm = document.getElementById("contact-form");
+    if (!contactForm) return;
+
+    contactForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const submitButton = contactForm.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.textContent = 'در حال ارسال...';
+
+        const formData = {
+            name: contactForm.name.value,
+            email: contactForm.email.value,
+            message: contactForm.message.value
+        };
+
+        try {
+            const { error } = await supabase.from('messages').insert([formData]);
+            if (error) throw error;
+            
+            const container = document.getElementById("contact-section-container");
+            if (container) {
+                container.innerHTML = `
+                    <h2 class="section-title">پیام شما ارسال شد!</h2>
+                    <p style="text-align: center; font-size: 1.2rem;">از تماس شما سپاسگزاریم. به زودی پاسخ خواهیم داد.</p>
+                `;
+            }
+
+        } catch (error) {
+            console.error('Error submitting contact form:', error);
+            alert('خطا در ارسال پیام. لطفا دوباره تلاش کنید.');
+            submitButton.disabled = false;
+            submitButton.textContent = 'ارسال پیام';
+        }
+    });
+}
 
 async function initializeAccountPage() {
     const accountDetailsContainer = document.getElementById('account-details');
