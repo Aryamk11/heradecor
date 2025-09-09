@@ -117,3 +117,21 @@
         height: 20px;
     }
 }
+/* css/layout.css - ADD THIS CODE TO THE END OF THE FILE */
+
+/* --- Auth Link Spacing Fix --- */
+
+/* Applies correct spacing for the desktop header view */
+.header-actions .auth-group-logged-in {
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* This matches the spacing of the other header links */
+}
+
+/* Ensures links stack correctly in the mobile slide-out menu */
+.mobile-nav .auth-group-logged-in {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0; /* Spacing is handled by individual link padding in mobile */
+}

@@ -203,92 +203,113 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    async function initializeAccountPage() {
-        const container = document.getElementById('account-details');
-        if (!container) return;
+// js/script.js - REPLACE just this function
 
-        const { data: { user } } = await supabase.auth.getUser();
+async function initializeAccountPage() {
+    const accountDetailsContainer = document.getElementById('account-details');
+    if (!accountDetailsContainer) return;
 
-        if (!user) {
-            container.innerHTML = `
-                <div class="account-info">
-                    <p>برای مشاهده تاریخچه سفارشات، لطفا ابتدا وارد حساب کاربری خود شوید.</p>
-                    <a href="#" class="btn btn-primary signin-link">ورود / ثبت‌نام</a>
-                </div>`;
-            container.querySelector('.signin-link').addEventListener('click', (e) => {
-                e.preventDefault();
-                document.getElementById('auth-modal').style.display = 'flex';
-            });
-            return;
-        }
+    const { data: { user } } = await supabase.auth.getUser();
 
-        container.innerHTML = `
+    if (!user) {
+        accountDetailsContainer.innerHTML = `
             <div class="account-info">
-                <p>خوش آمدید!</p>
-                <p>شما با شماره <span class="user-email">${user.phone}</span> وارد شده‌اید.</p>
+                <p>برای مشاهده تاریخچه سفارشات، لطفا ابتدا وارد حساب کاربری خود شوید.</p>
+                <a href="#" class="btn btn-primary signin-link">ورود / ثبت‌نام</a>
             </div>
-            <h2>تاریخچه سفارشات</h2>
-            <div class="order-history-list" id="order-history-list"><p class="loading-message">در حال بارگذاری سفارشات...</p></div>`;
-
-        try {
-            const { data: orders, error } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
-            if (error) throw error;
-            
-            const list = document.getElementById('order-history-list');
-            if (orders.length === 0) {
-                list.innerHTML = '<p>شما تاکنون هیچ سفارشی ثبت نکرده‌اید.</p>';
-                return;
-            }
-
-            const { data: products } = await supabase.from('products').select('id, name');
-            const productMap = new Map(products.map(p => [p.id, p.name]));
-            
-            list.innerHTML = orders.map(order => `
-                <div class="order-card">
-                    <div class="order-header"><h3>سفارش #${order.id}</h3><span class="order-status">${order.status}</span></div>
-                    <div class="order-details-grid">
-                        <div class="order-detail"><p><strong>تاریخ ثبت:</strong> ${new Date(order.created_at).toLocaleDateString('fa-IR')}</p></div>
-                        <div class="order-detail"><p><strong>مبلغ کل:</strong> ${order.total_price.toLocaleString('fa-IR')} تومان</p></div>
-                        <div class="order-detail"><p><strong>گیرنده:</strong> ${order.customer_name}</p></div>
-                        <div class="order-detail"><p><strong>آدرس:</strong> ${order.shipping_address}</p></div>
-                    </div>
-                    <table class="order-items-table">
-                        <thead><tr><th>محصول</th><th>تعداد</th><th>قیمت واحد</th></tr></thead>
-                        <tbody>${order.cart_items.map(item => `<tr><td>${productMap.get(item.product_id) || 'محصول حذف شده'}</td><td>${item.quantity}</td><td>${item.price_at_purchase.toLocaleString('fa-IR')} تومان</td></tr>`).join('')}</tbody>
-                    </table>
-                </div>`).join('');
-        } catch (err) {
-            console.error('Error fetching orders:', err);
-            document.getElementById('order-history-list').innerHTML = '<p class="error-message">خطا در بارگذاری سفارشات.</p>';
-        }
+        `;
+        accountDetailsContainer.querySelector('.signin-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('auth-modal').style.display = 'flex';
+        });
+        return;
     }
 
-    function initializeContactPage() {
-        const form = document.getElementById("contact-form");
-        if (!form) return;
+    // User is logged in, show their info, logout button, and fetch orders
+    accountDetailsContainer.innerHTML = `
+        <div class="account-info">
+            <p>خوش آمدید!</p>
+            <p>شما با شماره <span class="user-email">${user.phone}</span> وارد شده‌اید.</p>
+            <button id="logout-button" class="btn btn-secondary" style="margin-top: 1rem;">خروج از حساب</button>
+        </div>
+        <h2>تاریخچه سفارشات</h2>
+        <div class="order-history-list" id="order-history-list">
+             <p class="loading-message">در حال بارگذاری سفارشات...</p>
+        </div>
+    `;
 
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const btn = form.querySelector('button[type="submit"]');
-            btn.disabled = true;
-            btn.textContent = 'در حال ارسال...';
-
-            const formData = { name: form.name.value, email: form.email.value, message: form.message.value };
-
-            try {
-                const { error } = await supabase.from('messages').insert([formData]);
-                if (error) throw error;
-                const container = document.getElementById("contact-section-container");
-                if (container) container.innerHTML = `<h2 class="section-title">پیام شما ارسال شد!</h2><p style="text-align: center; font-size: 1.2rem;">از تماس شما سپاسگزاریم. به زودی پاسخ خواهیم داد.</p>`;
-            } catch (err) {
-                console.error('Error submitting contact form:', err);
-                alert('خطا در ارسال پیام. لطفا دوباره تلاش کنید.');
-                btn.disabled = false;
-                btn.textContent = 'ارسال پیام';
-            }
+    // --- ADD LOGOUT EVENT LISTENER ---
+    const logoutButton = document.getElementById('logout-button');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', async () => {
+            await supabase.auth.signOut();
+            window.location.href = 'index.html';
         });
     }
 
+    try {
+        const { data: orders, error } = await supabase
+            .from('orders')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        
+        const orderHistoryList = document.getElementById('order-history-list');
+        if (orders.length === 0) {
+            orderHistoryList.innerHTML = '<p>شما تاکنون هیچ سفارشی ثبت نکرده‌اید.</p>';
+            return;
+        }
+
+        const { data: allProducts } = await supabase.from('products').select('id, name');
+        const productMap = new Map(allProducts.map(p => [p.id, p.name]));
+        
+        orderHistoryList.innerHTML = orders.map(order => `
+            <div class="order-card">
+                <div class="order-header">
+                    <h3>سفارش #${order.id}</h3>
+                    <span class="order-status">${order.status}</span>
+                </div>
+                <div class="order-details-grid">
+                    <div class="order-detail">
+                        <p><strong>تاریخ ثبت:</strong> ${new Date(order.created_at).toLocaleDateString('fa-IR')}</p>
+                    </div>
+                    <div class="order-detail">
+                        <p><strong>مبلغ کل:</strong> ${order.total_price.toLocaleString('fa-IR')} تومان</p>
+                    </div>
+                     <div class="order-detail">
+                        <p><strong>گیرنده:</strong> ${order.customer_name}</p>
+                    </div>
+                    <div class="order-detail">
+                        <p><strong>آدرس:</strong> ${order.shipping_address}</p>
+                    </div>
+                </div>
+                <table class="order-items-table">
+                    <thead>
+                        <tr>
+                            <th>محصول</th>
+                            <th>تعداد</th>
+                            <th>قیمت واحد</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${order.cart_items.map(item => `
+                            <tr>
+                                <td>${productMap.get(item.product_id) || 'محصول حذف شده'}</td>
+                                <td>${item.quantity}</td>
+                                <td>${item.price_at_purchase.toLocaleString('fa-IR')} تومان</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+        `).join('');
+
+    } catch (error) {
+        console.error('Error fetching orders:', error);
+        document.getElementById('order-history-list').innerHTML = '<p class="error-message">خطا در بارگذاری سفارشات.</p>';
+    }
+}
     // --- UNIVERSAL & UTILITY FUNCTIONS ---
 
     function displayProducts(productList, gridElement) {

@@ -1,7 +1,6 @@
-// js/header-template.js - CORRECTED AND SIMPLIFIED
+// js/header-template.js - REVISED TO REMOVE LOGOUT LINK
 
 (function() {
-    // This contains the HTML for the header AND the authentication modal
     const templateHTML = `
     <header class="site-header" id="site-header">
         <div class="container header-inner">
@@ -23,7 +22,13 @@
             </div>
             <div class="header-group-left">
                 <div class="header-actions">
-                    <a href="#" class="nav-link signin-link desktop-only">ورود</a>
+                    <div class="auth-group-logged-out">
+                        <a href="#" class="nav-link signin-link desktop-only">ورود</a>
+                    </div>
+                    <div class="auth-group-logged-in" style="display: none;">
+                        <a href="account.html" class="nav-link">حساب کاربری</a>
+                    </div>
+
                     <a href="cart.html" class="cart-link">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
@@ -54,7 +59,12 @@
                 <a href="about.html" class="nav-link">درباره ما</a>
                 <a href="contact.html" class="nav-link">تماس با ما</a>
                 <hr>
-                <a href="#" class="nav-link signin-link">ورود</a>
+                 <div class="auth-group-logged-out">
+                    <a href="#" class="nav-link signin-link">ورود</a>
+                </div>
+                <div class="auth-group-logged-in" style="display: none;">
+                    <a href="account.html" class="nav-link">حساب کاربری</a>
+                </div>
             </nav>
         </div>
     </header>
@@ -94,7 +104,6 @@
     </div>
     `;
 
-    // This is a more reliable way to inject the HTML
     const placeholder = document.getElementById('header-placeholder');
     if (placeholder) {
         placeholder.outerHTML = templateHTML;
