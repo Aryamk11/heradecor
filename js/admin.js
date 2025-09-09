@@ -1,4 +1,4 @@
-// js/admin.js - ENHANCED FOR PRODUCT MANAGEMENT
+// js/admin.js - CORRECTED FINAL VERSION
 
 document.addEventListener('DOMContentLoaded', () => {
     const authCheckContainer = document.getElementById('auth-check-container');
@@ -15,14 +15,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const { data, error } = await supabase.from('user_roles').select('role').eq('id', user.id).single();
+            const { data, error } = await supabase
+                .from('user_roles')
+                .select('role')
+                .eq('id', user.id)
+                .single();
+
             if (error || data.role !== 'admin') {
                 throw new Error('شما دسترسی ادمین ندارید.');
             }
             
+            // If we reach here, access is granted
             authCheckContainer.style.display = 'none';
             adminContent.style.display = 'block';
-            initializeAdminPanel();
+            initializeAdminPanel(); // This call was missing
 
         } catch (error) {
             authMessage.textContent = `خطا: ${error.message} در حال انتقال به صفحه اصلی...`;
@@ -31,6 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function initializeAdminPanel() {
+        renderProductsPanel(); // Load products by default
+
         const navButtons = document.querySelectorAll('.admin-nav-btn');
         const panels = document.querySelectorAll('.admin-panel');
 
@@ -44,9 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById(targetPanelId).classList.add('active');
             });
         });
-
-        // Load the content for the default active panel
-        renderProductsPanel();
     }
 
     async function renderProductsPanel() {
@@ -104,7 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 </table>
             `;
 
-            // --- Event Listeners for the new content ---
             document.getElementById('show-add-product-form-btn').addEventListener('click', () => {
                 document.getElementById('add-product-form-container').style.display = 'block';
             });
@@ -136,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     alert('محصول با موفقیت اضافه شد.');
                     form.reset();
                     document.getElementById('add-product-form-container').style.display = 'none';
-                    renderProductsPanel(); // Refresh the product list
+                    renderProductsPanel();
                 }
             });
 
