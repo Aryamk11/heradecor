@@ -1,0 +1,60 @@
+/* css/pages/admin.css */
+
+.admin-page .section-title {
+    margin-top: 2rem;
+}
+
+.auth-check-container {
+    text-align: center;
+    padding: 5rem 0;
+    font-size: 1.2rem;
+}
+
+.admin-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.admin-nav {
+    display: flex;
+    gap: 1rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 1rem;
+}
+
+.admin-nav-btn {
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: transparent;
+    border: 2px solid transparent;
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.admin-nav-btn:hover {
+    background-color: #f5f1ed;
+}
+
+.admin-nav-btn.active {
+    background-color: #fff;
+    border-color: var(--border-color);
+    border-bottom-color: #fff;
+    transform: translateY(2px);
+}
+
+.admin-panel {
+    display: none; /* Hidden by default */
+    background-color: #fff;
+    padding: 2rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.admin-panel.active {
+    display: block; /* Show the active panel */
+}
