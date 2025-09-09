@@ -17,10 +17,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // js/script.js - REPLACE just this function
 
+// js/script.js - REPLACE just this function
+
 async function main() {
     initializeMobileMenu();
     initializeSearch();
-    updateCartBadge(); // Update badge on every page load
+
+    // THIS IS THE CORRECTED LINE
+    if (typeof updateCartBadge === 'function') {
+        updateCartBadge(); // Update badge only if the function exists
+    }
 
     const featuredProductGrid = document.getElementById('featured-product-grid');
     const productGrid = document.getElementById('product-grid');
@@ -33,7 +39,6 @@ async function main() {
     if (featuredProductGrid) displayProducts(allProducts.slice(0, 4), featuredProductGrid);
     if (productGrid) initializeProductsPage();
     
-    // The new cart initializer is called here
     if (typeof initializeCartPage === 'function') {
         initializeCartPage();
     }
