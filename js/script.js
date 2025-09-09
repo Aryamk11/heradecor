@@ -18,14 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
 // js/script.js - REPLACE just this function
 
 async function main() {
-    // This is the corrected main function
     initializeMobileMenu();
     initializeSearch();
-    if (typeof updateCartBadge === 'function') updateCartBadge();
+    updateCartBadge(); // Update badge on every page load
 
     const featuredProductGrid = document.getElementById('featured-product-grid');
     const productGrid = document.getElementById('product-grid');
-    const cartItemsList = document.getElementById('cart-items-list');
 
     if (featuredProductGrid) featuredProductGrid.innerHTML = `<p class="grid-empty-message">در حال بارگذاری...</p>`;
     if (productGrid) productGrid.innerHTML = `<p class="grid-empty-message">در حال بارگذاری...</p>`;
@@ -34,11 +32,11 @@ async function main() {
     
     if (featuredProductGrid) displayProducts(allProducts.slice(0, 4), featuredProductGrid);
     if (productGrid) initializeProductsPage();
-    // --- THIS IS THE CORRECTED LINE ---
-    if (cartItemsList && typeof displayCartItems === 'function') {
-        displayCartItems(allProducts);
+    
+    // The new cart initializer is called here
+    if (typeof initializeCartPage === 'function') {
+        initializeCartPage();
     }
-    // --- END OF CORRECTION ---
     
     initializeCheckoutPage();
     initializeContactPage();
