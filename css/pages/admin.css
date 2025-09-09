@@ -58,3 +58,73 @@
 .admin-panel.active {
     display: block; /* Show the active panel */
 }
+/* css/pages/admin.css - ADD THIS CODE TO THE END */
+
+/* --- Product Management Styles --- */
+
+.form-container {
+    background-color: #f9f6f3;
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+    border: 1px solid var(--border-color);
+}
+
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.admin-form input,
+.admin-form textarea,
+.admin-form select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-family: var(--font-family);
+    font-size: 1rem;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+}
+
+.admin-table th,
+.admin-table td {
+    text-align: right;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.admin-table th {
+    background-color: #f9f6f3;
+}
+
+.admin-table td.actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.admin-table .btn-edit,
+.admin-table .btn-delete {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+    font-family: var(--font-family);
+}
+
+.admin-table .btn-edit:hover {
+    background-color: #eaf2fa;
+    border-color: #3b82f6;
+}
+
+.admin-table .btn-delete:hover {
+    background-color: #fce8e8;
+    border-color: #ef4444;
+}
