@@ -15,32 +15,37 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function main() {
-        // This is the corrected main function without the broken call
-        initializeMobileMenu();
-        initializeSearch();
-        if (typeof updateCartBadge === 'function') updateCartBadge();
+// js/script.js - REPLACE just this function
 
-        const featuredProductGrid = document.getElementById('featured-product-grid');
-        const productGrid = document.getElementById('product-grid');
-        const cartItemsList = document.getElementById('cart-items-list');
+async function main() {
+    // This is the corrected main function
+    initializeMobileMenu();
+    initializeSearch();
+    if (typeof updateCartBadge === 'function') updateCartBadge();
 
-        if (featuredProductGrid) featuredProductGrid.innerHTML = `<p class="grid-empty-message">در حال بارگذاری...</p>`;
-        if (productGrid) productGrid.innerHTML = `<p class="grid-empty-message">در حال بارگذاری...</p>`;
+    const featuredProductGrid = document.getElementById('featured-product-grid');
+    const productGrid = document.getElementById('product-grid');
+    const cartItemsList = document.getElementById('cart-items-list');
 
-        allProducts = await fetchAllProducts();
-        
-        if (featuredProductGrid) displayProducts(allProducts.slice(0, 4), featuredProductGrid);
-        if (productGrid) initializeProductsPage();
-        if (cartItemsList) displayCartItems(allProducts);
-        
-        initializeCheckoutPage();
-        initializeContactPage();
-        initializeAccountPage();
-        initializeProductDetailPage(); // For the new product detail pages
-        setActiveNavLink();
+    if (featuredProductGrid) featuredProductGrid.innerHTML = `<p class="grid-empty-message">در حال بارگذاری...</p>`;
+    if (productGrid) productGrid.innerHTML = `<p class="grid-empty-message">در حال بارگذاری...</p>`;
+
+    allProducts = await fetchAllProducts();
+    
+    if (featuredProductGrid) displayProducts(allProducts.slice(0, 4), featuredProductGrid);
+    if (productGrid) initializeProductsPage();
+    // --- THIS IS THE CORRECTED LINE ---
+    if (cartItemsList && typeof displayCartItems === 'function') {
+        displayCartItems(allProducts);
     }
-
+    // --- END OF CORRECTION ---
+    
+    initializeCheckoutPage();
+    initializeContactPage();
+    initializeAccountPage();
+    initializeProductDetailPage();
+    setActiveNavLink();
+}
     // --- PAGE INITIALIZERS ---
 
     function initializeProductsPage() {
