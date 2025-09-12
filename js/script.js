@@ -27,7 +27,6 @@ async function main() {
     if (typeof updateCartBadge === 'function') {
         updateCartBadge(); // Update badge only if the function exists
     }
-
     const featuredProductGrid = document.getElementById('featured-product-grid');
     const productGrid = document.getElementById('product-grid');
 
@@ -49,8 +48,6 @@ async function main() {
     initializeProductDetailPage();
     setActiveNavLink();
 }
-    // --- PAGE INITIALIZERS ---
-
     function initializeProductsPage() {
         const productGrid = document.getElementById('product-grid');
         if (!productGrid) return;
