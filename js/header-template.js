@@ -2,6 +2,9 @@
 
 (function() {
     const templateHTML = `
+    <div class="development-banner" style="background-color: #ffc107; text-align: center; padding: 8px; font-family: 'Vazirmatn', sans-serif; font-size: 0.9rem; font-weight: 500; color: #333; border-bottom: 1px solid #e0a800;">
+            توجه: این سایت در حال حاضر در مرحله توسعه قرار دارد.
+        </div>
     <header class="site-header" id="site-header">
         <div class="container header-inner">
             <div class="header-group-right">
