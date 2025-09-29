@@ -50,6 +50,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.classList.add('active');
                 const targetPanelId = button.dataset.target;
                 document.getElementById(targetPanelId).classList.add('active');
+
+                // Call the correct render function based on the panel ID
+                if (targetPanelId === 'orders-panel') {
+                    renderOrdersPanel();
+                } else if (targetPanelId === 'messages-panel') {
+                    renderMessagesPanel();
+                }
             });
         });
     }
@@ -278,6 +285,110 @@ document.getElementById('edit-product-form').addEventListener('submit', async (e
             panel.innerHTML = `<p class="error-message">خطا در بارگذاری محصولات: ${error.message}</p>`;
         }
     }
+    async function renderOrdersPanel() {
+    const panel = document.getElementById('orders-panel');
+    panel.innerHTML = `<h2>سفارشات مشتریان</h2><p>در حال بارگذاری سفارشات...</p>`;
 
+    try {
+        // Fetch all orders, newest first
+        const { data: orders, error: ordersError } = await supabase
+            .from('orders')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (ordersError) throw ordersError;
+
+        if (orders.length === 0) {
+            panel.innerHTML = '<h2>سفارشات مشتریان</h2><p>هیچ سفارشی یافت نشد.</p>';
+            return;
+        }
+
+        // Fetch all products to map product IDs to names
+        const { data: products, error: productsError } = await supabase
+            .from('products')
+            .select('id, name');
+
+        if (productsError) throw productsError;
+        const productMap = new Map(products.map(p => [p.id, p.name]));
+
+        // Generate the HTML for all orders
+        panel.innerHTML = `
+            <h2>سفارشات مشتریان (${orders.length})</h2>
+            <div class="admin-orders-list">
+                ${orders.map(order => `
+                    <div class="admin-order-card">
+                        <div class="order-header">
+                            <h3>سفارش #${order.id}</h3>
+                            <span class="order-status">${order.status || 'ثبت شده'}</span>
+                        </div>
+                        <div class="order-details-grid">
+                            <p><strong>تاریخ:</strong> ${new Date(order.created_at).toLocaleDateString('fa-IR')}</p>
+                            <p><strong>مبلغ کل:</strong> ${order.total_price.toLocaleString('fa-IR')} تومان</p>
+                            <p><strong>نام مشتری:</strong> ${order.customer_name}</p>
+                            <p><strong>شماره تماس:</strong> ${order.phone_number}</p>
+                            <p class="full-width"><strong>آدرس:</strong> ${order.shipping_address}</p>
+                        </div>
+                        <h4>اقلام سفارش:</h4>
+                        <table class="order-items-table">
+                            <thead><tr><th>محصول</th><th>تعداد</th><th>قیمت در زمان خرید</th></tr></thead>
+                            <tbody>
+                                ${order.cart_items.map(item => `
+                                    <tr>
+                                        <td>${productMap.get(item.product_id) || `محصول حذف شده (ID: ${item.product_id})`}</td>
+                                        <td>${item.quantity}</td>
+                                        <td>${item.price_at_purchase.toLocaleString('fa-IR')} تومان</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    } catch (error) {
+        panel.innerHTML = `<p class="error-message">خطا در بارگذاری سفارشات: ${error.message}</p>`;
+    }
+}
+async function renderMessagesPanel() {
+    const panel = document.getElementById('messages-panel');
+    panel.innerHTML = `<h2>پیام‌های کاربران</h2><p>در حال بارگذاری پیام‌ها...</p>`;
+
+    try {
+        const { data: messages, error } = await supabase
+            .from('messages')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        if (messages.length === 0) {
+            panel.innerHTML = '<h2>پیام‌های کاربران</h2><p>هیچ پیامی یافت نشد.</p>';
+            return;
+        }
+
+        panel.innerHTML = `
+            <h2>پیام‌های کاربران (${messages.length})</h2>
+            <div class="admin-messages-list">
+                ${messages.map(msg => `
+                    <div class="admin-message-card">
+                        <div class="message-header">
+                            <div>
+                                <p><strong>فرستنده:</strong> ${msg.name}</p>
+                                <p><strong>ایمیل:</strong> <a href="mailto:${msg.email}">${msg.email}</a></p>
+                            </div>
+                            <span class="message-date">${new Date(msg.created_at).toLocaleString('fa-IR')}</span>
+                        </div>
+                        <div class="message-body">
+                            <p>${msg.message}</p>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+
+    } catch (error) {
+        panel.innerHTML = `<p class="error-message">خطا در بارگذاری پیام‌ها: ${error.message}</p>`;
+    }
+}
     checkAdminAccess();
 });
