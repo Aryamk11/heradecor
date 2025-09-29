@@ -84,6 +84,26 @@ document.addEventListener('DOMContentLoaded', () => {
                         <button type="button" id="cancel-add-product-btn" class="btn btn-secondary">انصراف</button>
                     </form>
                 </div>
+                <div id="edit-product-form-container" class="form-container" style="display:none;">
+                    <h3>فرم ویرایش محصول</h3>
+                    <form id="edit-product-form" class="admin-form">
+                        <input type="hidden" name="id">
+                        <input type="text" name="name" placeholder="نام محصول" required>
+                        <input type="text" name="price" placeholder="قیمت نمایشی" required>
+                        <input type="number" name="priceValue" placeholder="قیمت عددی" required>
+                        <textarea name="description" placeholder="توضیحات محصول" required></textarea>
+                        <input type="text" name="image" placeholder="URL تصویر محصول" required>
+                        <input type="text" name="material" placeholder="جنس" required>
+                        <input type="text" name="dimensions" placeholder="ابعاد" required>
+                        <select name="category" required>
+                            <option value="تابلو هنری">تابلو هنری</option>
+                            <option value="دکوری">دکوری</option>
+                        </select>
+                        <input type="text" name="tags" placeholder="تگ‌ها (جدا شده با کاما)">
+                        <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
+                        <button type="button" id="cancel-edit-product-btn" class="btn btn-secondary">انصراف</button>
+                    </form>
+                </div>
                 <table class="admin-table">
                     <thead>
                         <tr>
@@ -143,9 +163,51 @@ document.addEventListener('DOMContentLoaded', () => {
                     renderProductsPanel();
                 }
             });
+                        // --- Cancel Edit Button ---
+            document.getElementById('cancel-edit-product-btn').addEventListener('click', () => {
+                document.getElementById('edit-product-form-container').style.display = 'none';
+            });
+
+            // --- Submit Edit Form ---
+// --- Submit Edit Form ---
+document.getElementById('edit-product-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const productId = form.id.value;
+
+    const updatedProduct = {
+        name: form.name.value,
+        price: form.price.value,
+        priceValue: parseInt(form.priceValue.value, 10),
+        description: form.description.value,
+        image: form.image.value,
+        material: form.material.value,
+        dimensions: form.dimensions.value,
+        category: form.category.value,
+        tags: form.tags.value.split(',').map(tag => tag.trim())
+    };
+
+    try {
+        const { error } = await supabase
+            .from('products')
+            .update(updatedProduct)
+            .eq('id', productId);
+
+        if (error) throw error;
+
+        alert('محصول با موفقیت به‌روزرسانی شد.');
+        form.reset();
+        document.getElementById('edit-product-form-container').style.display = 'none';
+        renderProductsPanel(); // Re-render the table with updated data
+
+    } catch (error) {
+        alert(`خطا در به‌روزرسانی محصول: ${error.message}`);
+    }
+});
             // --- Add Event Listeners for Edit/Delete Buttons ---
             const productTable = panel.querySelector('.admin-table');
             if (productTable) {
+                
                 productTable.addEventListener('click', async (e) => {
                     const target = e.target;
                     const productId = target.dataset.id;
@@ -172,9 +234,42 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     // Handle Edit Button Click (Placeholder for next commit)
+                    // Handle Edit Button Click
                     if (target.classList.contains('btn-edit')) {
-                        // We will implement this in the next commit
-                        alert(`ویژگی ویرایش برای محصول با ID ${productId} به زودی اضافه می‌شود.`);
+                        try {
+                            // Fetch the full product details
+                            const { data: product, error } = await supabase
+                                .from('products')
+                                .select('*')
+                                .eq('id', productId)
+                                .single();
+
+                            if (error) throw error;
+
+                            // Show the edit form and hide the add form
+                            const editContainer = document.getElementById('edit-product-form-container');
+                            const addContainer = document.getElementById('add-product-form-container');
+                            editContainer.style.display = 'block';
+                            addContainer.style.display = 'none';
+
+                            // Populate the form with the fetched data
+                            const editForm = document.getElementById('edit-product-form');
+                            editForm.id.value = product.id;
+                            editForm.name.value = product.name;
+                            editForm.price.value = product.price;
+                            editForm.priceValue.value = product.priceValue;
+                            editForm.description.value = product.description;
+                            editForm.image.value = product.image;
+                            editForm.material.value = product.material;
+                            editForm.dimensions.value = product.dimensions;
+                            editForm.category.value = product.category;
+                            editForm.tags.value = product.tags ? product.tags.join(', ') : '';
+
+                            editContainer.scrollIntoView({ behavior: 'smooth' });
+
+                        } catch (error) {
+                            alert(`خطا در دریافت اطلاعات محصول: ${error.message}`);
+                        }
                     }
                 });
             }
