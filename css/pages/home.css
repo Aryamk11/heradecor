@@ -15,8 +15,8 @@
 .category-card-content { position: relative; z-index: 2; }
 .category-card h3 { font-size: 2rem; font-weight: 700; }
 .category-card p { font-size: 1.1rem; opacity: 0.8; }
-#category-art { background-image: url('../../images/photo_2_2025-08-09_17-19-44.webp'); }
-#category-decor { background-image: url('../../images/photo_10_2025-08-09_17-19-44.webp'); }
+#category-art { background-image: url('../../imagess/photo_2_2025-08-09_17-19-44.webp'); }
+#category-decor { background-image: url('../../imagess/photo_10_2025-08-09_17-19-44.webp'); }
 .brand-story-section { background-color: var(--header-bg); padding: 4rem 0; text-align: center; }
 .brand-story-section h3 { font-size: 1.8rem; margin-bottom: 1rem; }
 .brand-story-section p { max-width: 700px; margin: 0 auto 2rem auto; font-size: 1.1rem; line-height: 1.8; }
