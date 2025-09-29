@@ -117,42 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('add-product-form-container').style.display = 'none';
             });
 
-            document.getElementById('add-product-form').addEventListener('submit', async (e) => {// --- Add Event Listeners for Edit/Delete Buttons ---
-                const productTable = panel.querySelector('.admin-table');
-                if (productTable) {
-                    productTable.addEventListener('click', async (e) => {
-                        const target = e.target;
-                        const productId = target.dataset.id;
-
-                        if (!productId) return;
-
-                        // Handle Delete Button Click
-                        if (target.classList.contains('btn-delete')) {
-                            if (confirm(`آیا از حذف محصول با ID ${productId} اطمینان دارید؟ این عمل غیرقابل بازگشت است.`)) {
-                                try {
-                                    const { error } = await supabase
-                                        .from('products')
-                                        .delete()
-                                        .eq('id', productId);
-
-                                    if (error) throw error;
-
-                                    alert('محصول با موفقیت حذف شد.');
-                                    renderProductsPanel(); // Re-render the table to show the change
-                                } catch (error) {
-                                    alert(`خطا در حذف محصول: ${error.message}`);
-                                }
-                            }
-                        }
-
-                        // Handle Edit Button Click (Placeholder for next commit)
-                        if (target.classList.contains('btn-edit')) {
-                            // We will implement this in the next commit
-                            alert(`ویژگی ویرایش برای محصول با ID ${productId} به زودی اضافه می‌شود.`);
-                        }
-                    });
-                }
-                
+            document.getElementById('add-product-form').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const form = e.target;
                 const newProduct = {
@@ -178,6 +143,41 @@ document.addEventListener('DOMContentLoaded', () => {
                     renderProductsPanel();
                 }
             });
+            // --- Add Event Listeners for Edit/Delete Buttons ---
+            const productTable = panel.querySelector('.admin-table');
+            if (productTable) {
+                productTable.addEventListener('click', async (e) => {
+                    const target = e.target;
+                    const productId = target.dataset.id;
+
+                    if (!productId) return;
+
+                    // Handle Delete Button Click
+                    if (target.classList.contains('btn-delete')) {
+                        if (confirm(`آیا از حذف محصول با ID ${productId} اطمینان دارید؟ این عمل غیرقابل بازگشت است.`)) {
+                            try {
+                                const { error } = await supabase
+                                    .from('products')
+                                    .delete()
+                                    .eq('id', productId);
+
+                                if (error) throw error;
+
+                                alert('محصول با موفقیت حذف شد.');
+                                renderProductsPanel(); // Re-render the table to show the change
+                            } catch (error) {
+                                alert(`خطا در حذف محصول: ${error.message}`);
+                            }
+                        }
+                    }
+
+                    // Handle Edit Button Click (Placeholder for next commit)
+                    if (target.classList.contains('btn-edit')) {
+                        // We will implement this in the next commit
+                        alert(`ویژگی ویرایش برای محصول با ID ${productId} به زودی اضافه می‌شود.`);
+                    }
+                });
+            }
 
         } catch (error) {
             panel.innerHTML = `<p class="error-message">خطا در بارگذاری محصولات: ${error.message}</p>`;
