@@ -2,8 +2,16 @@
 
 (function() {
     const templateHTML = `
-    <div class="development-banner" style="background-color: #ffc107; text-align: center; padding: 8px; font-family: 'Vazirmatn', sans-serif; font-size: 0.9rem; font-weight: 500; color: #333; border-bottom: 1px solid #e0a800;">
-            توجه: این سایت در حال حاضر در مرحله توسعه قرار دارد.
+        <style>
+            @keyframes pulse-border {
+                0% { box-shadow: 0 0 0 0 rgba(141, 107, 95, 0.7); }
+                70% { box-shadow: 0 0 0 10px rgba(141, 107, 95, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(141, 107, 95, 0); }
+            }
+        </style>
+        <div class="development-banner" style="background-color: var(--primary-color); text-align: center; color: white; display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 0; font-family: 'Vazirmatn', sans-serif; font-size: 0.95rem; font-weight: 500; animation: pulse-border 2s infinite;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            <span>توجه: این سایت در حال حاضر در مرحله توسعه قرار دارد و برای خرید واقعی در دسترس نیست.</span>
         </div>
     <header class="site-header" id="site-header">
         <div class="container header-inner">
