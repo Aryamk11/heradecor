@@ -86,13 +86,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     if (forgotPasswordForm) {
-        forgotPasswordForm.addEventListener('submit', (e) => {
+        forgotPasswordForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const phone = formatPhoneNumber(forgotPasswordForm.phone.value);
-            authMessage.textContent = `قابلیت بازیابی رمز عبور در آینده اضافه خواهد شد.`;
+            const authMessage = document.getElementById('auth-message');
+            const submitButton = forgotPasswordForm.querySelector('button[type="submit"]');
+
+            submitButton.disabled = true;
+            submitButton.textContent = 'در حال ارسال...';
+            authMessage.textContent = '';
+
+            const { error } = await supabase.auth.signInWithOtp({
+                phone: phone,
+            });
+
+            if (error) {
+                authMessage.textContent = 'خطا: شماره موبایل یافت نشد یا در ارسال کد مشکلی پیش آمد.';
+                console.error('OTP Error:', error);
+                submitButton.disabled = false;
+                submitButton.textContent = 'ارسال کد';
+            } else {
+                authMessage.textContent = 'کد با موفقیت ارسال شد.';
+                // In the next step, we will show a new form here to enter the OTP
+                // and the new password. For now, we confirm sending was successful.
+            }
         });
     }
-
     updateUserUI();
 });
 
