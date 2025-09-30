@@ -104,7 +104,7 @@
             </form>
             <form id="forgot-password-form" class="auth-form" style="display: none;">
                 <h3>بازیابی رمز عبور</h3>
-                <p>ما یک کد بازیابی به شماره موبایل شما ارسال خواهیم کرد.</p>
+                <p>یک کد تایید به شماره موبایل شما ارسال خواهد شد.</p>
                 <label for="reset-phone">شماره موبایل</label>
                 <input type="tel" id="reset-phone" name="phone" required autocomplete="tel" placeholder="09123456789">
                 <button type="submit" class="btn btn-primary">ارسال کد</button>
