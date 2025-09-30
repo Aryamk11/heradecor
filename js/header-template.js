@@ -104,11 +104,24 @@
             </form>
             <form id="forgot-password-form" class="auth-form" style="display: none;">
                 <h3>بازیابی رمز عبور</h3>
-                <p>یک کد تایید به شماره موبایل شما ارسال خواهد شد.</p>
+                <p>یک کد تایید  به شماره موبایل شما ارسال خواهد شد.</p>
                 <label for="reset-phone">شماره موبایل</label>
                 <input type="tel" id="reset-phone" name="phone" required autocomplete="tel" placeholder="09123456789">
                 <button type="submit" class="btn btn-primary">ارسال کد</button>
                 <p class="auth-switch"><a href="#" id="back-to-login-btn">بازگشت به صفحه ورود</a></p>
+            </form>
+            <form id="update-password-form" class="auth-form" style="display: none;">
+                <h3>وارد کردن کد و رمز عبور جدید</h3>
+                <p>کد ۶ رقمی ارسال شده به موبایل خود و رمز عبور جدید را وارد کنید.</p>
+                
+                <label for="otp-code">کد تایید (OTP)</label>
+                <input type="text" id="otp-code" name="otp" required autocomplete="one-time-code" placeholder="123456" style="direction: ltr; text-align: center;">
+
+                <label for="new-password">رمز عبور جدید</label>
+                <input type="password" id="new-password" name="password" required autocomplete="new-password">
+                
+                <button type="submit" class="btn btn-primary">تغییر رمز عبور</button>
+                <p class="auth-switch"><a href="#" id="back-to-login-btn-2">بازگشت به صفحه ورود</a></p>
             </form>
             <p id="auth-message" class="auth-message"></p>
         </div>
