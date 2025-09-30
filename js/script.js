@@ -134,8 +134,13 @@ async function main() {
             document.getElementById('add-to-cart-form').addEventListener('submit', (e) => {
                 e.preventDefault();
                 const quantity = parseInt(document.getElementById('quantity-to-add').value, 10);
-                for (let i = 0; i < quantity; i++) addToCart(product.id);
-                showNotification(`"${product.name}" (${quantity} عدد) به سبد خرید اضافه شد`);
+                
+                // This check ensures we don't add 0 or negative items
+                if (quantity > 0) {
+                    // The original logic might have a loop. A single call is more efficient.
+                    addToCart(product.id, quantity); // We will modify addToCart to accept quantity
+                    showNotification(`"${product.name}" (${quantity} عدد) به سبد خرید اضافه شد`);
+                }
             });
         } catch (error) {
             console.error('Error fetching product details:', error);

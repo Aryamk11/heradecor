@@ -1,14 +1,14 @@
 // js/cart.js - REFACTORED FOR DYNAMIC UPDATES
 
 // This global function can be called from anywhere (e.g., product detail page)
-function addToCart(productId) {
+function addToCart(productId, quantity = 1) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     const existingProduct = cart.find(item => item.id === productId);
 
     if (existingProduct) {
-        existingProduct.quantity++;
+        existingProduct.quantity += quantity;
     } else {
-        cart.push({ id: productId, quantity: 1 });
+        cart.push({ id: productId, quantity: quantity });
     }
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCartBadge();
