@@ -79,7 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         <input type="text" name="price" placeholder="قیمت نمایشی (مثال: ۵۵۰,۰۰۰ تومان)" required>
                         <input type="number" name="priceValue" placeholder="قیمت عددی (مثال: 550000)" required>
                         <textarea name="description" placeholder="توضیحات محصول" required></textarea>
-                        <input type="text" name="image" placeholder="URL تصویر محصول" required>
+                        <label for="add-image">تصویر محصول</label>
+                        <input type="file" id="add-image" name="image" accept="image/webp, image/jpeg, image/png">
                         <input type="text" name="material" placeholder="جنس" required>
                         <input type="text" name="dimensions" placeholder="ابعاد" required>
                         <select name="category" required>
@@ -99,7 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         <input type="text" name="price" placeholder="قیمت نمایشی" required>
                         <input type="number" name="priceValue" placeholder="قیمت عددی" required>
                         <textarea name="description" placeholder="توضیحات محصول" required></textarea>
-                        <input type="text" name="image" placeholder="URL تصویر محصول" required>
+                        <label for="edit-image">تغییر تصویر محصول (اختیاری)</label>
+                        <input type="file" id="edit-image" name="image" accept="image/webp, image/jpeg, image/png">
                         <input type="text" name="material" placeholder="جنس" required>
                         <input type="text" name="dimensions" placeholder="ابعاد" required>
                         <select name="category" required>
