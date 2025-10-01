@@ -61,304 +61,251 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    async function renderProductsPanel() {
-        const panel = document.getElementById('products-panel');
-        panel.innerHTML = `<h2>مدیریت محصولات</h2><p>در حال بارگذاری محصولات...</p>`;
+async function renderProductsPanel() {
+    const panel = document.getElementById('products-panel');
+    panel.innerHTML = `<p>در حال بارگذاری محصولات...</p>`;
 
-        try {
-            const { data: products, error } = await supabase.from('products').select('*').order('id');
-            if (error) throw error;
+    try {
+        const { data: products, error } = await supabase.from('products').select('*').order('id');
+        if (error) throw error;
 
-            panel.innerHTML = `
-                <h2>مدیریت محصولات</h2>
-                <button id="show-add-product-form-btn" class="btn btn-primary">افزودن محصول جدید</button>
-                <div id="add-product-form-container" class="form-container" style="display:none;">
-                    <h3>فرم محصول جدید</h3>
-                    <form id="add-product-form" class="admin-form">
-                        <input type="text" name="name" placeholder="نام محصول" required>
-                        <input type="text" name="price" placeholder="قیمت نمایشی (مثال: ۵۵۰,۰۰۰ تومان)" required>
-                        <input type="number" name="priceValue" placeholder="قیمت عددی (مثال: 550000)" required>
-                        <textarea name="description" placeholder="توضیحات محصول" required></textarea>
-                        <label for="add-image">تصویر محصول</label>
-                        <input type="file" id="add-image" name="image" accept="image/webp, image/jpeg, image/png">
-                        <input type="text" name="material" placeholder="جنس" required>
-                        <input type="text" name="dimensions" placeholder="ابعاد" required>
-                        <select name="category" required>
-                            <option value="تابلو هنری">تابلو هنری</option>
-                            <option value="دکوری">دکوری</option>
-                        </select>
-                        <input type="text" name="tags" placeholder="تگ‌ها (جدا شده با کاما)">
-                        <button type="submit" class="btn btn-primary">ذخیره محصول</button>
-                        <button type="button" id="cancel-add-product-btn" class="btn btn-secondary">انصراف</button>
-                    </form>
-                </div>
-                <div id="edit-product-form-container" class="form-container" style="display:none;">
-                    <h3>فرم ویرایش محصول</h3>
-                    <form id="edit-product-form" class="admin-form">
-                        <input type="hidden" name="id">
-                        <input type="hidden" name="oldImageUrl">
-                        <input type="text" name="name" placeholder="نام محصول" required>
-                        <input type="text" name="price" placeholder="قیمت نمایشی" required>
-                        <input type="number" name="priceValue" placeholder="قیمت عددی" required>
-                        <textarea name="description" placeholder="توضیحات محصول" required></textarea>
-                        <label for="edit-image">تغییر تصویر محصول (اختیاری)</label>
-                        <input type="file" id="edit-image" name="image" accept="image/webp, image/jpeg, image/png">
-                        <div id="edit-image-preview"></div>
-                        <input type="text" name="material" placeholder="جنس" required>
-                        <input type="text" name="dimensions" placeholder="ابعاد" required>
-                        <select name="category" required>
-                            <option value="تابلو هنری">تابلو هنری</option>
-                            <option value="دکوری">دکوری</option>
-                        </select>
-                        <input type="text" name="tags" placeholder="تگ‌ها (جدا شده با کاما)">
-                        <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
-                        <button type="button" id="cancel-edit-product-btn" class="btn btn-secondary">انصراف</button>
-                    </form>
-                </div>
-                <table class="admin-table">
-                    <thead>
+        // STEP 1: RENDER THE HTML
+        panel.innerHTML = `
+            <h2>مدیریت محصولات</h2>
+            <div class="admin-search-container">
+                <input type="search" id="admin-product-search" placeholder="جستجوی محصول بر اساس نام...">
+            </div>
+            <button id="show-add-product-form-btn" class="btn btn-primary">افزودن محصول جدید</button>
+            
+            <div id="add-product-form-container" class="form-container" style="display:none;">
+                <h3>فرم محصول جدید</h3>
+                <form id="add-product-form" class="admin-form">
+                    <input type="text" name="name" placeholder="نام محصول" required>
+                    <input type="text" name="price" placeholder="قیمت نمایشی" required>
+                    <input type="number" name="priceValue" placeholder="قیمت عددی" required>
+                    <textarea name="description" placeholder="توضیحات محصول" required></textarea>
+                    <div>
+                        <label for="add-image" class="btn btn-secondary">انتخاب تصویر محصول</label>
+                        <input type="file" id="add-image" name="image" accept="image/webp, image/jpeg, image/png" style="display: none;">
+                        <span id="add-image-filename" class="file-info"></span>
+                    </div>
+                    <input type="text" name="material" placeholder="جنس" required>
+                    <input type="text" name="dimensions" placeholder="ابعاد" required>
+                    <select name="category" required><option value="تابلو هنری">تابلو هنری</option><option value="دکوری">دکوری</option></select>
+                    <input type="text" name="tags" placeholder="تگ‌ها (جدا شده با کاما)">
+                    <button type="submit" class="btn btn-primary">ذخیره محصول</button>
+                    <button type="button" id="cancel-add-product-btn" class="btn btn-secondary">انصراف</button>
+                </form>
+            </div>
+
+            <div id="edit-product-form-container" class="form-container" style="display:none;">
+                <h3>فرم ویرایش محصول</h3>
+                <form id="edit-product-form" class="admin-form">
+                    <input type="hidden" name="id">
+                    <input type="hidden" name="oldImageUrl">
+                    <input type="text" name="name" placeholder="نام محصول" required>
+                    <input type="text" name="price" placeholder="قیمت نمایشی" required>
+                    <input type="number" name="priceValue" placeholder="قیمت عددی" required>
+                    <textarea name="description" placeholder="توضیحات محصول" required></textarea>
+                    <div>
+                        <label for="edit-image" class="btn btn-secondary">تغییر تصویر</label>
+                        <input type="file" id="edit-image" name="image" accept="image/webp, image/jpeg, image/png" style="display: none;">
+                        <span id="edit-image-filename" class="file-info"></span>
+                    </div>
+                    <div id="edit-image-preview"></div>
+                    <input type="text" name="material" placeholder="جنس" required>
+                    <input type="text" name="dimensions" placeholder="ابعاد" required>
+                    <select name="category" required><option value="تابلو هنری">تابلو هنری</option><option value="دکوری">دکوری</option></select>
+                    <input type="text" name="tags" placeholder="تگ‌ها (جدا شده با کاما)">
+                    <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
+                    <button type="button" id="cancel-edit-product-btn" class="btn btn-secondary">انصراف</button>
+                </form>
+            </div>
+
+            <table class="admin-table">
+                <thead><tr><th>ID</th><th>نام</th><th>قیمت</th><th>عملیات</th></tr></thead>
+                <tbody>
+                    ${products.map(p => `
                         <tr>
-                            <th>ID</th>
-                            <th>نام</th>
-                            <th>قیمت</th>
-                            <th>عملیات</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${products.map(p => `
-                            <tr>
-                                <td>${p.id}</td>
-                                <td>${p.name}</td>
-                                <td>${p.price}</td>
-                                <td class="actions">
-                                    <button class="btn-edit" data-id="${p.id}">ویرایش</button>
-                                    <button class="btn-delete" data-id="${p.id}">حذف</button>
-                                </td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
+                            <td>${p.id}</td>
+                            <td>${p.name}</td>
+                            <td>${p.price}</td>
+                            <td class="actions">
+                                <button class="btn-edit" data-id="${p.id}">ویرایش</button>
+                                <button class="btn-delete" data-id="${p.id}">حذف</button>
+                            </td>
+                        </tr>`).join('')}
+                </tbody>
+            </table>
+        `;
 
-            document.getElementById('show-add-product-form-btn').addEventListener('click', () => {
-                document.getElementById('add-product-form-container').style.display = 'block';
+        // STEP 2: ATTACH ALL EVENT LISTENERS
+// STEP 2: ATTACH ALL EVENT LISTENERS (Correct and Final Version)
+
+        // --- Search Logic ---
+        const searchInput = document.getElementById('admin-product-search');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            const tableRows = panel.querySelectorAll('.admin-table tbody tr');
+            tableRows.forEach(row => {
+                const productName = row.cells[1].textContent.toLowerCase();
+                row.style.display = productName.includes(searchTerm) ? '' : 'none';
             });
+        });
 
-            document.getElementById('cancel-add-product-btn').addEventListener('click', () => {
+        // --- Form Visibility Logic ---
+        document.getElementById('show-add-product-form-btn').addEventListener('click', () => {
+            document.getElementById('add-product-form-container').style.display = 'block';
+            document.getElementById('edit-product-form-container').style.display = 'none';
+        });
+        document.getElementById('cancel-add-product-btn').addEventListener('click', () => {
+            document.getElementById('add-product-form-container').style.display = 'none';
+        });
+        document.getElementById('cancel-edit-product-btn').addEventListener('click', () => {
+            document.getElementById('edit-product-form-container').style.display = 'none';
+        });
+
+        // --- File Input Display Logic ---
+        const addFileInput = document.getElementById('add-image');
+        const addFileNameSpan = document.getElementById('add-image-filename');
+        addFileInput.addEventListener('change', () => {
+            addFileNameSpan.textContent = addFileInput.files.length > 0 ? addFileInput.files[0].name : '';
+        });
+        const editFileInput = document.getElementById('edit-image');
+        const editFileNameSpan = document.getElementById('edit-image-filename');
+        editFileInput.addEventListener('change', () => {
+            editFileNameSpan.textContent = editFileInput.files.length > 0 ? editFileInput.files[0].name : '';
+        });
+
+        // --- Add Product Form Submission ---
+        document.getElementById('add-product-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const imageFile = form.image.files[0];
+            const submitButton = form.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = 'در حال آپلود تصویر...';
+            if (!imageFile) {
+                alert('لطفا یک تصویر برای محصول انتخاب کنید.');
+                submitButton.disabled = false;
+                submitButton.textContent = 'ذخیره محصول';
+                return;
+            }
+            try {
+                const fileExt = imageFile.name.split('.').pop();
+                const fileName = `${Date.now()}.${fileExt}`;
+                const filePath = `public/${fileName}`;
+                const { error: uploadError } = await supabase.storage.from('product-images').upload(filePath, imageFile);
+                if (uploadError) throw uploadError;
+                const { data: urlData } = supabase.storage.from('product-images').getPublicUrl(filePath);
+                const imageUrl = urlData.publicUrl;
+                submitButton.textContent = 'در حال ذخیره محصول...';
+                const newProduct = { name: form.name.value, price: form.price.value, priceValue: parseInt(form.priceValue.value, 10), description: form.description.value, image: imageUrl, material: form.material.value, dimensions: form.dimensions.value, category: form.category.value, tags: form.tags.value.split(',').map(tag => tag.trim()) };
+                const { error: insertError } = await supabase.from('products').insert([newProduct]);
+                if (insertError) throw insertError;
+                alert('محصول با موفقیت اضافه شد.');
+                form.reset();
                 document.getElementById('add-product-form-container').style.display = 'none';
-            });
+                renderProductsPanel();
+            } catch (error) {
+                alert(`خطا در افزودن محصول: ${error.message}`);
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'ذخیره محصول';
+            }
+        });
 
-            document.getElementById('add-product-form').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const form = e.target;
-                const imageFile = form.image.files[0];
-                const submitButton = form.querySelector('button[type="submit"]');
-
-                submitButton.disabled = true;
-                submitButton.textContent = 'در حال آپلود تصویر...';
-
-                if (!imageFile) {
-                    alert('لطفا یک تصویر برای محصول انتخاب کنید.');
-                    submitButton.disabled = false;
-                    submitButton.textContent = 'ذخیره محصول';
-                    return;
-                }
-
-                try {
-                    // 1. Upload the image
+        // --- Edit Product Form Submission ---
+        document.getElementById('edit-product-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const productId = form.id.value;
+            const oldImageUrl = form.oldImageUrl.value;
+            const imageFile = form.image.files[0];
+            const submitButton = form.querySelector('button[type="submit"]');
+            let newImageUrl = oldImageUrl;
+            submitButton.disabled = true;
+            try {
+                if (imageFile) {
+                    submitButton.textContent = 'در حال آپلود تصویر جدید...';
                     const fileExt = imageFile.name.split('.').pop();
                     const fileName = `${Date.now()}.${fileExt}`;
                     const filePath = `public/${fileName}`;
-
-                    const { error: uploadError } = await supabase.storage
-                        .from('product-images')
-                        .upload(filePath, imageFile);
-
+                    const { error: uploadError } = await supabase.storage.from('product-images').upload(filePath, imageFile);
                     if (uploadError) throw uploadError;
-
-                    // 2. Get the public URL
-                    const { data: urlData } = supabase.storage
-                        .from('product-images')
-                        .getPublicUrl(filePath);
-                    const imageUrl = urlData.publicUrl;
-
-                    submitButton.textContent = 'در حال ذخیره محصول...';
-
-                    // 3. Create product object with the new image URL
-                    const newProduct = {
-                        name: form.name.value,
-                        price: form.price.value,
-                        priceValue: parseInt(form.priceValue.value, 10),
-                        description: form.description.value,
-                        image: imageUrl,
-                        material: form.material.value,
-                        dimensions: form.dimensions.value,
-                        category: form.category.value,
-                        tags: form.tags.value.split(',').map(tag => tag.trim())
-                    };
-
-                    // 4. Insert new product into the database
-                    const { error: insertError } = await supabase.from('products').insert([newProduct]);
-                    if (insertError) throw insertError;
-
-                    alert('محصول با موفقیت اضافه شد.');
-                    form.reset();
-                    document.getElementById('add-product-form-container').style.display = 'none';
-                    renderProductsPanel();
-
-                } catch (error) {
-                    alert(`خطا در افزودن محصول: ${error.message}`);
-                    console.error('Add Product Error:', error);
-                } finally {
-                    submitButton.disabled = false;
-                    submitButton.textContent = 'ذخیره محصول';
+                    const { data: urlData } = supabase.storage.from('product-images').getPublicUrl(filePath);
+                    newImageUrl = urlData.publicUrl;
                 }
-            }); 
-                        // --- Cancel Edit Button ---
-            document.getElementById('cancel-edit-product-btn').addEventListener('click', () => {
+                submitButton.textContent = 'در حال ذخیره تغییرات...';
+                const updatedProduct = { name: form.name.value, price: form.price.value, priceValue: parseInt(form.priceValue.value, 10), description: form.description.value, image: newImageUrl, material: form.material.value, dimensions: form.dimensions.value, category: form.category.value, tags: form.tags.value.split(',').map(tag => tag.trim()) };
+                const { error: updateError } = await supabase.from('products').update(updatedProduct).eq('id', productId);
+                if (updateError) throw updateError;
+                if (imageFile && oldImageUrl) {
+                    const oldImageName = oldImageUrl.split('/').pop();
+                    if (oldImageName) {
+                        await supabase.storage.from('product-images').remove([`public/${oldImageName}`]);
+                    }
+                }
+                alert('محصول با موفقیت به‌روزرسانی شد.');
+                form.reset();
                 document.getElementById('edit-product-form-container').style.display = 'none';
-            });
-
-            // --- Submit Edit Form ---
-// --- Submit Edit Form ---
-document.getElementById('edit-product-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const productId = form.id.value;
-    const oldImageUrl = form.oldImageUrl.value;
-    const imageFile = form.image.files[0];
-    const submitButton = form.querySelector('button[type="submit"]');
-    let newImageUrl = oldImageUrl;
-
-    submitButton.disabled = true;
-
-    try {
-        if (imageFile) {
-            submitButton.textContent = 'در حال آپلود تصویر جدید...';
-            const fileExt = imageFile.name.split('.').pop();
-            const fileName = `${Date.now()}.${fileExt}`;
-            const filePath = `public/${fileName}`;
-
-            const { error: uploadError } = await supabase.storage.from('product-images').upload(filePath, imageFile);
-            if (uploadError) throw uploadError;
-
-            const { data: urlData } = supabase.storage.from('product-images').getPublicUrl(filePath);
-            newImageUrl = urlData.publicUrl;
-        }
-
-        submitButton.textContent = 'در حال ذخیره تغییرات...';
-        const updatedProduct = {
-            name: form.name.value,
-            price: form.price.value,
-            priceValue: parseInt(form.priceValue.value, 10),
-            description: form.description.value,
-            image: newImageUrl,
-            material: form.material.value,
-            dimensions: form.dimensions.value,
-            category: form.category.value,
-            tags: form.tags.value.split(',').map(tag => tag.trim())
-        };
-
-        const { error: updateError } = await supabase.from('products').update(updatedProduct).eq('id', productId);
-        if (updateError) throw updateError;
-
-        if (imageFile && oldImageUrl) {
-            const oldImageName = oldImageUrl.split('/').pop();
-            if (oldImageName) {
-                await supabase.storage.from('product-images').remove([`public/${oldImageName}`]);
+                renderProductsPanel();
+            } catch (error) {
+                alert(`خطا در به‌روزرسانی محصول: ${error.message}`);
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'ذخیره تغییرات';
             }
-        }
+        });
 
-        alert('محصول با موفقیت به‌روزرسانی شد.');
-        form.reset();
-        document.getElementById('edit-product-form-container').style.display = 'none';
-        renderProductsPanel();
+        // --- Table Actions (Edit/Delete) ---
+        const productTable = panel.querySelector('.admin-table');
+        productTable.addEventListener('click', async (e) => {
+            const target = e.target;
+            const productId = target.dataset.id;
+            if (!productId) return;
 
-    } catch (error) {
-        alert(`خطا در به‌روزرسانی محصول: ${error.message}`);
-        console.error('Edit Product Error:', error);
-    } finally {
-        submitButton.disabled = false;
-        submitButton.textContent = 'ذخیره تغییرات';
-    }
-});
-            // --- Add Event Listeners for Edit/Delete Buttons ---
-            const productTable = panel.querySelector('.admin-table');
-            if (productTable) {
-                
-                productTable.addEventListener('click', async (e) => {
-                    const target = e.target;
-                    const productId = target.dataset.id;
-
-                    if (!productId) return;
-
-                    // Handle Delete Button Click
-                    if (target.classList.contains('btn-delete')) {
-                        if (confirm(`آیا از حذف محصول با ID ${productId} اطمینان دارید؟ این عمل غیرقابل بازگشت است.`)) {
-                            try {
-                                const { error } = await supabase
-                                    .from('products')
-                                    .delete()
-                                    .eq('id', productId);
-
-                                if (error) throw error;
-
-                                alert('محصول با موفقیت حذف شد.');
-                                renderProductsPanel(); // Re-render the table to show the change
-                            } catch (error) {
-                                alert(`خطا در حذف محصول: ${error.message}`);
-                            }
-                        }
+            if (target.classList.contains('btn-delete')) {
+                if (confirm(`آیا از حذف محصول با ID ${productId} اطمینان دارید؟`)) {
+                    try {
+                        const { error } = await supabase.from('products').delete().eq('id', productId);
+                        if (error) throw error;
+                        alert('محصول با موفقیت حذف شد.');
+                        renderProductsPanel();
+                    } catch (error) {
+                        alert(`خطا در حذف محصول: ${error.message}`);
                     }
-
-                    // Handle Edit Button Click (Placeholder for next commit)
-                    // Handle Edit Button Click
-                    if (target.classList.contains('btn-edit')) {
-                        try {
-                            // Fetch the full product details
-                            const { data: product, error } = await supabase
-                                .from('products')
-                                .select('*')
-                                .eq('id', productId)
-                                .single();
-
-                            if (error) throw error;
-
-                            // Show the edit form and hide the add form
-                            const editContainer = document.getElementById('edit-product-form-container');
-                            const addContainer = document.getElementById('add-product-form-container');
-                            editContainer.style.display = 'block';
-                            addContainer.style.display = 'none';
-
-                            // Populate the form with the fetched data
-                            const editForm = document.getElementById('edit-product-form');
-                            editForm.id.value = product.id;
-                            editForm.name.value = product.name;
-                            editForm.price.value = product.price;
-                            editForm.priceValue.value = product.priceValue;
-                            editForm.oldImageUrl.value = product.image;
-                            editForm.description.value = product.description;
-                            const imagePreview = document.getElementById('edit-image-preview');
-                            if (product.image) {
-                                imagePreview.innerHTML = `<p style="margin-top:1rem; font-weight:600;">تصویر فعلی:</p><img src="${product.image}" alt="Current product image" style="max-width: 100px; margin-top: 0.5rem; border-radius: 4px;">`;
-                            } else {
-                                imagePreview.innerHTML = ''; // Clear preview if no image exists
-                            }
-                            editForm.material.value = product.material;
-                            editForm.dimensions.value = product.dimensions;
-                            editForm.category.value = product.category;
-                            editForm.tags.value = product.tags ? product.tags.join(', ') : '';
-
-                            editContainer.scrollIntoView({ behavior: 'smooth' });
-
-                        } catch (error) {
-                            alert(`خطا در دریافت اطلاعات محصول: ${error.message}`);
-                        }
-                    }
-                });
+                }
             }
 
-        } catch (error) {
+            if (target.classList.contains('btn-edit')) {
+                try {
+                    const { data: product, error } = await supabase.from('products').select('*').eq('id', productId).single();
+                    if (error) throw error;
+                    const editContainer = document.getElementById('edit-product-form-container');
+                    document.getElementById('add-product-form-container').style.display = 'none';
+                    editContainer.style.display = 'block';
+                    const editForm = document.getElementById('edit-product-form');
+                    editForm.id.value = product.id;
+                    editForm.name.value = product.name;
+                    editForm.price.value = product.price;
+                    editForm.priceValue.value = product.priceValue;
+                    editForm.oldImageUrl.value = product.image;
+                    editForm.description.value = product.description;
+                    const imagePreview = document.getElementById('edit-image-preview');
+                    imagePreview.innerHTML = product.image ? `<p style="margin-top:1rem;font-weight:600;">تصویر فعلی:</p><img src="${product.image}" alt="Current image" style="max-width:100px;margin-top:0.5rem;border-radius:4px;">` : '';
+                    editForm.material.value = product.material;
+                    editForm.dimensions.value = product.dimensions;
+                    editForm.category.value = product.category;
+                    editForm.tags.value = product.tags ? product.tags.join(', ') : '';
+                    editContainer.scrollIntoView({ behavior: 'smooth' });
+                } catch (error) {
+                    alert(`خطا در دریافت اطلاعات محصول: ${error.message}`);
+                }
+            }
+        });
+            }
+         catch (error) {
             panel.innerHTML = `<p class="error-message">خطا در بارگذاری محصولات: ${error.message}</p>`;
         }
     }

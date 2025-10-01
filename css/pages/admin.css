@@ -222,3 +222,23 @@
     line-height: 1.7;
     white-space: pre-wrap; /* Preserves line breaks from the textarea */
 }
+.file-info {
+    display: inline-block;
+    margin-right: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-color-light);
+    font-style: italic;
+}
+/* --- Admin Search Bar Styles --- */
+.admin-search-container {
+    margin-bottom: 1.5rem;
+}
+
+#admin-product-search {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: var(--font-family);
+}
