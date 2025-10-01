@@ -365,10 +365,20 @@ async function initializeAccountPage() {
         gridElement.innerHTML = productList.length === 0
             ? `<p class="grid-empty-message">محصولی یافت نشد.</p>`
             : productList.map(product => `
-                <a class="product-card" href="product-detail.html?id=${product.id}">
-                    <div class="product-card-image-container"><img src="${product.image}" alt="${product.name}" loading="lazy"></div>
-                    <div class="product-card-content"><h3>${product.name}</h3><p class="price">${product.price}</p></div>
-                </a>`).join('');
+                <div class="product-card">
+                    <a href="product-detail.html?id=${product.id}" class="product-card-link">
+                        <div class="product-card-image-container">
+                            <img src="${product.image}" alt="${product.name}" loading="lazy">
+                        </div>
+                        <div class="product-card-content">
+                            <h3>${product.name}</h3>
+                            <p class="price">${product.price}</p>
+                        </div>
+                    </a>
+                    <div class="product-card-actions">
+                        <button class="btn btn-primary quick-add-btn" data-id="${product.id}">افزودن به سبد</button>
+                    </div>
+                </div>`).join('');
     }
 
     function initializeSearch() {
