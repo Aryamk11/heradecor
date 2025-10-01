@@ -22,8 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 async function main() {
     initializeMobileMenu();
     initializeSearch();
-
-    // THIS IS THE CORRECTED LINE
+    initializeQuickAdd();
     if (typeof updateCartBadge === 'function') {
         updateCartBadge(); // Update badge only if the function exists
     }
@@ -444,6 +443,27 @@ async function initializeAccountPage() {
         overlay.addEventListener("click", closeMenu);
         panel.addEventListener("click", e => e.stopPropagation());
     }
+    function initializeQuickAdd() {
+    document.body.addEventListener('click', (e) => {
+        // Check if a quick-add button was clicked
+        if (e.target.matches('.quick-add-btn')) {
+            e.preventDefault();
+
+            const button = e.target;
+            const productId = parseInt(button.dataset.id, 10);
+
+            // Find the product name from the card's HTML
+            const card = button.closest('.product-card');
+            const productName = card ? card.querySelector('h3').textContent : 'محصول';
+
+            // Add to cart (from cart.js)
+            addToCart(productId);
+
+            // Show notification (from script.js)
+            showNotification(`"${productName}" به سبد خرید اضافه شد`);
+            }
+        });     
+    }   
     
     function setActiveNavLink() {
         const currentPage = window.location.pathname.split("/").pop() || "index.html";
