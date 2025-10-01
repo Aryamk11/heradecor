@@ -45,6 +45,42 @@ async function initializeCartPage() {
         console.error("Failed to load product data for cart:", error);
         cartItemsList.innerHTML = `<p class="cart-empty-message error-message">خطا در بارگذاری اطلاعات محصولات.</p>`;
     }
+    // --- Logic for the Update/Cancel Bar ---
+    const confirmBtn = document.getElementById('confirm-cart-update-btn');
+    const cancelBtn = document.getElementById('cancel-cart-update-btn');
+    const updateBar = document.getElementById('cart-update-bar');
+
+    if (confirmBtn && cancelBtn && updateBar) {
+        // CONFIRM button: Save changes
+        confirmBtn.addEventListener('click', async () => {
+            // Filter out items marked for removal (quantity 0)
+            const finalCart = stagedCart.filter(item => item.quantity > 0);
+
+            // Save the updated cart to localStorage
+            localStorage.setItem('cart', JSON.stringify(finalCart));
+            
+            // Re-assign stagedCart to the final version
+            stagedCart = finalCart;
+
+            // Update the header badge
+            updateCartBadge();
+            
+            // Re-render the entire cart to reflect the final state
+            const { data: allProducts } = await supabase.from('products').select('*'); // Re-fetch product data
+            renderCart(allProducts);
+        });
+
+        // CANCEL button: Discard changes
+        cancelBtn.addEventListener('click', async () => {
+            // Discard staged changes by reloading the original cart from localStorage
+            const originalCart = JSON.parse(localStorage.getItem('cart')) || [];
+            stagedCart = JSON.parse(JSON.stringify(originalCart)); // Deep copy
+
+            // Re-render the cart with the original, unchanged data
+            const { data: allProducts } = await supabase.from('products').select('*'); // Re-fetch product data
+            renderCart(allProducts);
+        });
+    }
 }
 
 function renderCart(allProducts) {
