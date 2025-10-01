@@ -149,27 +149,69 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('add-product-form').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const form = e.target;
-                const newProduct = {
-                    name: form.name.value,
-                    price: form.price.value,
-                    priceValue: parseInt(form.priceValue.value, 10),
-                    description: form.description.value,
-                    image: form.image.value,
-                    material: form.material.value,
-                    dimensions: form.dimensions.value,
-                    category: form.category.value,
-                    tags: form.tags.value.split(',').map(tag => tag.trim())
-                };
+                const imageFile = form.image.files[0];
+                const submitButton = form.querySelector('button[type="submit"]');
 
-                const { error } = await supabase.from('products').insert([newProduct]);
-                
-                if (error) {
-                    alert('خطا در افزودن محصول: ' + error.message);
-                } else {
+                submitButton.disabled = true;
+                submitButton.textContent = 'در حال آپلود تصویر...';
+
+                if (!imageFile) {
+                    alert('لطفا یک تصویر برای محصول انتخاب کنید.');
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'ذخیره محصول';
+                    return;
+                }
+
+                try {
+                    // 1. Upload the image
+                    const fileExt = imageFile.name.split('.').pop();
+                    const fileName = `${Date.now()}.${fileExt}`;
+                    const filePath = `public/${fileName}`;
+
+                    const { error: uploadError } = await supabase.storage
+                        .from('product-images') // Make sure you have a bucket named 'product-images'
+                        .upload(filePath, imageFile);
+
+                    if (uploadError) throw uploadError;
+
+                    // 2. Get the public URL of the uploaded image
+                    const { data: urlData } = supabase.storage
+                        .from('product-images')
+                        .getPublicUrl(filePath);
+
+                    const imageUrl = urlData.publicUrl;
+                    
+                    submitButton.textContent = 'در حال ذخیره محصول...';
+
+                    // 3. Create the product object with the new image URL
+                    const newProduct = {
+                        name: form.name.value,
+                        price: form.price.value,
+                        priceValue: parseInt(form.priceValue.value, 10),
+                        description: form.description.value,
+                        image: imageUrl, // Use the public URL from storage
+                        material: form.material.value,
+                        dimensions: form.dimensions.value,
+                        category: form.category.value,
+                        tags: form.tags.value.split(',').map(tag => tag.trim())
+                    };
+    
+                    // 4. Insert the new product into the database
+                    const { error: insertError } = await supabase.from('products').insert([newProduct]);
+                    
+                    if (insertError) throw insertError;
+
                     alert('محصول با موفقیت اضافه شد.');
                     form.reset();
                     document.getElementById('add-product-form-container').style.display = 'none';
                     renderProductsPanel();
+
+                } catch (error) {
+                    alert(`خطا در افزودن محصول: ${error.message}`);
+                    console.error('Add Product Error:', error);
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'ذخیره محصول';
                 }
             });
                         // --- Cancel Edit Button ---
