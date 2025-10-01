@@ -96,12 +96,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h3>فرم ویرایش محصول</h3>
                     <form id="edit-product-form" class="admin-form">
                         <input type="hidden" name="id">
+                        <input type="hidden" name="oldImageUrl">
                         <input type="text" name="name" placeholder="نام محصول" required>
                         <input type="text" name="price" placeholder="قیمت نمایشی" required>
                         <input type="number" name="priceValue" placeholder="قیمت عددی" required>
                         <textarea name="description" placeholder="توضیحات محصول" required></textarea>
                         <label for="edit-image">تغییر تصویر محصول (اختیاری)</label>
                         <input type="file" id="edit-image" name="image" accept="image/webp, image/jpeg, image/png">
+                        <div id="edit-image-preview"></div>
                         <input type="text" name="material" placeholder="جنس" required>
                         <input type="text" name="dimensions" placeholder="ابعاد" required>
                         <select name="category" required>
@@ -169,36 +171,34 @@ document.addEventListener('DOMContentLoaded', () => {
                     const filePath = `public/${fileName}`;
 
                     const { error: uploadError } = await supabase.storage
-                        .from('product-images') // Make sure you have a bucket named 'product-images'
+                        .from('product-images')
                         .upload(filePath, imageFile);
 
                     if (uploadError) throw uploadError;
 
-                    // 2. Get the public URL of the uploaded image
+                    // 2. Get the public URL
                     const { data: urlData } = supabase.storage
                         .from('product-images')
                         .getPublicUrl(filePath);
-
                     const imageUrl = urlData.publicUrl;
-                    
+
                     submitButton.textContent = 'در حال ذخیره محصول...';
 
-                    // 3. Create the product object with the new image URL
+                    // 3. Create product object with the new image URL
                     const newProduct = {
                         name: form.name.value,
                         price: form.price.value,
                         priceValue: parseInt(form.priceValue.value, 10),
                         description: form.description.value,
-                        image: imageUrl, // Use the public URL from storage
+                        image: imageUrl,
                         material: form.material.value,
                         dimensions: form.dimensions.value,
                         category: form.category.value,
                         tags: form.tags.value.split(',').map(tag => tag.trim())
                     };
-    
-                    // 4. Insert the new product into the database
+
+                    // 4. Insert new product into the database
                     const { error: insertError } = await supabase.from('products').insert([newProduct]);
-                    
                     if (insertError) throw insertError;
 
                     alert('محصول با موفقیت اضافه شد.');
@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     submitButton.disabled = false;
                     submitButton.textContent = 'ذخیره محصول';
                 }
-            });
+            }); 
                         // --- Cancel Edit Button ---
             document.getElementById('cancel-edit-product-btn').addEventListener('click', () => {
                 document.getElementById('edit-product-form-container').style.display = 'none';
@@ -225,34 +225,61 @@ document.getElementById('edit-product-form').addEventListener('submit', async (e
     e.preventDefault();
     const form = e.target;
     const productId = form.id.value;
+    const oldImageUrl = form.oldImageUrl.value;
+    const imageFile = form.image.files[0];
+    const submitButton = form.querySelector('button[type="submit"]');
+    let newImageUrl = oldImageUrl;
 
-    const updatedProduct = {
-        name: form.name.value,
-        price: form.price.value,
-        priceValue: parseInt(form.priceValue.value, 10),
-        description: form.description.value,
-        image: form.image.value,
-        material: form.material.value,
-        dimensions: form.dimensions.value,
-        category: form.category.value,
-        tags: form.tags.value.split(',').map(tag => tag.trim())
-    };
+    submitButton.disabled = true;
 
     try {
-        const { error } = await supabase
-            .from('products')
-            .update(updatedProduct)
-            .eq('id', productId);
+        if (imageFile) {
+            submitButton.textContent = 'در حال آپلود تصویر جدید...';
+            const fileExt = imageFile.name.split('.').pop();
+            const fileName = `${Date.now()}.${fileExt}`;
+            const filePath = `public/${fileName}`;
 
-        if (error) throw error;
+            const { error: uploadError } = await supabase.storage.from('product-images').upload(filePath, imageFile);
+            if (uploadError) throw uploadError;
+
+            const { data: urlData } = supabase.storage.from('product-images').getPublicUrl(filePath);
+            newImageUrl = urlData.publicUrl;
+        }
+
+        submitButton.textContent = 'در حال ذخیره تغییرات...';
+        const updatedProduct = {
+            name: form.name.value,
+            price: form.price.value,
+            priceValue: parseInt(form.priceValue.value, 10),
+            description: form.description.value,
+            image: newImageUrl,
+            material: form.material.value,
+            dimensions: form.dimensions.value,
+            category: form.category.value,
+            tags: form.tags.value.split(',').map(tag => tag.trim())
+        };
+
+        const { error: updateError } = await supabase.from('products').update(updatedProduct).eq('id', productId);
+        if (updateError) throw updateError;
+
+        if (imageFile && oldImageUrl) {
+            const oldImageName = oldImageUrl.split('/').pop();
+            if (oldImageName) {
+                await supabase.storage.from('product-images').remove([`public/${oldImageName}`]);
+            }
+        }
 
         alert('محصول با موفقیت به‌روزرسانی شد.');
         form.reset();
         document.getElementById('edit-product-form-container').style.display = 'none';
-        renderProductsPanel(); // Re-render the table with updated data
+        renderProductsPanel();
 
     } catch (error) {
         alert(`خطا در به‌روزرسانی محصول: ${error.message}`);
+        console.error('Edit Product Error:', error);
+    } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = 'ذخیره تغییرات';
     }
 });
             // --- Add Event Listeners for Edit/Delete Buttons ---
@@ -309,8 +336,14 @@ document.getElementById('edit-product-form').addEventListener('submit', async (e
                             editForm.name.value = product.name;
                             editForm.price.value = product.price;
                             editForm.priceValue.value = product.priceValue;
+                            editForm.oldImageUrl.value = product.image;
                             editForm.description.value = product.description;
-                            editForm.image.value = product.image;
+                            const imagePreview = document.getElementById('edit-image-preview');
+                            if (product.image) {
+                                imagePreview.innerHTML = `<p style="margin-top:1rem; font-weight:600;">تصویر فعلی:</p><img src="${product.image}" alt="Current product image" style="max-width: 100px; margin-top: 0.5rem; border-radius: 4px;">`;
+                            } else {
+                                imagePreview.innerHTML = ''; // Clear preview if no image exists
+                            }
                             editForm.material.value = product.material;
                             editForm.dimensions.value = product.dimensions;
                             editForm.category.value = product.category;
