@@ -1,5 +1,5 @@
 // js/cart.js - REFACTORED FOR DYNAMIC UPDATES
-
+let stagedCart = [];
 // This global function can be called from anywhere (e.g., product detail page)
 function addToCart(productId, quantity = 1) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -36,7 +36,8 @@ async function initializeCartPage() {
     try {
         const { data: allProducts, error } = await supabase.from('products').select('*');
         if (error) throw error;
-        
+        const initialCart = JSON.parse(localStorage.getItem('cart')) || [];
+        stagedCart = JSON.parse(JSON.stringify(initialCart)); // Create a deep copy 
         // Initial render of the cart
         renderCart(allProducts);
 
@@ -49,8 +50,7 @@ async function initializeCartPage() {
 function renderCart(allProducts) {
     const cartItemsList = document.getElementById('cart-items-list');
     const cartSummaryBox = document.getElementById('cart-summary-box');
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
+    let cart = stagedCart; 
     if (cart.length === 0) {
         cartItemsList.innerHTML = '<p class="cart-empty-message">سبد خرید شما خالی است.</p>';
         cartSummaryBox.style.display = 'none';
@@ -106,29 +106,60 @@ function renderCart(allProducts) {
 }
 
 function addCartActionListeners(allProducts) {
+    // A function to show the confirmation bar (we will create this UI next)
+    const showUpdateBar = () => {
+        const updateBar = document.getElementById('cart-update-bar');
+        if (updateBar) updateBar.style.display = 'flex';
+    };
+
+    // A helper to update the subtotal for a single line item
+    const updateLineItemSubtotal = (itemElement, product, quantity) => {
+        const subtotalElement = itemElement.querySelector('.cart-item-subtotal');
+        if (subtotalElement) {
+            const itemSubtotal = product.priceValue * quantity;
+            subtotalElement.textContent = `${itemSubtotal.toLocaleString('fa-IR')} تومان`;
+        }
+    };
+
     document.querySelectorAll('.cart-item').forEach(itemElement => {
         const productId = parseInt(itemElement.dataset.productId, 10);
+        const product = allProducts.find(p => p.id === productId);
+        if (!product) return;
         
         const removeButton = itemElement.querySelector('.cart-item-remove');
+        const quantityInput = itemElement.querySelector('.cart-item-quantity');
+
+        // --- Remove Button Logic ---
         removeButton.addEventListener('click', () => {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            cart = cart.filter(item => item.id !== productId);
-            localStorage.setItem('cart', JSON.stringify(cart));
-            updateCartBadge();
-            renderCart(allProducts); // Re-render without reloading page
+            const itemInStagedCart = stagedCart.find(item => item.id === productId);
+            if (itemInStagedCart) {
+                // Mark for deletion by setting quantity to 0
+                itemInStagedCart.quantity = 0; 
+            }
+            
+            // Apply visual feedback
+            itemElement.classList.add('is-removed');
+            quantityInput.disabled = true;
+            showUpdateBar();
         });
         
-        const quantityInput = itemElement.querySelector('.cart-item-quantity');
+        // --- Quantity Input Logic ---
         quantityInput.addEventListener('change', (e) => {
             const newQuantity = parseInt(e.target.value, 10);
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const productInCart = cart.find(item => item.id === productId);
+            const itemInStagedCart = stagedCart.find(item => item.id === productId);
 
-            if (productInCart && newQuantity > 0) {
-                productInCart.quantity = newQuantity;
-                localStorage.setItem('cart', JSON.stringify(cart));
-                updateCartBadge();
-                renderCart(allProducts); // Re-render without reloading page
+            if (itemInStagedCart && newQuantity > 0) {
+                // Update the temporary state
+                itemInStagedCart.quantity = newQuantity;
+                
+                // Apply visual feedback and update line total
+                itemElement.classList.add('is-changed');
+                itemElement.classList.remove('is-removed'); // In case user "un-removes" by changing quantity
+                updateLineItemSubtotal(itemElement, product, newQuantity);
+                showUpdateBar();
+            } else if (newQuantity <= 0) {
+                // If user sets quantity to 0, treat it as a removal
+                removeButton.click();
             }
         });
     });
