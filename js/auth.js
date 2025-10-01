@@ -1,5 +1,4 @@
 // js/auth.js - SIMPLIFIED, LOGOUT LOGIC REMOVED
-let userPhoneForReset = '';
 
 function formatPhoneNumber(phone) {
     let phoneNumber = phone.trim();
@@ -27,6 +26,7 @@ async function updateUserUI() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    let userPhoneForReset = ''; 
     const authModal = document.getElementById('auth-modal');
     const closeModalBtn = document.getElementById('close-auth-modal-btn');
     const loginForm = document.getElementById('login-form');
