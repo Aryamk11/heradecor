@@ -70,75 +70,91 @@ async function renderProductsPanel() {
         if (error) throw error;
 
         // STEP 1: RENDER THE HTML
-        panel.innerHTML = `
-            <h2>مدیریت محصولات</h2>
-            <div class="admin-search-container">
-                <input type="search" id="admin-product-search" placeholder="جستجوی محصول بر اساس نام...">
+// REPLACE THIS ENTIRE BLOCK IN renderProductsPanel
+panel.innerHTML = `
+    <h2>مدیریت محصولات</h2>
+    <div class="admin-search-container">
+        <input type="search" id="admin-product-search" placeholder="جستجوی محصول بر اساس نام...">
+    </div>
+    <button id="show-add-product-form-btn" class="btn btn-primary">افزودن محصول جدید</button>
+    
+    <div id="add-product-form-container" class="form-container" style="display:none;">
+        <h3>فرم محصول جدید</h3>
+        <form id="add-product-form" class="admin-form">
+            <input type="text" name="name" placeholder="نام محصول" required>
+            <input type="text" name="price" placeholder="قیمت نمایشی" required>
+            <input type="number" name="priceValue" placeholder="قیمت عددی" required>
+            <textarea name="description" placeholder="توضیحات محصول" required></textarea>
+            <div>
+                <label for="add-image" class="btn btn-secondary">انتخاب تصویر محصول</label>
+                <input type="file" id="add-image" name="image" accept="image/webp, image/jpeg, image/png" style="display: none;">
+                <span id="add-image-filename" class="file-info"></span>
             </div>
-            <button id="show-add-product-form-btn" class="btn btn-primary">افزودن محصول جدید</button>
-            
-            <div id="add-product-form-container" class="form-container" style="display:none;">
-                <h3>فرم محصول جدید</h3>
-                <form id="add-product-form" class="admin-form">
-                    <input type="text" name="name" placeholder="نام محصول" required>
-                    <input type="text" name="price" placeholder="قیمت نمایشی" required>
-                    <input type="number" name="priceValue" placeholder="قیمت عددی" required>
-                    <textarea name="description" placeholder="توضیحات محصول" required></textarea>
-                    <div>
-                        <label for="add-image" class="btn btn-secondary">انتخاب تصویر محصول</label>
-                        <input type="file" id="add-image" name="image" accept="image/webp, image/jpeg, image/png" style="display: none;">
-                        <span id="add-image-filename" class="file-info"></span>
-                    </div>
-                    <input type="text" name="material" placeholder="جنس" required>
-                    <input type="text" name="dimensions" placeholder="ابعاد" required>
-                    <select name="category" required><option value="تابلو هنری">تابلو هنری</option><option value="دکوری">دکوری</option></select>
-                    <input type="text" name="tags" placeholder="تگ‌ها (جدا شده با کاما)">
-                    <button type="submit" class="btn btn-primary">ذخیره محصول</button>
-                    <button type="button" id="cancel-add-product-btn" class="btn btn-secondary">انصراف</button>
-                </form>
-            </div>
+            <input type="text" name="material" placeholder="جنس" required>
+            <input type="text" name="dimensions" placeholder="ابعاد" required>
+            <select name="category" required><option value="تابلو هنری">تابلو هنری</option><option value="دکوری">دکوری</option></select>
+            <input type="text" name="tags" placeholder="تگ‌ها (جدا شده با کاما)">
+            <button type="submit" class="btn btn-primary">ذخیره محصول</button>
+            <button type="button" id="cancel-add-product-btn" class="btn btn-secondary">انصراف</button>
+        </form>
+    </div>
 
-            <div id="edit-product-form-container" class="form-container" style="display:none;">
-                <h3>فرم ویرایش محصول</h3>
+    <div id="edit-product-form-container" class="form-container" style="display:none;">
+        <h3>فرم ویرایش محصول</h3>
+        <div class="edit-form-layout">
+            <div class="admin-form-column">
                 <form id="edit-product-form" class="admin-form">
                     <input type="hidden" name="id">
                     <input type="hidden" name="oldImageUrl">
                     <input type="text" name="name" placeholder="نام محصول" required>
                     <input type="text" name="price" placeholder="قیمت نمایشی" required>
                     <input type="number" name="priceValue" placeholder="قیمت عددی" required>
-                    <textarea name="description" placeholder="توضیحات محصول" required></textarea>
+                    <textarea name="description" placeholder="توضیحات محصول" required rows="5"></textarea>
                     <div>
                         <label for="edit-image" class="btn btn-secondary">تغییر تصویر</label>
                         <input type="file" id="edit-image" name="image" accept="image/webp, image/jpeg, image/png" style="display: none;">
                         <span id="edit-image-filename" class="file-info"></span>
                     </div>
-                    <div id="edit-image-preview"></div>
+                    <div id="current-image-preview"></div>
                     <input type="text" name="material" placeholder="جنس" required>
                     <input type="text" name="dimensions" placeholder="ابعاد" required>
-                    <select name="category" required><option value="تابلو هنری">تابلو هنری</option><option value="دکوری">دکوری</option></select>
+                    <select name="category" required><option value="تابلو هنری">تابلو هنry</option><option value="دکوری">دکوری</option></select>
                     <input type="text" name="tags" placeholder="تگ‌ها (جدا شده با کاما)">
                     <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
                     <button type="button" id="cancel-edit-product-btn" class="btn btn-secondary">انصراف</button>
                 </form>
             </div>
+            <div class="admin-previews-column">
+                <div class="admin-preview-pane">
+                    <h4>پیش‌نمایش کارت محصول</h4>
+                    <div class="admin-preview-pane-content" id="card-preview-container">
+                        </div>
+                </div>
+                <div class="admin-preview-pane">
+                    <h4>پیش‌نمایش جزئیات محصول</h4>
+                    <div class="admin-preview-pane-content" id="detail-preview-container">
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            <table class="admin-table">
-                <thead><tr><th>ID</th><th>نام</th><th>قیمت</th><th>عملیات</th></tr></thead>
-                <tbody>
-                    ${products.map(p => `
-                        <tr>
-                            <td>${p.id}</td>
-                            <td>${p.name}</td>
-                            <td>${p.price}</td>
-                            <td class="actions">
-                                <button class="btn-edit" data-id="${p.id}">ویرایش</button>
-                                <button class="btn-delete" data-id="${p.id}">حذف</button>
-                            </td>
-                        </tr>`).join('')}
-                </tbody>
-            </table>
-        `;
-
+    <table class="admin-table">
+        <thead><tr><th>ID</th><th>نام</th><th>قیمت</th><th>عملیات</th></tr></thead>
+        <tbody>
+            ${products.map(p => `
+                <tr>
+                    <td>${p.id}</td>
+                    <td>${p.name}</td>
+                    <td>${p.price}</td>
+                    <td class="actions">
+                        <button class="btn-edit" data-id="${p.id}">ویرایش</button>
+                        <button class="btn-delete" data-id="${p.id}">حذف</button>
+                    </td>
+                </tr>`).join('')}
+        </tbody>
+    </table>
+`;
         // STEP 2: ATTACH ALL EVENT LISTENERS
 // STEP 2: ATTACH ALL EVENT LISTENERS (Correct and Final Version)
 
@@ -292,13 +308,13 @@ async function renderProductsPanel() {
                     editForm.priceValue.value = product.priceValue;
                     editForm.oldImageUrl.value = product.image;
                     editForm.description.value = product.description;
-                    const imagePreview = document.getElementById('edit-image-preview');
-                    imagePreview.innerHTML = product.image ? `<p style="margin-top:1rem;font-weight:600;">تصویر فعلی:</p><img src="${product.image}" alt="Current image" style="max-width:100px;margin-top:0.5rem;border-radius:4px;">` : '';
                     editForm.material.value = product.material;
                     editForm.dimensions.value = product.dimensions;
                     editForm.category.value = product.category;
                     editForm.tags.value = product.tags ? product.tags.join(', ') : '';
                     editContainer.scrollIntoView({ behavior: 'smooth' });
+                    updateAdminPreviews();
+                    attachPreviewListeners();   
                 } catch (error) {
                     alert(`خطا در دریافت اطلاعات محصول: ${error.message}`);
                 }
@@ -412,6 +428,82 @@ async function renderMessagesPanel() {
 
     } catch (error) {
         panel.innerHTML = `<p class="error-message">خطا در بارگذاری پیام‌ها: ${error.message}</p>`;
+    }
+}
+
+// ADD THIS ENTIRE BLOCK BEFORE checkAdminAccess();
+
+function updateAdminPreviews() {
+    const editForm = document.getElementById('edit-product-form');
+    if (!editForm) return;
+
+    // 1. Get current values from the form
+    const productData = {
+        name: editForm.name.value || "نام محصول",
+        price: editForm.price.value || "قیمت",
+        description: editForm.description.value || "توضیحات محصول در اینجا قرار می‌گیرد...",
+        material: editForm.material.value || "جنس",
+        dimensions: editForm.dimensions.value || "ابعاد",
+        image: editForm.oldImageUrl.value // Default to the existing image
+    };
+
+    const cardPreviewContainer = document.getElementById('card-preview-container');
+    const detailPreviewContainer = document.getElementById('detail-preview-container');
+    const imageInput = document.getElementById('edit-image');
+    const currentImagePreview = document.getElementById('current-image-preview');
+
+    // 2. Handle image preview (newly selected vs. existing)
+    let imageUrl = productData.image;
+    if (imageInput.files && imageInput.files[0]) {
+        imageUrl = URL.createObjectURL(imageInput.files[0]);
+    }
+
+    // 3. Render the Card Preview
+    cardPreviewContainer.innerHTML = `
+        <div class="product-card">
+            <a href="#" class="product-card-link" onclick="event.preventDefault();">
+                <div class="product-card-image-container">
+                    <img src="${imageUrl}" alt="Preview">
+                </div>
+                <div class="product-card-content">
+                    <h3>${productData.name}</h3>
+                    <p class="price">${productData.price}</p>
+                </div>
+            </a>
+            <div class="product-card-actions">
+                <button class="btn btn-primary quick-add-btn" disabled>افزودن به سبد</button>
+            </div>
+        </div>
+    `;
+
+    // 4. Render the Detail Preview
+    detailPreviewContainer.innerHTML = `
+        <div class="product-detail-info">
+            <h1>${productData.name}</h1>
+            <p class="product-detail-price">${productData.price}</p>
+            <p class="product-detail-description" style="font-size: 0.9em; max-height: 80px; overflow: auto;">${productData.description.replace(/\n/g, '<br>')}</p>
+            <div class="product-meta" style="font-size: 0.85em;">
+                <p><strong>جنس:</strong> ${productData.material}</p>
+                <p><strong>ابعاد:</strong> ${productData.dimensions}</p>
+            </div>
+        </div>
+    `;
+    
+    // Also update the small preview under the file input
+    currentImagePreview.innerHTML = `<p style="margin-top:1rem;font-weight:600;">تصویر فعلی:</p><img src="${imageUrl}" alt="Current image" style="max-width:100px;margin-top:0.5rem;border-radius:4px;">`;
+}
+
+function attachPreviewListeners() {
+    const editForm = document.getElementById('edit-product-form');
+    if(editForm) {
+        // Listen for any input event on the form
+        editForm.addEventListener('input', updateAdminPreviews);
+        
+        // Specifically listen for file changes
+        const imageInput = document.getElementById('edit-image');
+        if (imageInput) {
+            imageInput.addEventListener('change', updateAdminPreviews);
+        }
     }
 }
     checkAdminAccess();
