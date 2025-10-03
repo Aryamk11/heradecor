@@ -70,7 +70,6 @@ async function renderProductsPanel() {
         if (error) throw error;
 
         // STEP 1: RENDER THE HTML
-// REPLACE THIS ENTIRE BLOCK IN renderProductsPanel
 panel.innerHTML = `
     <h2>مدیریت محصولات</h2>
     <div class="admin-search-container">
@@ -85,10 +84,15 @@ panel.innerHTML = `
             <input type="text" name="price" placeholder="قیمت نمایشی" required>
             <input type="number" name="priceValue" placeholder="قیمت عددی" required>
             <textarea name="description" placeholder="توضیحات محصول" required></textarea>
-            <div>
-                <label for="add-image" class="btn btn-secondary">انتخاب تصویر محصول</label>
-                <input type="file" id="add-image" name="image" accept="image/webp, image/jpeg, image/png" style="display: none;">
+            <div>   
+                <label for="add-image" class="btn btn-secondary">انتخاب تصویر اصلی</label>
+                <input type="file" id="add-image" name="image" accept="image/webp, image/jpeg, image/png" style="display: none;" required>
                 <span id="add-image-filename" class="file-info"></span>
+            </div>
+             <div>
+                <label for="add-thumbnail" class="btn btn-secondary">انتخاب تصویر کوچک (Thumbnail)</label>
+                <input type="file" id="add-thumbnail" name="thumbnail" accept="image/webp, image/jpeg, image/png" style="display: none;" required>
+                <span id="add-thumbnail-filename" class="file-info"></span>
             </div>
             <input type="text" name="material" placeholder="جنس" required>
             <input type="text" name="dimensions" placeholder="ابعاد" required>
@@ -191,6 +195,11 @@ panel.innerHTML = `
         const editFileNameSpan = document.getElementById('edit-image-filename');
         editFileInput.addEventListener('change', () => {
             editFileNameSpan.textContent = editFileInput.files.length > 0 ? editFileInput.files[0].name : '';
+        });
+        const addThumbnailInput = document.getElementById('add-thumbnail');
+        const addThumbnailNameSpan = document.getElementById('add-thumbnail-filename');
+        addThumbnailInput.addEventListener('change', () => {
+            addThumbnailNameSpan.textContent = addThumbnailInput.files.length > 0 ? addThumbnailInput.files[0].name : '';
         });
 
         // --- Add Product Form Submission ---
