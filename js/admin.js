@@ -110,6 +110,7 @@ panel.innerHTML = `
                 <form id="edit-product-form" class="admin-form">
                     <input type="hidden" name="id">
                     <input type="hidden" name="oldImageUrl">
+                    <input type="hidden" name="oldThumbnailUrl">
                     <input type="text" name="name" placeholder="نام محصول" required>
                     <input type="text" name="price" placeholder="قیمت نمایشی" required>
                     <input type="number" name="priceValue" placeholder="قیمت عددی" required>
@@ -120,6 +121,12 @@ panel.innerHTML = `
                         <span id="edit-image-filename" class="file-info"></span>
                     </div>
                     <div id="current-image-preview"></div>
+                    <div>
+                        <label for="edit-thumbnail" class="btn btn-secondary">تغییر تصویر کوچک (Thumbnail)</label>
+                        <input type="file" id="edit-thumbnail" name="thumbnail" accept="image/webp, image/jpeg, image/png" style="display: none;">
+                        <span id="edit-thumbnail-filename" class="file-info"></span>
+                    </div>
+                    <div id="current-thumbnail-preview"></div>
                     <input type="text" name="material" placeholder="جنس" required>
                     <input type="text" name="dimensions" placeholder="ابعاد" required>
                     <select name="category" required><option value="تابلو هنری">تابلو هنry</option><option value="دکوری">دکوری</option></select>
@@ -200,6 +207,11 @@ panel.innerHTML = `
         const addThumbnailNameSpan = document.getElementById('add-thumbnail-filename');
         addThumbnailInput.addEventListener('change', () => {
             addThumbnailNameSpan.textContent = addThumbnailInput.files.length > 0 ? addThumbnailInput.files[0].name : '';
+        });
+        const editThumbnailInput = document.getElementById('edit-thumbnail');
+        const editThumbnailNameSpan = document.getElementById('edit-thumbnail-filename');
+        editThumbnailInput.addEventListener('change', () => {
+            editThumbnailNameSpan.textContent = editThumbnailInput.files.length > 0 ? editThumbnailInput.files[0].name : '';
         });
 
         // --- Add Product Form Submission ---
@@ -316,6 +328,7 @@ panel.innerHTML = `
                     editForm.price.value = product.price;
                     editForm.priceValue.value = product.priceValue;
                     editForm.oldImageUrl.value = product.image;
+                    editForm.oldThumbnailUrl.value = product.thumbnail_url || '';   
                     editForm.description.value = product.description;
                     editForm.material.value = product.material;
                     editForm.dimensions.value = product.dimensions;
@@ -453,26 +466,36 @@ function updateAdminPreviews() {
         description: editForm.description.value || "توضیحات محصول در اینجا قرار می‌گیرد...",
         material: editForm.material.value || "جنس",
         dimensions: editForm.dimensions.value || "ابعاد",
-        image: editForm.oldImageUrl.value // Default to the existing image
+        image: editForm.oldImageUrl.value,
+        thumbnail: editForm.oldThumbnailUrl.value || editForm.oldImageUrl.value
     };
 
     const cardPreviewContainer = document.getElementById('card-preview-container');
     const detailPreviewContainer = document.getElementById('detail-preview-container');
     const imageInput = document.getElementById('edit-image');
+    const thumbnailInput = document.getElementById('edit-thumbnail');
     const currentImagePreview = document.getElementById('current-image-preview');
+    const currentThumbnailPreview = document.getElementById('current-thumbnail-preview');
 
-    // 2. Handle image preview (newly selected vs. existing)
+
+    // 2. Handle image previews (newly selected vs. existing)
     let imageUrl = productData.image;
     if (imageInput.files && imageInput.files[0]) {
         imageUrl = URL.createObjectURL(imageInput.files[0]);
     }
 
-    // 3. Render the Card Preview
+    let thumbnailUrl = productData.thumbnail;
+    if (thumbnailInput.files && thumbnailInput.files[0]) {
+        thumbnailUrl = URL.createObjectURL(thumbnailInput.files[0]);
+    }
+
+
+    // 3. Render the Card Preview (using the thumbnail)
     cardPreviewContainer.innerHTML = `
         <div class="product-card">
             <a href="#" class="product-card-link" onclick="event.preventDefault();">
                 <div class="product-card-image-container">
-                    <img src="${imageUrl}" alt="Preview">
+                    <img src="${thumbnailUrl}" alt="Thumbnail Preview">
                 </div>
                 <div class="product-card-content">
                     <h3>${productData.name}</h3>
@@ -485,7 +508,7 @@ function updateAdminPreviews() {
         </div>
     `;
 
-    // 4. Render the Detail Preview
+    // 4. Render the Detail Preview (using the main image)
     detailPreviewContainer.innerHTML = `
         <div class="product-detail-info">
             <h1>${productData.name}</h1>
@@ -498,8 +521,9 @@ function updateAdminPreviews() {
         </div>
     `;
     
-    // Also update the small preview under the file input
-    currentImagePreview.innerHTML = `<p style="margin-top:1rem;font-weight:600;">تصویر فعلی:</p><img src="${imageUrl}" alt="Current image" style="max-width:100px;margin-top:0.5rem;border-radius:4px;">`;
+    // 5. Update the small previews under the file inputs
+    currentImagePreview.innerHTML = `<p style="margin-top:1rem;font-weight:600;">تصویر اصلی فعلی:</p><img src="${imageUrl}" alt="Current image" style="max-width:100px;margin-top:0.5rem;border-radius:4px;">`;
+    currentThumbnailPreview.innerHTML = `<p style="margin-top:1rem;font-weight:600;">تصویر کوچک فعلی:</p><img src="${thumbnailUrl}" alt="Current thumbnail" style="max-width:100px;margin-top:0.5rem;border-radius:4px;">`;
 }
 
 function attachPreviewListeners() {
