@@ -1,3 +1,21 @@
 node_modules/
 .obsidian/
 package-lock.json
+
+# وابستگی‌های Node.js و فایل‌های کش
+node_modules
+npm-debug.log*
+yarn-error.log
+pnpm-debug.log*
+
+# پوشه‌های خروجی نهایی ساخت (Build)
+/dist
+/build
+/out
+
+# کش Vite
+.vite/
+
+# فایل‌های محیطی محلی و خصوصی
+.env
+.env.local
