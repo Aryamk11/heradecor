@@ -18,5 +18,4 @@ pnpm-debug.log*
 
 # پوشه تنظیمات ویرایشگر
 .obsidian/
-package-lock.json
 vite.config.js
