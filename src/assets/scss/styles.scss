@@ -1,65 +1,146 @@
-/* src/assets/scss/styles.scss */
+/* src/assets/scss/styles.scss (Definitive Final Version with Active State Fix) */
 
 // ۱. متغیرهای شما
+// ===================================
 $primary: #8D6B5F;
 $secondary: #A47E6F;
 $body-bg: #FDFBF8;
 $body-color: #4E423F;
 $font-family-sans-serif: 'Vazirmatn', sans-serif;
+$main-border-radius: 0.5rem;
 
-// ۲. ایمپورت آیکون‌های بوت‌استرپ
+
+// ۲. ایمپورت‌ها
+// ===================================
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
-// ۳. بازنویسی و استایل‌های سفارشی
+
+// ۳. استایل‌های عمومی و بازنویسی‌ها
+// ===================================
 body {
     background-color: $body-bg;
     color: $body-color;
     font-family: $font-family-sans-serif;
 }
 
-// بازنویسی رنگ دکمه اصلی
+// بازنویسی تمام دکمه‌های اصلی بوت‌استرپ به همراه focus و active
 .btn-primary {
-    background-color: $primary;
-    border-color: $primary;
-
-    &:hover {
-        background-color: darken($primary, 5%);
-        border-color: darken($primary, 5%);
-    }
+    // بازنویسی متغیرهای CSS بوت‌استرپ
+    --bs-btn-bg: #{$primary};
+    --bs-btn-border-color: #{$primary};
+    --bs-btn-hover-bg: #{darken($primary, 5%)};
+    --bs-btn-hover-border-color: #{darken($primary, 5%)};
+    --bs-btn-active-bg: #{darken($primary, 10%)}; // اصلاح رنگ در حالت کلیک
+    --bs-btn-active-border-color: #{darken($primary, 10%)};
+    --bs-btn-focus-shadow-rgb: #{red($primary)}, #{green($primary)}, #{blue($primary)};
 }
 
-// بازنویسی رنگ دکمه ثانویه
 .btn-secondary {
-    background-color: $secondary;
-    border-color: $secondary;
+    --bs-btn-bg: #{$secondary};
+    --bs-btn-border-color: #{$secondary};
+    --bs-btn-hover-bg: #{darken($secondary, 5%)};
+    --bs-btn-hover-border-color: #{darken($secondary, 5%)};
+    --bs-btn-active-bg: #{darken($secondary, 10%)};
+    --bs-btn-active-border-color: #{darken($secondary, 10%)};
+    --bs-btn-focus-shadow-rgb: #{red($secondary)}, #{green($secondary)}, #{blue($secondary)};
+}
 
+.btn-outline-secondary {
     &:hover {
-        background-color: darken($secondary, 5%);
-        border-color: darken($secondary, 5%);
+        background-color: $secondary;
+        border-color: $secondary;
+        color: #fff;
+    }
+    &:focus, &:focus-visible, &:active {
+        box-shadow: 0 0 0 0.25rem rgba($secondary, 0.5) !important;
     }
 }
 
-// --- کد جدید برای اصلاح دکمه ورود ---
-// بازنویسی رنگ دکمه توخالی (outline)
-.btn-outline-primary {
-    color: $primary;
-    border-color: $primary;
 
-    // استایل هاور: پس‌زمینه به رنگ اصلی و متن سفید شود
+// ۴. استایل‌های هدر یکپارچه
+// ===================================
+header.sticky-top {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background-color: rgba($body-bg, 0.8) !important;
+    box-shadow: none !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+    .form-control:focus {
+        background-color: rgba(255, 255, 255, 0.8);
+        border-color: $primary;
+        box-shadow: 0 0 0 0.25rem rgba($primary, 0.35) !important;
+    }
+
+    .text-end .btn {
+        border-radius: $main-border-radius;
+        border: 1px solid transparent;
+        background-color: rgba(228, 222, 219, 0.4);
+        &:focus, &:focus-visible {
+             box-shadow: 0 0 0 0.25rem rgba($primary, 0.35) !important;
+        }
+        &:hover {
+            background-color: rgba(228, 222, 219, 0.8);
+        }
+        &:first-child {
+            border-color: $primary;
+            color: $primary;
+            i { color: $primary; }
+            &:hover {
+                background-color: $primary;
+                color: #fff;
+                i { color: #fff; }
+            }
+        }
+    }
+}
+
+
+// ۵. استایل‌های منوی اصلی (Navbar)
+// ===================================
+.nav-link {
+    border-radius: $main-border-radius;
+    margin: 0 0.25rem;
+    &:focus, &:focus-visible {
+        box-shadow: 0 0 0 0.25rem rgba($primary, 0.35) !important;
+    }
+    &:hover, &.link-secondary {
+        background-color: $primary;
+        color: #fff !important;
+        i { color: #fff; }
+    }
+}
+
+.dropdown-menu {
+    border-radius: $main-border-radius;
+    border: none;
+    backdrop-filter: blur(10px);
+    background-color: rgba($body-bg, 0.85);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    padding: 0.5rem;
+}
+
+.dropdown-item {
+    border-radius: $main-border-radius * 0.75;
+    padding: 0.5rem 1rem;
+     &:focus, &:focus-visible {
+        box-shadow: 0 0 0 0.25rem rgba($primary, 0.35) !important;
+    }
     &:hover {
         background-color: $primary;
-        border-color: $primary;
         color: #fff;
     }
 }
-// --- پایان کد جدید ---
 
-// استایل سفارشی کارت محصول شما
+
+// ۶. استایل‌های عمومی کارت محصول
+// ===================================
 .product-card {
-    transition: transform .2s ease, box-shadow .2s ease;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1) !important;
+    border-radius: $main-border-radius !important;
+    overflow: hidden;
+    transition: all .2s ease;
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1) !important;
+    }
 }
