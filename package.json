@@ -3,7 +3,7 @@
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
     "imagemin-cli": "^8.0.0",
-    "imagemin-webp": "^4.1.0",
+    "imagemin-webp": "^8.0.0",
     "sass": "^1.93.2"
   },
   "devDependencies": {
