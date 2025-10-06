@@ -1,0 +1,65 @@
+/* src/assets/scss/styles.scss */
+
+// ۱. متغیرهای شما
+$primary: #8D6B5F;
+$secondary: #A47E6F;
+$body-bg: #FDFBF8;
+$body-color: #4E423F;
+$font-family-sans-serif: 'Vazirmatn', sans-serif;
+
+// ۲. ایمپورت آیکون‌های بوت‌استرپ
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+// ۳. بازنویسی و استایل‌های سفارشی
+body {
+    background-color: $body-bg;
+    color: $body-color;
+    font-family: $font-family-sans-serif;
+}
+
+// بازنویسی رنگ دکمه اصلی
+.btn-primary {
+    background-color: $primary;
+    border-color: $primary;
+
+    &:hover {
+        background-color: darken($primary, 5%);
+        border-color: darken($primary, 5%);
+    }
+}
+
+// بازنویسی رنگ دکمه ثانویه
+.btn-secondary {
+    background-color: $secondary;
+    border-color: $secondary;
+
+    &:hover {
+        background-color: darken($secondary, 5%);
+        border-color: darken($secondary, 5%);
+    }
+}
+
+// --- کد جدید برای اصلاح دکمه ورود ---
+// بازنویسی رنگ دکمه توخالی (outline)
+.btn-outline-primary {
+    color: $primary;
+    border-color: $primary;
+
+    // استایل هاور: پس‌زمینه به رنگ اصلی و متن سفید شود
+    &:hover {
+        background-color: $primary;
+        border-color: $primary;
+        color: #fff;
+    }
+}
+// --- پایان کد جدید ---
+
+// استایل سفارشی کارت محصول شما
+.product-card {
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1) !important;
+}

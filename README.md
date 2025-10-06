@@ -7,7 +7,5 @@
 ### Technology Stack
 
 - **Front-End:** HTML5, CSS3, JavaScript (ES6)
-    
 - **Hosting:** GitHub Pages
-    
 - **DNS & SSL:** Cloudflare
