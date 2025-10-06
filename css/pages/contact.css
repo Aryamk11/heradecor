@@ -1,9 +1,0 @@
-/* css/pages/contact.css */
-/* Contains styles specific to the contact page. */
-
-.contact-section { max-width: 700px; margin: 4rem auto; text-align: center; }
-.contact-section h2 { font-size: 2rem; margin-bottom: 1rem; }
-.contact-form { margin-top: 2rem; text-align: right; }
-.contact-form label { display: block; margin-bottom: 0.5rem; font-weight: 700; }
-.contact-form input, .contact-form textarea { width: 100%; padding: 0.75rem; margin-bottom: 1rem; border: 1px solid #DCD8D3; background: #fff; border-radius: 4px; font-family: var(--font-family); font-size: 1rem; }
-.contact-form .btn { width: 100%; font-size: 1.1rem; }

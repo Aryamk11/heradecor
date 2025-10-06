@@ -1,7 +1,10 @@
 {
   "dependencies": {
+    "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.1",
     "imagemin-cli": "^3.0.0",
-    "imagemin-webp": "^6.1.0"
+    "imagemin-webp": "^6.1.0",
+    "sass": "^1.93.2"
   },
   "devDependencies": {
     "vite": "^5.2.0"
