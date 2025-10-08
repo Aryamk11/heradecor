@@ -22,3 +22,23 @@ export async function fetchProducts(limit = 4) {
         return []; // Return an empty array on failure
     }
 }
+/**
+ * Fetches all products from the database, ordered by ID.
+ * @returns {Promise<Array>} A promise that resolves to an array of all products.
+ */
+export async function fetchAllProducts() {
+    try {
+        const { data: products, error } = await supabase
+            .from('products')
+            .select('*')
+            .order('id', { ascending: true });
+
+        if (error) {
+            throw error;
+        }
+        return products;
+    } catch (error) {
+        console.error('Error fetching all products:', error);
+        return [];
+    }
+}
