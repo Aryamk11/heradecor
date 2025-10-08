@@ -1,21 +1,22 @@
-/* src/assets/scss/styles.scss (Definitive Final Version with Active State Fix) */
+/* src/assets/scss/styles.scss (Refined & Heavier Brown Theme) */
 
-// ۱. متغیرهای شما
+// 1. متغیرهای شما (با پالت رنگی اصلاح‌شده و سنگین‌تر)
 // ===================================
-$primary: #8D6B5F;
-$secondary: #A47E6F;
-$body-bg: #FDFBF8;
-$body-color: #4E423F;
+$primary: #6D4C41;   // A deeper, richer coffee brown
+$secondary: #A1887F; // A muted, elegant secondary brown
+$light: #EFEBE9;   // A slightly deeper, neutral beige for content sections
+$body-bg: #f6f6f6; // A warm beige for the main page background
+$body-color: #3E2723; // A very dark brown for crisp, readable text
 $font-family-sans-serif: 'Vazirmatn', sans-serif;
 $main-border-radius: 0.5rem;
 
 
-// ۲. ایمپورت‌ها
+// 2. ایمپورت‌ها
 // ===================================
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
 
-// ۳. استایل‌های عمومی و بازنویسی‌ها
+// 3. استایل‌های عمومی و بازنویسی‌ها
 // ===================================
 body {
     background-color: $body-bg;
@@ -23,14 +24,17 @@ body {
     font-family: $font-family-sans-serif;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 500; // Making headings slightly bolder
+}
+
 // بازنویسی تمام دکمه‌های اصلی بوت‌استرپ به همراه focus و active
 .btn-primary {
-    // بازنویسی متغیرهای CSS بوت‌استرپ
     --bs-btn-bg: #{$primary};
     --bs-btn-border-color: #{$primary};
     --bs-btn-hover-bg: #{darken($primary, 5%)};
     --bs-btn-hover-border-color: #{darken($primary, 5%)};
-    --bs-btn-active-bg: #{darken($primary, 10%)}; // اصلاح رنگ در حالت کلیک
+    --bs-btn-active-bg: #{darken($primary, 10%)};
     --bs-btn-active-border-color: #{darken($primary, 10%)};
     --bs-btn-focus-shadow-rgb: #{red($primary)}, #{green($primary)}, #{blue($primary)};
 }
@@ -56,15 +60,22 @@ body {
     }
 }
 
-
-// ۴. استایل‌های هدر یکپارچه
+// 4. استایل بخش‌های محتوایی ویژه
+// ===================================
+.content-section-bg {
+    background-color: $light;
+    border-radius: $main-border-radius * 2;
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.07); // ADD THIS LINE
+}
+// 5. استایل‌های هدر یکپارچه
 // ===================================
 header.sticky-top {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    background-color: rgba($body-bg, 0.8) !important;
+    background-color: rgba($body-bg, 0.85) !important; // CHANGE TO THIS
     box-shadow: none !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
     .form-control:focus {
         background-color: rgba(255, 255, 255, 0.8);
@@ -96,7 +107,7 @@ header.sticky-top {
 }
 
 
-// ۵. استایل‌های منوی اصلی (Navbar)
+// 6. استایل‌های منوی اصلی (Navbar)
 // ===================================
 .nav-link {
     border-radius: $main-border-radius;
@@ -113,9 +124,9 @@ header.sticky-top {
 
 .dropdown-menu {
     border-radius: $main-border-radius;
-    border: none;
+    border: 1px solid rgba(0,0,0,0.1); // Added a subtle border
     backdrop-filter: blur(10px);
-    background-color: rgba($body-bg, 0.85);
+    background-color: rgba(255, 255, 255, 0.9);
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     padding: 0.5rem;
 }
@@ -133,14 +144,19 @@ header.sticky-top {
 }
 
 
-// ۶. استایل‌های عمومی کارت محصول
+// 7. استایل‌های عمومی کارت محصول
 // ===================================
 .product-card {
     border-radius: $main-border-radius !important;
     overflow: hidden;
     transition: all .2s ease;
+    cursor: pointer;
+    // ADDED: A subtle border to give cards more definition
+    border: 1px solid #eee !important;
+
     &:hover {
         transform: translateY(-5px);
         box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1) !important;
+        border-color: #ddd !important;
     }
 }
