@@ -3,7 +3,7 @@
 import logoImage from '../images/log.webp';
 import '../scss/styles.scss';
 import * as bootstrap from 'bootstrap';
-
+import { addToCart, updateCartBadge } from './cart-service.js'; 
 import { setupLayout } from './layout.js';
 import { fetchProducts, fetchAllProducts, fetchProductById } from './product-service.js';
 import { renderProductCards, renderProductDetail } from './ui-renderer.js';
@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize all page-specific logic
     initializeFeaturedProducts();
     initializeProductsPage();
+    updateCartBadge(); 
     initializeProductDetailPage();
     initializeClickableCards(); // ADDED: Initialize the card click listener
 });
@@ -68,9 +69,7 @@ async function initializeProductDetailPage() {
     }
 }
 
-/**
- * Adds event listeners to product grids to make entire cards clickable.
- */
+
 function initializeClickableCards() {
     const grids = [
         document.getElementById('featured-products-grid'),
@@ -80,14 +79,16 @@ function initializeClickableCards() {
     grids.forEach(grid => {
         if (grid) {
             grid.addEventListener('click', (event) => {
-                // Prevent navigation if the 'add to cart' button was clicked
-                if (event.target.closest('.add-to-cart-btn')) {
-                    console.log('Add to cart clicked!');
-                    // Future cart logic will go here.
-                    return; 
+                const addToCartButton = event.target.closest('.add-to-cart-btn');
+                
+                // If the 'add to cart' button was clicked, handle it
+                if (addToCartButton) {
+                    const productId = addToCartButton.dataset.id;
+                    addToCart(productId);
+                    return; // Stop further actions
                 }
 
-                // Find the closest parent card element from the click target
+                // If another part of the card was clicked, navigate
                 const card = event.target.closest('.product-card');
                 if (card && card.dataset.href) {
                     window.location.href = card.dataset.href;
