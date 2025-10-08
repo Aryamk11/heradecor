@@ -13,53 +13,7 @@
 </head>
 <body>
 
-    <header class="p-3 shadow-sm sticky-top bg-light">
-        <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-                    <img id="header-logo" alt="لوگوی هرا دکور" width="40" height="40" class="rounded-circle me-2">
-                    <span class="fs-4">هرا دکور</span>
-                </a>
-
-                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ps-lg-4">
-                    <li><a href="/" class="nav-link px-2 link-dark d-flex align-items-center"><i class="bi bi-house-door me-2"></i>خانه</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link px-2 link-secondary d-flex align-items-center dropdown-toggle" href="/products.html" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-shop me-2"></i>فروشگاه
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/products.html">همه محصولات</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">گلدان و ظروف تزئینی</a></li>
-                            <li><a class="dropdown-item" href="#">آینه و هنر دیواری</a></li>
-                            <li><a class="dropdown-item" href="#">شمع و خوشبوکننده</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#" class="nav-link px-2 link-dark d-flex align-items-center"><i class="bi bi-tag me-2"></i>تخفیف‌ها</a></li>
-                    <li><a href="/about.html" class="nav-link px-2 link-dark d-flex align-items-center"><i class="bi bi-info-circle me-2"></i>درباره ما</a></li>
-                    <li><a href="#" class="nav-link px-2 link-dark d-flex align-items-center"><i class="bi bi-telephone me-2"></i>تماس با ما</a></li>
-                </ul>
-
-                <div class="d-flex align-items-center col-12 col-lg-auto ms-lg-auto">
-                    <form class="w-100 me-3" role="search">
-                        <input type="search" class="form-control" placeholder="جستجو..." aria-label="Search">
-                    </form>
-                    <div class="text-end d-flex">
-                        <a href="#" class="btn btn-light me-2">
-                            <i class="bi bi-person fs-5"></i>
-                        </a>
-                        <a href="#" class="btn btn-light position-relative">
-                            <i class="bi bi-cart3 fs-5"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                ۳
-                                <span class="visually-hidden">محصول در سبد خرید</span>
-                            </span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+<div data-include="/partials/_header.html"></div>
 
     <main class="container py-5">
         <h1 class="text-center mb-4">همه محصولات</h1>
@@ -68,28 +22,7 @@
         </div>
     </main>
     
-    <footer class="container py-5">
-        <div class="row">
-            <div class="col-12 col-md">
-                <h5>هرا دکور</h5>
-                <small class="d-block mb-3 text-muted">&copy; 2023–2024</small>
-            </div>
-            <div class="col-6 col-md">
-                <h5>دسترسی سریع</h5>
-                <ul class="list-unstyled text-small">
-                    <li><a class="link-secondary text-decoration-none" href="#">محصولات</a></li>
-                    <li><a class="link-secondary text-decoration-none" href="#">قوانین و مقررات</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-md">
-                <h5>درباره ما</h5>
-                <ul class="list-unstyled text-small">
-                    <li><a class="link-secondary text-decoration-none" href="#">داستان هرا</a></li>
-                    <li><a class="link-secondary text-decoration-none" href="#">تماس با ما</a></li>
-                </ul>
-            </div>
-        </div>
-    </footer>
+<div data-include="/partials/_footer.html"></div>
 
 </body>
 </html>

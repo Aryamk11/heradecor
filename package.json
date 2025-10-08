@@ -1,14 +1,14 @@
 {
   "dependencies": {
-    "@supabase/supabase-js": "^2.74.0",
-    "bootstrap": "^5.3.8",
-    "bootstrap-icons": "^1.13.1",
-    "imagemin-cli": "^8.0.0",
+    "@supabase/supabase-js": "^2.43.4",
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
+    "imagemin-cli": "^7.0.0",
     "imagemin-webp": "^8.0.0",
-    "sass": "^1.93.2"
+    "sass": "^1.77.4"
   },
   "devDependencies": {
-    "vite": "^7.1.9"
+    "vite": "^5.2.11"
   },
   "scripts": {
     "dev": "vite",
