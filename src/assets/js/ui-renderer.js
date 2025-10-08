@@ -1,10 +1,5 @@
 // src/assets/js/ui-renderer.js
 
-/**
- * Renders product cards into a specified grid container.
- * @param {Array} products - An array of product objects to display.
- * @param {HTMLElement} gridElement - The container element to inject the HTML into.
- */
 export function renderProductCards(products, gridElement) {
     if (!gridElement) return;
 
@@ -15,7 +10,7 @@ export function renderProductCards(products, gridElement) {
 
     gridElement.innerHTML = products.map(product => `
         <div class="col">
-            <div class="card shadow-sm product-card h-100">
+            <div class="card shadow-sm product-card h-100" data-href="/product-detail.html?id=${product.id}">
                 <img src="${product.image}" class="card-img-top" alt="${product.name}">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">${product.name}</h5>
@@ -23,7 +18,7 @@ export function renderProductCards(products, gridElement) {
                     <div class="d-flex justify-content-between align-items-center mt-auto">
                         <div class="btn-group">
                             <a href="/product-detail.html?id=${product.id}" class="btn btn-sm btn-outline-secondary">مشاهده</a>
-                            <button type="button" class="btn btn-sm btn-primary">افزودن به سبد</button>
+                            <button type="button" class="btn btn-sm btn-primary add-to-cart-btn">افزودن به سبد</button>
                         </div>
                         <small class="text-muted">${product.price}</small>
                     </div>
@@ -32,12 +27,7 @@ export function renderProductCards(products, gridElement) {
         </div>
     `).join('');
 }
-
-/**
- * Renders the full details of a single product into a container.
- * @param {Object} product - The product object to display.
- * @param {HTMLElement} containerElement - The container to inject the HTML into.
- */
+// ... The rest of the file (renderProductDetail) remains the same
 export function renderProductDetail(product, containerElement) {
     if (!containerElement) return;
 
@@ -46,7 +36,6 @@ export function renderProductDetail(product, containerElement) {
         return;
     }
     
-    // Update the page title
     document.title = `${product.name} - فروشگاه هرا دکور`;
 
     containerElement.innerHTML = `
