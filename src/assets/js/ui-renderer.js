@@ -14,8 +14,7 @@ export function renderProductCards(products, gridElement) {
                 <img src="${product.image}" class="card-img-top" alt="${product.name}">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">${product.name}</h5>
-                    <p class="card-text">${product.description.substring(0, 80)}...</p>
-                    <div class="d-flex justify-content-between align-items-center mt-auto">
+                        <p class="card-text">${product.description ? product.description.substring(0, 80) + '...' : ''}</p>                     <div class="d-flex justify-content-between align-items-center mt-auto">
                         <div class="btn-group">
                             <a href="/product-detail.html?id=${product.id}" class="btn btn-sm btn-outline-secondary">مشاهده</a>
                             <button type="button" class="btn btn-sm btn-primary add-to-cart-btn">افزودن به سبد</button>
