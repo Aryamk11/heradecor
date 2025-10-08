@@ -160,3 +160,32 @@ header.sticky-top {
         border-color: #ddd !important;
     }
 }
+// 8. Skeleton Loader Styles
+// ===================================
+.skeleton-card {
+    background-color: #e0e0e0;
+    border-radius: $main-border-radius;
+    overflow: hidden;
+    position: relative;
+    height: 380px; // Approximate height of a product card
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -150%;
+        height: 100%;
+        width: 150%;
+        background: linear-gradient(to right, transparent 0%, #f0f0f0 50%, transparent 100%);
+        animation: shimmer 1.5s infinite;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        left: -150%;
+    }
+    100% {
+        left: 150%;
+    }
+}
