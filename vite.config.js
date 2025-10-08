@@ -13,6 +13,7 @@ export default defineConfig({
                 about: resolve(__dirname, 'src/about.html'),
                 products: resolve(__dirname, 'src/products.html'),
                 productDetail: resolve(__dirname, 'src/product-detail.html'),
+                cart: resolve(__dirname, 'src/cart.html'),
             },
         },
     },

@@ -1,12 +1,14 @@
 /* src/assets/js/main.js */
 
+// All necessary imports, consolidated into one block to prevent errors
 import logoImage from '../images/log.webp';
 import '../scss/styles.scss';
 import * as bootstrap from 'bootstrap';
-import { addToCart, updateCartBadge } from './cart-service.js'; 
+
 import { setupLayout } from './layout.js';
 import { fetchProducts, fetchAllProducts, fetchProductById } from './product-service.js';
-import { renderProductCards, renderProductDetail } from './ui-renderer.js';
+import { renderProductCards, renderProductDetail, renderCartItems, renderSkeletonCards } from './ui-renderer.js';
+import { addToCart, updateCartBadge, getCartWithProductDetails } from './cart-service.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     setupLayout(); 
@@ -21,37 +23,33 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeProductsPage();
     updateCartBadge(); 
     initializeProductDetailPage();
-    initializeClickableCards(); // ADDED: Initialize the card click listener
+    initializeCartPage(); // ADD THIS LINE
+    initializeClickableCards();
 });
 
 async function initializeFeaturedProducts() {
     const productGrid = document.getElementById('featured-products-grid');
     if (!productGrid) return; 
 
+    renderSkeletonCards(4, productGrid); // Show 4 skeletons immediately
+
     const products = await fetchProducts(4);
-    renderProductCards(products, productGrid);
+    renderProductCards(products, productGrid); // Replace skeletons with real data
 }
 
 async function initializeProductsPage() {
     const productGrid = document.getElementById('all-products-grid');
     if (!productGrid) return;
 
-    console.log("Attempting to fetch all products...");
+    renderSkeletonCards(8, productGrid); // Show 8 skeletons immediately
+
+    // The rest of this function remains the same, but we can remove the extra logging
     try {
         const products = await fetchAllProducts();
-        console.log("Successfully fetched products:", products);
-
-        if (products) {
-            console.log(`Rendering ${products.length} products.`);
-            renderProductCards(products, productGrid);
-        } else {
-            console.log("Received null or undefined products, rendering error.");
-            grid.innerHTML = '<p class="text-center text-danger">خطا در دریافت اطلاعات محصولات.</p>';
-        }
-
+        renderProductCards(products, productGrid); // Replace skeletons with real data
     } catch (error) {
         console.error("An error occurred in initializeProductsPage:", error);
-        productGrid.innerHTML = '<p class="text-center text-danger">مشکلی در بارگذاری محصولات پیش آمد. لطفا کنسول را بررسی کنید.</p>';
+        productGrid.innerHTML = '<p class="text-center text-danger">An error occurred while loading products.</p>';
     }
 }
 async function initializeProductDetailPage() {
@@ -97,6 +95,12 @@ function initializeClickableCards() {
         }
     });
 }
+async function initializeCartPage() {
+    const cartContainer = document.getElementById('cart-container');
+    if (!cartContainer) return; // Only run this logic on the cart page
 
+    const detailedCart = await getCartWithProductDetails();
+    renderCartItems(detailedCart, cartContainer);
+}
 
 console.log("پروژه گالری هرا با موفقیت راه‌اندازی شد!");

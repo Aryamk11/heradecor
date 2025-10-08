@@ -56,3 +56,74 @@ export function renderProductDetail(product, containerElement) {
         </div>
     `;
 }
+/**
+ * Renders the items in the shopping cart.
+ * @param {Array} cartItems - An array of cart items with full product details.
+ * @param {HTMLElement} containerElement - The container to inject the HTML into.
+ */
+export function renderCartItems(cartItems, containerElement) {
+    if (!containerElement) return;
+
+    if (!cartItems || cartItems.length === 0) {
+        containerElement.innerHTML = `
+            <div class="text-center">
+                <p>سبد خرید شما خالی است.</p>
+                <a href="/products.html" class="btn btn-primary">مشاهده محصولات</a>
+            </div>
+        `;
+        return;
+    }
+
+    const itemsHTML = cartItems.map(item => `
+        <div class="row border-bottom py-3 align-items-center">
+            <div class="col-md-2">
+                <img src="${item.image}" alt="${item.name}" class="img-fluid rounded">
+            </div>
+            <div class="col-md-4">
+                <h5>${item.name}</h5>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <button class="btn btn-outline-secondary" type="button">-</button>
+                    <input type="text" class="form-control text-center" value="${item.quantity}" readonly>
+                    <button class="btn btn-outline-secondary" type="button">+</button>
+                </div>
+            </div>
+            <div class="col-md-2 text-center">
+                <span>${(item.price * item.quantity).toLocaleString('fa-IR')} تومان</span>
+            </div>
+            <div class="col-md-2 text-end">
+                <button class="btn btn-outline-danger btn-sm">حذف</button>
+            </div>
+        </div>
+    `).join('');
+
+    const grandTotal = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+
+    containerElement.innerHTML = `
+        ${itemsHTML}
+        <div class="row mt-4">
+            <div class="col text-end">
+                <h3>مجموع کل: ${grandTotal.toLocaleString('fa-IR')} تومان</h3>
+                <button class="btn btn-success btn-lg mt-2">ادامه فرآیند خرید</button>
+            </div>
+        </div>
+    `;
+}
+/**
+ * Renders skeleton placeholder cards into a grid.
+ * @param {number} count - The number of skeleton cards to render.
+ * @param {HTMLElement} gridElement - The container element to inject the HTML into.
+ */
+export function renderSkeletonCards(count, gridElement) {
+    if (!gridElement) return;
+    let skeletonsHTML = '';
+    for (let i = 0; i < count; i++) {
+        skeletonsHTML += `
+            <div class="col">
+                <div class="skeleton-card"></div>
+            </div>
+        `;
+    }
+    gridElement.innerHTML = skeletonsHTML;
+}
