@@ -42,3 +42,26 @@ export async function fetchAllProducts() {
         return [];
     }
 }
+
+/**
+ * Fetches a single product by its unique ID.
+ * @param {string|number} id - The ID of the product to fetch.
+ * @returns {Promise<Object|null>} A promise that resolves to the product object or null if not found.
+ */
+export async function fetchProductById(id) {
+    try {
+        const { data, error } = await supabase
+            .from('products')
+            .select('*')
+            .eq('id', id)
+            .single(); // Use .single() to get one object instead of an array
+
+        if (error) {
+            throw error;
+        }
+        return data;
+    } catch (error) {
+        console.error(`Error fetching product with id ${id}:`, error);
+        return null; // Return null on failure
+    }
+}

@@ -22,7 +22,7 @@ export function renderProductCards(products, gridElement) {
                     <p class="card-text">${product.description.substring(0, 80)}...</p>
                     <div class="d-flex justify-content-between align-items-center mt-auto">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">مشاهده</button>
+                            <a href="/product-detail.html?id=${product.id}" class="btn btn-sm btn-outline-secondary">مشاهده</a>
                             <button type="button" class="btn btn-sm btn-primary">افزودن به سبد</button>
                         </div>
                         <small class="text-muted">${product.price}</small>
@@ -31,4 +31,41 @@ export function renderProductCards(products, gridElement) {
             </div>
         </div>
     `).join('');
+}
+
+/**
+ * Renders the full details of a single product into a container.
+ * @param {Object} product - The product object to display.
+ * @param {HTMLElement} containerElement - The container to inject the HTML into.
+ */
+export function renderProductDetail(product, containerElement) {
+    if (!containerElement) return;
+
+    if (!product) {
+        containerElement.innerHTML = '<p class="text-center text-danger">اطلاعات محصول یافت نشد.</p>';
+        return;
+    }
+    
+    // Update the page title
+    document.title = `${product.name} - فروشگاه هرا دکور`;
+
+    containerElement.innerHTML = `
+        <div class="col-md-6">
+            <img src="${product.image}" class="img-fluid rounded" alt="${product.name}">
+        </div>
+        <div class="col-md-6">
+            <h1 class="display-5">${product.name}</h1>
+            <p class="lead">${product.description}</p>
+            <hr>
+            <h3>${product.price}</h3>
+            <div class="d-grid gap-2 d-md-block mt-4">
+                <button class="btn btn-primary btn-lg" type="button">
+                    <i class="bi bi-cart-plus me-2"></i>افزودن به سبد خرید
+                </button>
+                <button class="btn btn-outline-secondary btn-lg" type="button">
+                    <i class="bi bi-heart me-2"></i>افزودن به علاقه‌مندی‌ها
+                </button>
+            </div>
+        </div>
+    `;
 }
