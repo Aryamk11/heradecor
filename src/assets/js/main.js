@@ -8,7 +8,7 @@ import * as bootstrap from 'bootstrap';
 import { setupLayout } from './layout.js';
 import { fetchProducts, fetchAllProducts, fetchProductById } from './product-service.js';
 import { renderProductCards, renderProductDetail, renderCartItems, renderSkeletonCards } from './ui-renderer.js';
-import { addToCart, updateCartBadge, getCartWithProductDetails } from './cart-service.js';
+import { addToCart, updateCartBadge, getCartWithProductDetails, saveCart } from './cart-service.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     setupLayout(); 
@@ -95,80 +95,115 @@ function initializeClickableCards() {
         }
     });
 }
+// Replace initializeCartPage in main.js one last time.
 async function initializeCartPage() {
     const cartContainer = document.getElementById('cart-container');
-    if (!cartContainer) return; // Only run on the cart page
+    if (!cartContainer) return;
 
-    const updateBar = document.getElementById('cart-update-bar');
-    const confirmBtn = document.getElementById('confirm-cart-update-btn');
-    const cancelBtn = document.getElementById('cancel-cart-update-btn');
-
+    let updateBar, confirmBtn, cancelBtn;
     let originalCart = [];
     let stagedCart = [];
 
-    // Deep copy utility
     const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));
 
-    // Function to re-render the cart UI
-    const refreshCartView = () => {
-        renderCartItems(stagedCart, cartContainer);
+    // --- Event Handlers (defined once) ---
+    const onConfirm = async () => {
+        const finalStagedCart = stagedCart.filter(item => item.status !== 'removed');
+        const cartToSave = finalStagedCart.map(item => ({ id: String(item.id), quantity: item.quantity }));
+        
+        saveCart(cartToSave);
+
+        // Fetch the new state from the source of truth (localStorage)
+        const newDetailedCart = await getCartWithProductDetails();
+        originalCart = deepCopy(newDetailedCart);
+        stagedCart = deepCopy(newDetailedCart).map(item => ({ ...item, status: 'idle' }));
+        
+        if (updateBar) updateBar.style.display = 'none';
+        updateCartBadge();
+        refreshCartView();
     };
 
-    // Initial Load
+    const onCancel = () => {
+        stagedCart = deepCopy(originalCart).map(item => ({ ...item, status: 'idle' }));
+        if (updateBar) updateBar.style.display = 'none';
+        refreshCartView();
+    };
+
+    const refreshCartView = () => {
+        renderCartItems(stagedCart, cartContainer);
+        // Re-query and re-bind listeners after each render
+        updateBar = document.getElementById('cart-update-bar');
+        confirmBtn = document.getElementById('confirm-cart-update-btn');
+        cancelBtn = document.getElementById('cancel-cart-update-btn');
+        
+        if (confirmBtn && cancelBtn) {
+            confirmBtn.addEventListener('click', onConfirm);
+            cancelBtn.addEventListener('click', onCancel);
+        }
+    };
+
+    // --- Initial Load ---
     const detailedCart = await getCartWithProductDetails();
     originalCart = deepCopy(detailedCart);
-    stagedCart = deepCopy(detailedCart);
+    stagedCart = deepCopy(detailedCart).map(item => ({ ...item, status: 'idle' }));
     refreshCartView();
 
-    // --- Event Listeners for Cart Actions (using delegation) ---
+    // --- Main Event Delegation for Cart Items ---
     cartContainer.addEventListener('click', (event) => {
         const target = event.target;
-        const productId = target.dataset.id;
+        const productId = target.closest('.cart-item')?.dataset.id;
         if (!productId) return;
 
-        let itemIndex = stagedCart.findIndex(item => item.id == productId);
-        if (itemIndex === -1) return;
+        let stagedItemIndex = stagedCart.findIndex(item => item.id == productId);
+        if (stagedItemIndex === -1) return;
 
-        let itemChanged = false;
-
-        // Handle quantity changes
+        const stagedItem = stagedCart[stagedItemIndex];
+        const originalItem = originalCart.find(item => item.id == productId);
+        
         if (target.matches('.cart-quantity-btn')) {
             const change = parseInt(target.dataset.change, 10);
-            const newQuantity = stagedCart[itemIndex].quantity + change;
-            if (newQuantity > 0) {
-                stagedCart[itemIndex].quantity = newQuantity;
-                itemChanged = true;
+            
+            // UNDO-DELETE LOGIC: If '+' is clicked on a removed item, restore it.
+            if (stagedItem.status === 'removed' && change > 0) {
+                stagedItem.status = 'idle'; // It's no longer 'removed'
+                // The rest of the logic will handle its quantity and status below
+            }
+            
+            const newQuantity = stagedItem.quantity + change;
+
+            if (newQuantity <= 0) {
+                stagedItem.status = 'removed';
+            } else {
+                stagedItem.quantity = newQuantity;
+                stagedItem.status = 'idle'; // Reset status first
+                if (originalItem && newQuantity > originalItem.quantity) {
+                    stagedItem.status = 'increase';
+                } else if (originalItem && newQuantity < originalItem.quantity) {
+                    stagedItem.status = 'decrease';
+                }
             }
         }
 
-        // Handle item removal
         if (target.matches('.cart-remove-btn')) {
-            stagedCart.splice(itemIndex, 1);
-            itemChanged = true;
+             // UNDO-DELETE LOGIC: Pressing delete again on a removed item restores it
+            if (stagedItem.status === 'removed') {
+                 stagedItem.status = 'idle';
+            } else {
+                 stagedItem.status = 'removed';
+            }
         }
+        
+        const hasChanges = stagedCart.some(item => {
+             const original = originalCart.find(o => o.id == item.id);
+             if (!original) return true; 
+             return item.quantity !== original.quantity || item.status === 'removed';
+        }) || stagedCart.length !== originalCart.length;
 
-        if (itemChanged) {
-            updateBar.style.display = 'block';
-            refreshCartView();
-        }
-    });
-
-    // --- Event Listeners for Update Bar ---
-    confirmBtn.addEventListener('click', () => {
-        // Prepare a simplified cart {id, quantity} for localStorage
-        const cartToSave = stagedCart.map(item => ({ id: String(item.id), quantity: item.quantity }));
-        saveCart(cartToSave);
-
-        originalCart = deepCopy(stagedCart); // Lock in the new state
-        updateBar.style.display = 'none';
-        updateCartBadge();
-        refreshCartView(); // Re-render to ensure a clean state
-    });
-
-    cancelBtn.addEventListener('click', () => {
-        stagedCart = deepCopy(originalCart); // Revert to original state
-        updateBar.style.display = 'none';
         refreshCartView();
+
+        if (updateBar) {
+            updateBar.style.display = hasChanges ? 'block' : 'none';
+        }
     });
 }
 

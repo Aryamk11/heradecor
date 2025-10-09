@@ -64,6 +64,8 @@ export function renderProductDetail(product, containerElement) {
 export function renderCartItems(cartItems, containerElement) {
     if (!containerElement) return;
 
+    const updateBar = containerElement.querySelector('#cart-update-bar');
+
     if (!cartItems || cartItems.length === 0) {
         containerElement.innerHTML = `
             <div class="text-center">
@@ -74,34 +76,52 @@ export function renderCartItems(cartItems, containerElement) {
         return;
     }
 
-    const itemsHTML = cartItems.map(item => `
-        <div class="row border-bottom py-3 align-items-center cart-item" data-id="${item.id}">
-            <div class="col-md-2">
-                <img src="${item.image}" alt="${item.name}" class="img-fluid rounded">
-            </div>
-            <div class="col-md-4">
-                <h5>${item.name}</h5>
-            </div>
+    const visibleItems = cartItems.filter(item => item.status !== 'removed');
+
+    const itemsHTML = cartItems.map(item => {
+        let statusClass = '';
+        if (item.status === 'increase') statusClass = 'is-changed-increase';
+        else if (item.status === 'decrease') statusClass = 'is-changed-decrease';
+        else if (item.status === 'removed') statusClass = 'is-removed';
+        
+        // ONLY disable the '-' button when an item is marked for removal.
+        const disableMinus = item.status === 'removed';
+        // Change the text of the remove button to "Undo"
+        const removeButtonText = item.status === 'removed' ? 'لغو حذف' : 'حذف';
+        const removeButtonClass = item.status === 'removed' ? 'btn-warning' : 'btn-outline-danger';
+
+
+        return `
+        <div class="row border-bottom py-3 align-items-center cart-item ${statusClass}" data-id="${item.id}">
+            <div class="col-md-2"><img src="${item.image}" alt="${item.name}" class="img-fluid rounded"></div>
+            <div class="col-md-4"><h5>${item.name}</h5></div>
             <div class="col-md-2">
                 <div class="input-group">
-                    <button class="btn btn-outline-secondary cart-quantity-btn" type="button" data-id="${item.id}" data-change="-1">-</button>
-                    <input type="text" class="form-control text-center cart-quantity-input" value="${item.quantity}" readonly data-id="${item.id}">
+                    <button class="btn btn-outline-secondary cart-quantity-btn" type="button" data-id="${item.id}" data-change="-1" ${disableMinus ? 'disabled' : ''}>-</button>
+                    <input type="text" class="form-control text-center cart-quantity-input" value="${item.quantity}" readonly>
                     <button class="btn btn-outline-secondary cart-quantity-btn" type="button" data-id="${item.id}" data-change="1">+</button>
                 </div>
             </div>
-            <div class="col-md-2 text-center">
-                <span class="item-subtotal">${(item.price * item.quantity).toLocaleString('fa-IR')} تومان</span>
-            </div>
-            <div class="col-md-2 text-end">
-                <button class="btn btn-outline-danger btn-sm cart-remove-btn" data-id="${item.id}">حذف</button>
-            </div>
+            <div class="col-md-2 text-center"><span class="item-subtotal">${(item.price * item.quantity).toLocaleString('fa-IR')} تومان</span></div>
+            <div class="col-md-2 text-end"><button class="btn ${removeButtonClass} btn-sm cart-remove-btn" data-id="${item.id}">${removeButtonText}</button></div>
         </div>
-    `).join('');
+    `}).join('');
 
-    const grandTotal = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    const grandTotal = visibleItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    
+    containerElement.innerHTML = ''; 
+    const tempWrapper = document.createElement('div');
+    tempWrapper.innerHTML = itemsHTML;
 
-    containerElement.innerHTML = `
-        ${itemsHTML}
+    while (tempWrapper.firstChild) {
+        containerElement.appendChild(tempWrapper.firstChild);
+    }
+    
+    if (updateBar) {
+        containerElement.appendChild(updateBar);
+    }
+
+    const totalHTML = `
         <div class="row mt-4">
             <div class="col text-end">
                 <h3>مجموع کل: ${grandTotal.toLocaleString('fa-IR')} تومان</h3>
@@ -109,6 +129,7 @@ export function renderCartItems(cartItems, containerElement) {
             </div>
         </div>
     `;
+    containerElement.insertAdjacentHTML('beforeend', totalHTML);
 }
 /**
  * Renders skeleton placeholder cards into a grid.
