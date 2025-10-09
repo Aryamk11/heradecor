@@ -212,27 +212,24 @@ header.sticky-top {
     }
 }
 
-// 10. Cart Page Layout (Corrected)
-// ===================================
+// 10. Cart Page Layout & Item Styling (Final Version)
+// ======================================================
 .cart-layout-grid {
     display: grid;
-    // CORRECTED: 1fr for the right column (items), 320px for the left (summary)
-    grid-template-columns: 1fr 320px;
+    grid-template-columns: 1fr;
     gap: 2rem;
     align-items: flex-start;
 
-    // On mobile, stack them.
-    @media (max-width: 991.98px) {
-        grid-template-columns: 1fr;
+    @media (min-width: 992px) {
+        grid-template-columns: 1fr 350px; // Wider items column, fixed summary
     }
 }
 
 .cart-summary-wrapper {
-    grid-row: 2; // On mobile, summary is second.
-
+    grid-row: 2;
     @media (min-width: 992px) {
         grid-row: 1;
-        grid-column: 2; // The 2nd column is the LEFT column in RTL
+        grid-column: 2; // Summary on the left
         position: sticky;
         top: 80px;
     }
@@ -240,9 +237,8 @@ header.sticky-top {
 
 .cart-items-wrapper {
     grid-row: 1;
-
     @media (min-width: 992px) {
-        grid-column: 1; // The 1st column is the RIGHT column in RTL
+        grid-column: 1; // Items on the right
     }
 }
 
@@ -252,67 +248,74 @@ header.sticky-top {
     z-index: 100;
 }
 
+// --- New Cart Item Row Styling ---
 .cart-item-row {
     display: grid;
-    grid-template-columns: 64px 1fr auto;
+    grid-template-columns: 90px 1fr; // Larger image column (90px)
     gap: 1rem;
-    align-items: center;
-    padding: 0.75rem; // Add some padding for the highlight to be visible
+    padding: 1rem;
     border-bottom: 1px solid #dee2e6;
-    transition: background-color 0.3s ease; // Smooth transition for highlights
+    transition: background-color 0.3s ease;
 
-    // CORRECTED: Targeting .cart-item-row now
-    &.is-changed-increase {
-        background-color: #d1e7dd; 
+    &:last-child {
+        border-bottom: none;
     }
 
-    &.is-changed-decrease {
-        background-color: #fff3cd; 
-    }
-
+    // Highlighting styles
+    &.is-changed-increase { background-color: #d1e7dd; }
+    &.is-changed-decrease { background-color: #fff3cd; }
     &.is-removed {
         background-color: #f8d7da; 
-        opacity: 0.6;
-
-        h6, .cart-item-subtotal {
-            text-decoration: line-through;
-        }
+        opacity: 0.7;
+        .item-name { text-decoration: line-through; }
     }
 }
 
-
-.cart-item-details-col {
-    p {
-        margin: 0;
-        font-size: 0.9rem;
-        color: #6c757d;
+.cart-item-image-wrapper {
+    width: 90px;
+    height: 90px;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; // Ensures image fills the space without distortion
     }
 }
 
-.cart-item-actions-col {
-    .input-group {
-        width: 120px; // Give the input group a fixed width
-    }
-    .cart-item-subtotal {
-        font-size: 0.9rem;
-        text-align: end;
-        margin-top: 0.5rem;
-        white-space: nowrap; // Prevent price from wrapping
-    }
-    .cart-remove-btn {
-        margin-top: 0.5rem;
-    }
+.cart-item-details-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 90px; // Match image height
 }
+
+.top-row, .bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.bottom-row {
+    align-items: flex-end; // Align buttons to the bottom
+}
+
+.top-row {
+    align-items: flex-start; // Align content to the top
+    flex-direction: column; // This is the key change to stack name and quantity
+}
+.item-name {
+    width: 100%;
+    margin-bottom: 0.5rem; // Add some space below the name
+}
+.item-quantity-controls {
+    width: 120px;
+}
+
 // 11. Form Control Adjustments
 // ===================================
-
-// Hide the spinners on number input fields
 .cart-quantity-input {
   -moz-appearance: textfield;
-}
-
-.cart-quantity-input::-webkit-outer-spin-button,
-.cart-quantity-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }
