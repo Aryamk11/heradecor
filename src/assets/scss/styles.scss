@@ -189,3 +189,130 @@ header.sticky-top {
         left: 150%;
     }
 }
+// 9. Cart Item Status Highlighting
+// ===================================
+.cart-item {
+    transition: background-color 0.3s ease; // Smooth transition for highlights
+
+    &.is-changed-increase {
+        background-color: #d1e7dd; // A light, Bootstrap-like success green
+    }
+
+    &.is-changed-decrease {
+        background-color: #fff3cd; // A light, Bootstrap-like warning yellow
+    }
+
+    &.is-removed {
+        background-color: #f8d7da; // A light, Bootstrap-like danger red
+        opacity: 0.6;
+
+        h5, .item-subtotal {
+            text-decoration: line-through;
+        }
+    }
+}
+
+// 10. Cart Page Layout (Corrected)
+// ===================================
+.cart-layout-grid {
+    display: grid;
+    // CORRECTED: 1fr for the right column (items), 320px for the left (summary)
+    grid-template-columns: 1fr 320px;
+    gap: 2rem;
+    align-items: flex-start;
+
+    // On mobile, stack them.
+    @media (max-width: 991.98px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.cart-summary-wrapper {
+    grid-row: 2; // On mobile, summary is second.
+
+    @media (min-width: 992px) {
+        grid-row: 1;
+        grid-column: 2; // The 2nd column is the LEFT column in RTL
+        position: sticky;
+        top: 80px;
+    }
+}
+
+.cart-items-wrapper {
+    grid-row: 1;
+
+    @media (min-width: 992px) {
+        grid-column: 1; // The 1st column is the RIGHT column in RTL
+    }
+}
+
+#cart-update-bar {
+    position: sticky;
+    bottom: 1rem;
+    z-index: 100;
+}
+
+.cart-item-row {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.75rem; // Add some padding for the highlight to be visible
+    border-bottom: 1px solid #dee2e6;
+    transition: background-color 0.3s ease; // Smooth transition for highlights
+
+    // CORRECTED: Targeting .cart-item-row now
+    &.is-changed-increase {
+        background-color: #d1e7dd; 
+    }
+
+    &.is-changed-decrease {
+        background-color: #fff3cd; 
+    }
+
+    &.is-removed {
+        background-color: #f8d7da; 
+        opacity: 0.6;
+
+        h6, .cart-item-subtotal {
+            text-decoration: line-through;
+        }
+    }
+}
+
+
+.cart-item-details-col {
+    p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+}
+
+.cart-item-actions-col {
+    .input-group {
+        width: 120px; // Give the input group a fixed width
+    }
+    .cart-item-subtotal {
+        font-size: 0.9rem;
+        text-align: end;
+        margin-top: 0.5rem;
+        white-space: nowrap; // Prevent price from wrapping
+    }
+    .cart-remove-btn {
+        margin-top: 0.5rem;
+    }
+}
+// 11. Form Control Adjustments
+// ===================================
+
+// Hide the spinners on number input fields
+.cart-quantity-input {
+  -moz-appearance: textfield;
+}
+
+.cart-quantity-input::-webkit-outer-spin-button,
+.cart-quantity-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
