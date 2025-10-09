@@ -5,14 +5,18 @@ import logoImage from '../images/log.webp';
 import '../scss/styles.scss';
 import * as bootstrap from 'bootstrap';
 
-import { setupLayout } from './layout.js';
+import { highlightActiveNavLink } from './layout.js';
 import { fetchProducts, fetchAllProducts, fetchProductById } from './product-service.js';
 import { renderProductCards, renderProductDetail, renderCartItems, renderSkeletonCards } from './ui-renderer.js';
 import { addToCart, updateCartBadge, getCartWithProductDetails, saveCart } from './cart-service.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    setupLayout(); 
+    // setupLayout(); 
     
+    //throw new Error("This is a deliberate test error to check the layout.");
+
+    highlightActiveNavLink();
+
     const logoElement = document.getElementById('header-logo');
     if (logoElement) {
         logoElement.src = logoImage;

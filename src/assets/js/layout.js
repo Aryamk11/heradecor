@@ -26,11 +26,9 @@ function injectLayout() {
 /**
  * Highlights the active navigation link based on the current page URL.
  */
-function highlightActiveNavLink() {
-    // Get the full URL of the current page
+export function highlightActiveNavLink() {
     const currentUrl = window.location.href;
 
-    // Reset all links first to handle navigation correctly
     document.querySelectorAll('.nav-link, .dropdown-item').forEach(link => {
         link.classList.remove('link-secondary');
         if (!link.classList.contains('dropdown-toggle')) {
@@ -38,14 +36,11 @@ function highlightActiveNavLink() {
         }
     });
 
-    // Find and highlight the active link
     document.querySelectorAll('.nav-link:not(.dropdown-toggle), .dropdown-item').forEach(link => {
-        // Compare the full href of the link with the current URL
         if (link.href === currentUrl) {
             link.classList.add('link-secondary');
             link.classList.remove('link-dark');
 
-            // If the active link is inside a dropdown, highlight the main dropdown button as well
             const dropdownToggle = link.closest('.dropdown')?.querySelector('.dropdown-toggle');
             if (dropdownToggle) {
                 dropdownToggle.classList.add('link-secondary');
