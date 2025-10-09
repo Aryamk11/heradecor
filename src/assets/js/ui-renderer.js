@@ -79,18 +79,19 @@ export function renderCartItems(cartItems, itemsContainer, summaryContainer) {
                 <img src="${item.image}" alt="${item.name}" class="img-fluid rounded">
             </div>
 
-            <div class="cart-item-details-actions">
-                <div class="top-row">
-                    <h6 class="mb-1 item-name">${item.name}</h6>
+            <div class="cart-item-content">
+                <div class="item-info">
+                    <h6 class="item-name mb-1">${item.name}</h6>
+                    <span class="item-price text-muted">${formatPrice(item.priceValue)}</span>
+                </div>
+
+                <div class="item-controls">
                     <div class="input-group input-group-sm item-quantity-controls">
                         <button class="btn btn-outline-secondary cart-quantity-btn" type="button" data-change="1">+</button>
                         <input type="number" class="form-control text-center cart-quantity-input" value="${item.quantity}" min="0" data-id="${item.id}">
                         <button class="btn btn-outline-secondary cart-quantity-btn" type="button" data-change="-1" ${disableMinus ? 'disabled' : ''}>-</button>
                     </div>
-                </div>
-                <div class="bottom-row">
-                    <span class="item-price text-muted">${formatPrice(item.priceValue)}</span>
-                    <div class="btn-group btn-group-sm" role="group">
+                    <div class="btn-group btn-group-sm mt-2" role="group">
                         <a href="/product-detail.html?id=${item.id}" class="btn btn-outline-secondary">مشاهده</a>
                         <button type="button" class="btn ${removeButtonClass} cart-remove-btn">${removeButtonText}</button>
                     </div>
@@ -102,7 +103,6 @@ export function renderCartItems(cartItems, itemsContainer, summaryContainer) {
 
     itemsContainer.innerHTML = `<div class="card card-body">${itemsHTML}</div>`;
 }
-
 // NOTE: renderProductCards and other functions are omitted for brevity but should remain in your file.
 // I am providing the full file content below to avoid confusion.
 
