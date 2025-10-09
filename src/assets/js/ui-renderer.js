@@ -75,7 +75,7 @@ export function renderCartItems(cartItems, containerElement) {
     }
 
     const itemsHTML = cartItems.map(item => `
-        <div class="row border-bottom py-3 align-items-center">
+        <div class="row border-bottom py-3 align-items-center cart-item" data-id="${item.id}">
             <div class="col-md-2">
                 <img src="${item.image}" alt="${item.name}" class="img-fluid rounded">
             </div>
@@ -84,16 +84,16 @@ export function renderCartItems(cartItems, containerElement) {
             </div>
             <div class="col-md-2">
                 <div class="input-group">
-                    <button class="btn btn-outline-secondary" type="button">-</button>
-                    <input type="text" class="form-control text-center" value="${item.quantity}" readonly>
-                    <button class="btn btn-outline-secondary" type="button">+</button>
+                    <button class="btn btn-outline-secondary cart-quantity-btn" type="button" data-id="${item.id}" data-change="-1">-</button>
+                    <input type="text" class="form-control text-center cart-quantity-input" value="${item.quantity}" readonly data-id="${item.id}">
+                    <button class="btn btn-outline-secondary cart-quantity-btn" type="button" data-id="${item.id}" data-change="1">+</button>
                 </div>
             </div>
             <div class="col-md-2 text-center">
-                <span>${(item.price * item.quantity).toLocaleString('fa-IR')} تومان</span>
+                <span class="item-subtotal">${(item.price * item.quantity).toLocaleString('fa-IR')} تومان</span>
             </div>
             <div class="col-md-2 text-end">
-                <button class="btn btn-outline-danger btn-sm">حذف</button>
+                <button class="btn btn-outline-danger btn-sm cart-remove-btn" data-id="${item.id}">حذف</button>
             </div>
         </div>
     `).join('');

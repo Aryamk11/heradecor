@@ -5,7 +5,7 @@ import { supabase } from './supabaseClient.js';
  * Retrieves the cart from localStorage.
  * @returns {Array} The cart, which is an array of objects like { id, quantity }.
  */
-function getCart() {
+export function getCart() {
     return JSON.parse(localStorage.getItem('heraDecorCart')) || [];
 }
 
@@ -13,7 +13,7 @@ function getCart() {
  * Saves the cart to localStorage.
  * @param {Array} cart - The cart array to save.
  */
-function saveCart(cart) {
+export function saveCart(cart) {
     localStorage.setItem('heraDecorCart', JSON.stringify(cart));
 }
 
