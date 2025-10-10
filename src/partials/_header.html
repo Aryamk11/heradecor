@@ -4,13 +4,19 @@
 
 <header class="p-3 shadow-sm sticky-top bg-light">
     <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-                <img id="header-logo" alt="لوگوی هرا دکور" width="40" height="40" class="rounded-circle me-2">
-                <span class="fs-4">کادو هنری هرا</span>
-            </a>
+        <div class="d-flex flex-wrap align-items-center justify-content-between">
 
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ps-lg-4">
+            <div class="d-flex align-items-center">
+                <button class="navbar-toggler d-lg-none me-3" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav-collapse" aria-controls="main-nav-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="bi bi-list fs-2"></i>
+                </button>
+                <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+                    <img id="header-logo" alt="لوگوی هرا دکور" width="40" height="40" class="rounded-circle me-2">
+                    <span class="fs-4 d-none d-sm-inline">کادو هنری هرا</span>
+                </a>
+            </div>
+
+            <ul class="nav d-none d-lg-flex col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ps-lg-4">
                 <li><a href="/" class="nav-link px-2 link-dark d-flex align-items-center"><i class="bi bi-house-door me-2"></i>خانه</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link px-2 link-dark d-flex align-items-center dropdown-toggle" href="/products.html" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -29,8 +35,8 @@
                 <li><a href="#" class="nav-link px-2 link-dark d-flex align-items-center"><i class="bi bi-telephone me-2"></i>تماس با ما</a></li>
             </ul>
 
-            <div class="d-flex align-items-center col-12 col-lg-auto ms-lg-auto">
-                <form class="w-100 me-3" role="search">
+            <div class="d-flex align-items-center col-auto">
+                <form class="me-3 d-none d-md-block" role="search">
                     <input type="search" class="form-control" placeholder="جستجو..." aria-label="Search">
                 </form>
                 <div class="text-end d-flex">
@@ -46,6 +52,54 @@
                     </a>
                 </div>
             </div>
+        </div>
+
+        <div class="collapse navbar-collapse d-lg-none" id="main-nav-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 mt-3">
+                 <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="bi bi-house-door me-2"></i>خانه
+                    </a>
+                </li>
+                <li class="nav-item accordion-item">
+                    <h2 class="accordion-header" id="headingShop">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseShop" aria-expanded="false" aria-controls="collapseShop">
+                            <i class="bi bi-shop me-2"></i>فروشگاه
+                        </button>
+                    </h2>
+                    <div id="collapseShop" class="accordion-collapse collapse" aria-labelledby="headingShop" data-bs-parent="#main-nav-collapse">
+                        <div class="accordion-body">
+                            <ul class="list-unstyled">
+                                <li><a class="dropdown-item" href="/products.html">همه محصولات</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">گلدان و ظروف تزئینی</a></li>
+                                <li><a class="dropdown-item" href="#">آینه و هنر دیواری</a></li>
+                                <li><a class="dropdown-item" href="#">شمع و خوشبوکننده</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="bi bi-tag me-2"></i>تخفیف‌ها
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about.html">
+                        <i class="bi bi-info-circle me-2"></i>درباره ما
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="bi bi-telephone me-2"></i>تماس با ما
+                    </a>
+                </li>
+                 <li class="nav-item mt-3 d-md-none">
+                     <form role="search">
+                         <input type="search" class="form-control" placeholder="جستجو در محصولات..." aria-label="Search">
+                     </form>
+                 </li>
+            </ul>
         </div>
     </div>
 </header>

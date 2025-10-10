@@ -331,3 +331,44 @@ header.sticky-top {
         margin-left: 5px;
     }
 }
+/* 13. Mobile Navigation */
+// ===================================
+.navbar-toggler {
+    border: none;
+    padding: 0;
+    &:focus {
+        box-shadow: none;
+    }
+}
+
+#main-nav-collapse {
+    .accordion-button {
+        padding: 0.75rem 1rem;
+        background-color: transparent;
+        color: $body-color;
+        font-weight: 400;
+        
+        &::after {
+            margin-right: auto;
+            margin-left: 0;
+        }
+
+        &:not(.collapsed) {
+            background-color: darken($light, 3%);
+        }
+        
+        &:focus {
+            box-shadow: 0 0 0 0.25rem rgba($primary, 0.35);
+        }
+    }
+    
+    .accordion-body {
+        padding: 0 0 0.5rem 0;
+        .dropdown-item {
+            padding: 0.5rem 1.5rem; // Indent sub-items
+        }
+    }
+    .nav-link {
+         padding: 0.75rem 1rem;
+    }
+}
