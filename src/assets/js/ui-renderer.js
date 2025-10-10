@@ -8,34 +8,59 @@ function formatPrice(value) {
     return `${value.toLocaleString('fa-IR')} تومان`;
 }
 
-function renderCartSummary(cartItems, containerElement) {
+function renderCartSummary(stagedCartItems, originalCartItems, containerElement) {
     if (!containerElement) return;
 
-    const visibleItems = cartItems.filter(item => item.status !== 'removed');
-    const grandTotal = visibleItems.reduce((total, item) => total + (item.priceValue * item.quantity), 0);
+    // Calculate totals for both staged and original carts
+    const stagedTotal = stagedCartItems
+        .filter(item => item.status !== 'removed')
+        .reduce((total, item) => total + (item.priceValue * item.quantity), 0);
 
-    // Create the detailed breakdown HTML
-    const breakdownHTML = visibleItems.map(item => `
-        <div class="d-flex justify-content-between align-items-center text-muted small">
-            <span>${item.name}</span>
-            <span>${item.quantity} &times; ${item.priceValue.toLocaleString('fa-IR')}</span>
-        </div>
-    `).join('');
+    const originalTotal = originalCartItems
+        .reduce((total, item) => total + (item.priceValue * item.quantity), 0);
 
+    const difference = stagedTotal - originalTotal;
+
+    // Determine the breakdown of items in the staged cart
+    const breakdownHTML = stagedCartItems
+        .filter(item => item.status !== 'removed')
+        .map(item => `
+            <div class="d-flex justify-content-between align-items-center text-muted small">
+                <span>${item.name}</span>
+                <span>${item.quantity} &times; ${item.priceValue.toLocaleString('fa-IR')}</span>
+            </div>
+        `).join('');
+
+    // Dynamically generate the difference HTML element if a difference exists
+    let differenceHTML = '';
+    if (difference !== 0) {
+        const diffClass = difference > 0 ? 'text-success' : 'text-danger';
+        const diffSign = difference > 0 ? '+' : '';
+        differenceHTML = `
+            <div class="d-flex justify-content-between align-items-center ${diffClass} small fw-bold">
+                <span>تغییرات</span>
+                <span>${diffSign}${formatPrice(difference)}</span>
+            </div>
+        `;
+    }
+
+    // Render the final summary card
     containerElement.innerHTML = `
         <div class="card shadow-sm">
             <div class="card-body">
                 <h5 class="card-title mb-3">خلاصه سفارش</h5>
                 
                 <div class="d-flex flex-column gap-2 mb-3">
-                    ${breakdownHTML}
+                    ${breakdownHTML || '<p class="text-muted small">سبد شما برای محاسبه خالی است.</p>'}
                 </div>
                 
                 <hr>
 
+                ${differenceHTML}
+
                 <div class="d-flex justify-content-between fw-bold fs-5">
-                    <span>جمع کل</span>
-                    <span>${formatPrice(grandTotal)}</span>
+                    <span>جمع کل نهایی</span>
+                    <span>${formatPrice(stagedTotal)}</span>
                 </div>
                 
                 <hr>
@@ -45,7 +70,7 @@ function renderCartSummary(cartItems, containerElement) {
                     <textarea class="form-control" id="order-notes" rows="3" placeholder="توضیحات اضافی..."></textarea>
                 </div>
                 <div class="d-grid">
-                    <button class="btn btn-success btn-lg">ادامه فرآیند خرید</button>
+                    <button class="btn btn-success btn-lg" ${stagedTotal === 0 ? 'disabled' : ''}>ادامه فرآیند خرید</button>
                 </div>
             </div>
         </div>
@@ -53,15 +78,15 @@ function renderCartSummary(cartItems, containerElement) {
 }
 
 
-export function renderCartItems(cartItems, itemsContainer, summaryContainer) {
-    if (!itemsContainer) return;
+export function renderCartItems(cartItems, originalCart, itemsContainer, summaryContainer) {
+        if (!itemsContainer) return;
 
-    renderCartSummary(cartItems, summaryContainer);
+    renderCartSummary(cartItems, originalCart, summaryContainer);
 
-    if (!cartItems || cartItems.length === 0) {
-        itemsContainer.innerHTML = `<div class="card card-body text-center"><p class="mb-0">سبد خرید شما خالی است.</p></div>`;
-        return;
-    }
+        if (!cartItems || cartItems.length === 0) {
+            itemsContainer.innerHTML = `<div class="card card-body text-center"><p class="mb-0">سبد خرید شما خالی است.</p></div>`;
+            return;
+        }
 
     const itemsHTML = cartItems.map(item => {
         let statusClass = '';

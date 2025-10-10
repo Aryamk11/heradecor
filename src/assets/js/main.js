@@ -132,8 +132,7 @@ async function initializeCartPage() {
     };
 
     const refreshCartView = () => {
-        renderCartItems(stagedCart, itemsContainer, summaryContainer);
-        
+        renderCartItems(stagedCart, originalCart, itemsContainer, summaryContainer);        
         const hasChanges = stagedCart.some(item => {
              const originalItem = originalCart.find(o => o.id == item.id);
              if (!originalItem && item.status !== 'removed') return true; 
