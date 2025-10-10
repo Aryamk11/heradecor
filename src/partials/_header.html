@@ -4,20 +4,19 @@
 
 <header class="p-3 shadow-sm sticky-top bg-light">
     <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-between">
-
+        <div class="d-flex flex-wrap align-items-center justify-content-between position-relative">
+            
             <div class="d-flex align-items-center">
                 <button class="navbar-toggler d-lg-none me-3" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav-collapse" aria-controls="main-nav-collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="bi bi-list fs-2"></i>
                 </button>
-                <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+                <a href="/" class="d-none d-lg-flex align-items-center text-dark text-decoration-none">
                     <img id="header-logo" alt="لوگوی هرا دکور" width="40" height="40" class="rounded-circle me-2">
-                    <span class="fs-4 d-none d-sm-inline">کادو هنری هرا</span>
+                    <span class="fs-4">کادو هنری هرا</span>
                 </a>
             </div>
 
-            <ul class="nav d-none d-lg-flex col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ps-lg-4">
-                <li><a href="/" class="nav-link px-2 link-dark d-flex align-items-center"><i class="bi bi-house-door me-2"></i>خانه</a></li>
+                <ul class="nav d-none d-lg-flex col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ps-lg-4">                <li><a href="/" class="nav-link px-2 link-dark d-flex align-items-center"><i class="bi bi-house-door me-2"></i>خانه</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link px-2 link-dark d-flex align-items-center dropdown-toggle" href="/products.html" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-shop me-2"></i>فروشگاه
@@ -35,8 +34,10 @@
                 <li><a href="#" class="nav-link px-2 link-dark d-flex align-items-center"><i class="bi bi-telephone me-2"></i>تماس با ما</a></li>
             </ul>
 
+            <a href="/" class="text-dark text-decoration-none mobile-brand-name d-lg-none">کادو هنری هرا</a>
+
             <div class="d-flex align-items-center col-auto">
-                <form class="me-3 d-none d-md-block" role="search">
+                <form class="me-3 d-none d-lg-block" role="search">
                     <input type="search" class="form-control" placeholder="جستجو..." aria-label="Search">
                 </form>
                 <div class="text-end d-flex">
@@ -46,7 +47,7 @@
                     <a href="/cart.html" class="btn btn-light position-relative">
                         <i class="bi bi-cart3 fs-5"></i>
                         <span id="cart-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            0
+                            9
                             <span class="visually-hidden">محصول در سبد خرید</span>
                         </span>
                     </a>
@@ -56,6 +57,14 @@
 
         <div class="collapse navbar-collapse d-lg-none" id="main-nav-collapse">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 mt-3">
+                <li class="nav-item mb-2">
+                    <form role="search">
+                        <div class="input-group">
+                            <input type="search" class="form-control" placeholder="جستجو در محصولات..." aria-label="Search">
+                            <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
+                        </div>
+                    </form>
+                </li>
                  <li class="nav-item">
                     <a class="nav-link" href="/">
                         <i class="bi bi-house-door me-2"></i>خانه
@@ -94,11 +103,6 @@
                         <i class="bi bi-telephone me-2"></i>تماس با ما
                     </a>
                 </li>
-                 <li class="nav-item mt-3 d-md-none">
-                     <form role="search">
-                         <input type="search" class="form-control" placeholder="جستجو در محصولات..." aria-label="Search">
-                     </form>
-                 </li>
             </ul>
         </div>
     </div>

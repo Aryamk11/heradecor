@@ -148,8 +148,7 @@ export function renderProductCards(products, gridElement) {
                     <p class="card-text">${product.description ? product.description.substring(0, 80) + '...' : ''}</p>
                     <div class="d-flex justify-content-between align-items-center mt-auto">
                         <div class="btn-group">
-                            <a href="/product-detail.html?id=${product.id}" class="btn btn-sm btn-outline-secondary">مشاهده</a>
-                            <button type="button" class="btn btn-sm btn-primary add-to-cart-btn" data-id="${product.id}">افزودن به سبد</button>
+                            <a href="/product-detail.html?id=${product.id}" class="btn btn-sm btn-outline-secondary d-none d-sm-inline-block">مشاهده</a>                            <button type="button" class="btn btn-sm btn-primary add-to-cart-btn" data-id="${product.id}">افزودن به سبد</button>
                         </div>
                         <small class="text-muted">${formatPrice(product.priceValue)}</small>
                     </div>

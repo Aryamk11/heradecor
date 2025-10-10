@@ -209,9 +209,19 @@ header.sticky-top {
 }
 /* 14. Mobile Header Adjustments */
 // ===================================
+/* 14. Mobile Header Adjustments */
+// ===================================
 .mobile-brand-name {
+    // Positioning for perfect center
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    
+    // Styling
     font-size: 1.3rem;
-    font-weight: 700; // Bolder
-    color: $primary !important; // Use primary theme color
+    font-weight: 700;
+    color: $primary !important;
     letter-spacing: -0.5px;
+    white-space: nowrap; // Prevents wrapping that could affect centering
 }
