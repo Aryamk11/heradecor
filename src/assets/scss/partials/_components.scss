@@ -1,0 +1,77 @@
+// 4. استایل بخش‌های محتوایی ویژه
+// ===================================
+.content-section-bg {
+    background-color: $light;
+    border-radius: $main-border-radius * 2;
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.07); // ADD THIS LINE
+}
+
+
+// 7. استایل‌های عمومی کارت محصول
+// ===================================
+.product-card {
+    border-radius: $main-border-radius !important;
+    overflow: hidden;
+    transition: all .2s ease;
+    cursor: pointer;
+    // ADDED: A subtle border to give cards more definition
+    border: 1px solid #eee !important;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1) !important;
+        border-color: #ddd !important;
+    }
+}
+// 8. Skeleton Loader Styles
+// ===================================
+.skeleton-card {
+    background-color: #e0e0e0;
+    border-radius: $main-border-radius;
+    overflow: hidden;
+    position: relative;
+    height: 380px; // Approximate height of a product card
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -150%;
+        height: 100%;
+        width: 150%;
+        background: linear-gradient(to right, transparent 0%, #f0f0f0 50%, transparent 100%);
+        animation: shimmer 1.5s infinite;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        left: -150%;
+    }
+    100% {
+        left: 150%;
+    }
+}
+
+
+
+
+/* 12. Development Notice Banner */
+// ===================================
+.dev-notice {
+    background-color: #816560;
+    color: #f6f6f6;
+    padding: 0 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    position: relative;
+    z-index: 1031;
+    border-bottom: 3px solid darken(#A1887F, 10%); // A darker, secondary-brown border
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+    strong {
+        font-weight: 600; // Make the "توجه" text bolder
+        margin-left: 5px;
+    }
+}

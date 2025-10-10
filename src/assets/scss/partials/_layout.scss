@@ -1,0 +1,217 @@
+
+
+
+// 5. استایل‌های هدر یکپارچه
+// ===================================
+header.sticky-top {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background-color: rgba($body-bg, 0.85) !important; // CHANGE TO THIS
+    box-shadow: none !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+    .form-control:focus {
+        background-color: rgba(255, 255, 255, 0.8);
+        border-color: $primary;
+        box-shadow: 0 0 0 0.25rem rgba($primary, 0.35) !important;
+    }
+
+    .text-end .btn {
+        border-radius: $main-border-radius;
+        border: 1px solid transparent;
+        background-color: rgba(228, 222, 219, 0.4);
+        &:focus, &:focus-visible {
+             box-shadow: 0 0 0 0.25rem rgba($primary, 0.35) !important;
+        }
+        &:hover {
+            background-color: rgba(228, 222, 219, 0.8);
+        }
+        &:first-child {
+            border-color: $primary;
+            color: $primary;
+            i { color: $primary; }
+            &:hover {
+                background-color: $primary;
+                color: #fff;
+                i { color: #fff; }
+            }
+        }
+    }
+}
+
+
+// 6. استایل‌های منوی اصلی (Navbar)
+// ===================================
+.nav-link {
+    border-radius: $main-border-radius;
+    margin: 0 0.25rem;
+    &:focus, &:focus-visible {
+        box-shadow: 0 0 0 0.25rem rgba($primary, 0.35) !important;
+    }
+    &:hover, &.link-secondary {
+        background-color: $primary;
+        color: #fff !important;
+        i { color: #fff; }
+    }
+}
+
+.dropdown-menu {
+    border-radius: $main-border-radius;
+    border: 1px solid rgba(0,0,0,0.1); // Added a subtle border
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    padding: 0.5rem;
+}
+
+.dropdown-item {
+    border-radius: $main-border-radius * 0.75;
+    padding: 0.5rem 1rem;
+     &:focus, &:focus-visible {
+        box-shadow: 0 0 0 0.25rem rgba($primary, 0.35) !important;
+    }
+    &:hover {
+        background-color: $primary;
+        color: #fff;
+    }
+}
+
+
+// 10. Cart Page Layout & Item Styling (Final Version)
+// ======================================================
+.cart-layout-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: flex-start;
+
+    @media (min-width: 992px) {
+        grid-template-columns: 1fr 350px; // Wider items column, fixed summary
+    }
+}
+
+.cart-summary-wrapper {
+    grid-row: 2;
+    @media (min-width: 992px) {
+        grid-row: 1;
+        grid-column: 2; // Summary on the left
+        position: sticky;
+        top: 80px;
+    }
+}
+
+.cart-items-wrapper {
+    grid-row: 1;
+    @media (min-width: 992px) {
+        grid-column: 1; // Items on the right
+    }
+}
+
+#cart-update-bar {
+    position: sticky;
+    bottom: 1rem;
+    z-index: 100;
+}
+
+// --- New Cart Item Row Styling (Final) ---
+.cart-item-row {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid #dee2e6;
+    transition: background-color 0.3s ease;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    // Highlighting styles
+    &.is-changed-increase { background-color: #d1e7dd; }
+    &.is-changed-decrease { background-color: #fff3cd; }
+    &.is-removed {
+        background-color: #f8d7da; 
+        opacity: 0.7;
+        .item-name { text-decoration: line-through; }
+    }
+}
+
+.cart-item-image-wrapper {
+    width: 90px;
+    height: 90px;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.cart-item-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.item-info {
+    // This div contains the name and price. No special styling needed.
+}
+
+.item-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; // Aligns everything to the right
+    gap: 0.5rem; // Adds space between the quantity input and the buttons
+}
+
+.item-quantity-controls {
+    width: 120px;
+}
+/* 13. Mobile Navigation */
+// ===================================
+.navbar-toggler {
+    border: none;
+    padding: 0;
+    &:focus {
+        box-shadow: none;
+    }
+}
+
+#main-nav-collapse {
+    .accordion-button {
+        padding: 0.75rem 1rem;
+        background-color: transparent;
+        color: $body-color;
+        font-weight: 400;
+        
+        &::after {
+            margin-right: auto;
+            margin-left: 0;
+        }
+
+        &:not(.collapsed) {
+            background-color: darken($light, 3%);
+        }
+        
+        &:focus {
+            box-shadow: 0 0 0 0.25rem rgba($primary, 0.35);
+        }
+    }
+    
+    .accordion-body {
+        padding: 0 0 0.5rem 0;
+        .dropdown-item {
+            padding: 0.5rem 1.5rem; // Indent sub-items
+        }
+    }
+    .nav-link {
+         padding: 0.75rem 1rem;
+    }
+}
+/* 14. Mobile Header Adjustments */
+// ===================================
+.mobile-brand-name {
+    font-size: 1.3rem;
+    font-weight: 700; // Bolder
+    color: $primary !important; // Use primary theme color
+    letter-spacing: -0.5px;
+}
