@@ -312,3 +312,22 @@ header.sticky-top {
     margin: 0;
   }
 }
+
+/* 12. Development Notice Banner */
+// ===================================
+.dev-notice {
+    background-color: #816560;
+    color: #f6f6f6;
+    padding: 0 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    position: relative;
+    z-index: 1031;
+    border-bottom: 3px solid darken(#A1887F, 10%); // A darker, secondary-brown border
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+    strong {
+        font-weight: 600; // Make the "توجه" text bolder
+        margin-left: 5px;
+    }
+}
