@@ -41,4 +41,4 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
-.cacheme/
+.env

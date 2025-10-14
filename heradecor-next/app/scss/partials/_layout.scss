@@ -220,3 +220,14 @@ header.sticky-top {
     letter-spacing: -0.5px;
     white-space: nowrap;
 }
+
+// app/scss/partials/_layout.scss
+
+.dev-notice {
+  background-color: #581c0c;
+  color: white;
+  text-align: center;
+  font-size: 0.85rem;
+  padding: 0.0rem 0rem !important; // Force padding override
+  line-height: 1.5 !important; // Force line-height override
+}
