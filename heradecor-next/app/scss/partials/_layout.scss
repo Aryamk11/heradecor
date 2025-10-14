@@ -1,37 +1,37 @@
-
-
+@use 'variables' as var;
+@use 'sass:color';
 
 // 5. استایل‌های هدر یکپارچه
 // ===================================
 header.sticky-top {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    background-color: rgba($body-bg, 0.85) !important; // CHANGE TO THIS
+    background-color: rgba(var.$body-bg, 0.85) !important;
     box-shadow: none !important;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
     .form-control:focus {
         background-color: rgba(255, 255, 255, 0.8);
-        border-color: $primary;
-        box-shadow: 0 0 0 0.25rem rgba($primary, 0.35) !important;
+        border-color: var.$primary;
+        box-shadow: 0 0 0 0.25rem rgba(color.red(var.$primary), color.green(var.$primary), color.blue(var.$primary), 0.35) !important;
     }
 
     .text-end .btn {
-        border-radius: $main-border-radius;
+        border-radius: var.$main-border-radius;
         border: 1px solid transparent;
         background-color: rgba(228, 222, 219, 0.4);
         &:focus, &:focus-visible {
-             box-shadow: 0 0 0 0.25rem rgba($primary, 0.35) !important;
+             box-shadow: 0 0 0 0.25rem rgba(color.red(var.$primary), color.green(var.$primary), color.blue(var.$primary), 0.35) !important;
         }
         &:hover {
             background-color: rgba(228, 222, 219, 0.8);
         }
         &:first-child {
-            border-color: $primary;
-            color: $primary;
-            i { color: $primary; }
+            border-color: var.$primary;
+            color: var.$primary;
+            i { color: var.$primary; }
             &:hover {
-                background-color: $primary;
+                background-color: var.$primary;
                 color: #fff;
                 i { color: #fff; }
             }
@@ -43,21 +43,21 @@ header.sticky-top {
 // 6. استایل‌های منوی اصلی (Navbar)
 // ===================================
 .nav-link {
-    border-radius: $main-border-radius;
+    border-radius: var.$main-border-radius;
     margin: 0 0.25rem;
     &:focus, &:focus-visible {
-        box-shadow: 0 0 0 0.25rem rgba($primary, 0.35) !important;
+        box-shadow: 0 0 0 0.25rem rgba(color.red(var.$primary), color.green(var.$primary), color.blue(var.$primary), 0.35) !important;
     }
     &:hover, &.link-secondary {
-        background-color: $primary;
+        background-color: var.$primary;
         color: #fff !important;
         i { color: #fff; }
     }
 }
 
 .dropdown-menu {
-    border-radius: $main-border-radius;
-    border: 1px solid rgba(0,0,0,0.1); // Added a subtle border
+    border-radius: var.$main-border-radius;
+    border: 1px solid rgba(0,0,0,0.1);
     backdrop-filter: blur(10px);
     background-color: rgba(255, 255, 255, 0.9);
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
@@ -65,13 +65,13 @@ header.sticky-top {
 }
 
 .dropdown-item {
-    border-radius: $main-border-radius * 0.75;
+    border-radius: var.$main-border-radius * 0.75;
     padding: 0.5rem 1rem;
      &:focus, &:focus-visible {
-        box-shadow: 0 0 0 0.25rem rgba($primary, 0.35) !important;
+        box-shadow: 0 0 0 0.25rem rgba(color.red(var.$primary), color.green(var.$primary), color.blue(var.$primary), 0.35) !important;
     }
     &:hover {
-        background-color: $primary;
+        background-color: var.$primary;
         color: #fff;
     }
 }
@@ -86,7 +86,7 @@ header.sticky-top {
     align-items: flex-start;
 
     @media (min-width: 992px) {
-        grid-template-columns: 1fr 350px; // Wider items column, fixed summary
+        grid-template-columns: 1fr 350px;
     }
 }
 
@@ -94,7 +94,7 @@ header.sticky-top {
     grid-row: 2;
     @media (min-width: 992px) {
         grid-row: 1;
-        grid-column: 2; // Summary on the left
+        grid-column: 2;
         position: sticky;
         top: 80px;
     }
@@ -103,7 +103,7 @@ header.sticky-top {
 .cart-items-wrapper {
     grid-row: 1;
     @media (min-width: 992px) {
-        grid-column: 1; // Items on the right
+        grid-column: 1;
     }
 }
 
@@ -126,11 +126,10 @@ header.sticky-top {
         border-bottom: none;
     }
 
-    // Highlighting styles
     &.is-changed-increase { background-color: #d1e7dd; }
     &.is-changed-decrease { background-color: #fff3cd; }
     &.is-removed {
-        background-color: #f8d7da; 
+        background-color: #f8d7da;
         opacity: 0.7;
         .item-name { text-decoration: line-through; }
     }
@@ -152,20 +151,19 @@ header.sticky-top {
     align-items: flex-start;
 }
 
-.item-info {
-    // This div contains the name and price. No special styling needed.
-}
+.item-info {}
 
 .item-controls {
     display: flex;
     flex-direction: column;
-    align-items: flex-end; // Aligns everything to the right
-    gap: 0.5rem; // Adds space between the quantity input and the buttons
+    align-items: flex-end;
+    gap: 0.5rem;
 }
 
 .item-quantity-controls {
     width: 120px;
 }
+
 /* 13. Mobile Navigation */
 // ===================================
 .navbar-toggler {
@@ -180,7 +178,7 @@ header.sticky-top {
     .accordion-button {
         padding: 0.75rem 1rem;
         background-color: transparent;
-        color: $body-color;
+        color: var.$body-color;
         font-weight: 400;
         
         &::after {
@@ -189,39 +187,36 @@ header.sticky-top {
         }
 
         &:not(.collapsed) {
-            background-color: darken($light, 3%);
+            background-color: color.adjust(var.$light, $lightness: -3%);
         }
         
         &:focus {
-            box-shadow: 0 0 0 0.25rem rgba($primary, 0.35);
+            box-shadow: 0 0 0 0.25rem rgba(color.red(var.$primary), color.green(var.$primary), color.blue(var.$primary), 0.35);
         }
     }
     
     .accordion-body {
         padding: 0 0 0.5rem 0;
         .dropdown-item {
-            padding: 0.5rem 1.5rem; // Indent sub-items
+            padding: 0.5rem 1.5rem;
         }
     }
     .nav-link {
          padding: 0.75rem 1rem;
     }
 }
-/* 14. Mobile Header Adjustments */
-// ===================================
+
 /* 14. Mobile Header Adjustments */
 // ===================================
 .mobile-brand-name {
-    // Positioning for perfect center
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     
-    // Styling
     font-size: 1.3rem;
     font-weight: 700;
-    color: $primary !important;
+    color: var.$primary !important;
     letter-spacing: -0.5px;
-    white-space: nowrap; // Prevents wrapping that could affect centering
+    white-space: nowrap;
 }

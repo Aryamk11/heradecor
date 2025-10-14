@@ -1,0 +1,78 @@
+@use 'variables' as var;
+@use 'sass:color';
+
+// 3. استایل‌های عمومی و بازنویسی‌ها
+// ===================================
+body {
+    background-color: var.$body-bg;
+    color: var.$body-color;
+    font-family: var.$font-family-sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 500; // Making headings slightly bolder
+}
+
+// بازنویسی تمام دکمه‌های اصلی بوت‌استرپ به همراه focus و active
+.btn-primary {
+    --bs-btn-bg: #{var.$primary};
+    --bs-btn-border-color: #{var.$primary};
+    --bs-btn-hover-bg: #{color.adjust(var.$primary, $lightness: -5%)};
+    --bs-btn-hover-border-color: #{color.adjust(var.$primary, $lightness: -5%)};
+    --bs-btn-active-bg: #{color.adjust(var.$primary, $lightness: -10%)};
+    --bs-btn-active-border-color: #{color.adjust(var.$primary, $lightness: -10%)};
+    --bs-btn-focus-shadow-rgb: #{color.red(var.$primary)}, #{color.green(var.$primary)}, #{color.blue(var.$primary)};
+}
+
+.btn-secondary {
+    --bs-btn-bg: #{var.$secondary};
+    --bs-btn-border-color: #{var.$secondary};
+    --bs-btn-hover-bg: #{color.adjust(var.$secondary, $lightness: -5%)};
+    --bs-btn-hover-border-color: #{color.adjust(var.$secondary, $lightness: -5%)};
+    --bs-btn-active-bg: #{color.adjust(var.$secondary, $lightness: -10%)};
+    --bs-btn-active-border-color: #{color.adjust(var.$secondary, $lightness: -10%)};
+    --bs-btn-focus-shadow-rgb: #{color.red(var.$secondary)}, #{color.green(var.$secondary)}, #{color.blue(var.$secondary)};
+}
+
+.btn-outline-secondary {
+    &:hover {
+        background-color: var.$secondary;
+        border-color: var.$secondary;
+        color: #fff;
+    }
+    &:focus, &:focus-visible, &:active {
+        box-shadow: 0 0 0 0.25rem rgba(color.red(var.$secondary), color.green(var.$secondary), color.blue(var.$secondary), 0.5) !important;
+    }
+}
+// 9. Cart Item Status Highlighting
+// ===================================
+.cart-item {
+    transition: background-color 0.3s ease;
+
+    &.is-changed-increase {
+        background-color: #d1e7dd;
+    }
+
+    &.is-changed-decrease {
+        background-color: #fff3cd;
+    }
+
+    &.is-removed {
+        background-color: #f8d7da;
+        opacity: 0.6;
+
+        h5, .item-subtotal {
+            text-decoration: line-through;
+        }
+    }
+}
+// 11. Form Control Adjustments
+// ===================================
+.cart-quantity-input {
+  -moz-appearance: textfield;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}

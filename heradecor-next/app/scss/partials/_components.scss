@@ -1,17 +1,20 @@
+@use 'variables' as var;
+@use 'sass:color';
+
 // 4. استایل بخش‌های محتوایی ویژه
 // ===================================
 .content-section-bg {
-    background-color: $light;
-    border-radius: $main-border-radius * 2;
+    background-color: var.$light;
+    border-radius: var.$main-border-radius * 2;
     box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(0, 0, 0, 0.07); // ADD THIS LINE
+    border: 1px solid rgba(0, 0, 0, 0.07);
 }
 
 
 // 7. استایل‌های عمومی کارت محصول
 // ===================================
 .product-card {
-    border-radius: $main-border-radius !important;
+    border-radius: var.$main-border-radius !important;
     overflow: hidden;
     transition: all .2s ease;
     cursor: pointer;
@@ -27,10 +30,10 @@
 // ===================================
 .skeleton-card {
     background-color: #e0e0e0;
-    border-radius: $main-border-radius;
+    border-radius: var.$main-border-radius;
     overflow: hidden;
     position: relative;
-    height: 380px; // Approximate height of a product card
+    height: 380px;
 
     &::before {
         content: '';
@@ -53,24 +56,21 @@
     }
 }
 
-
-
-
 /* 12. Development Notice Banner */
 // ===================================
 .dev-notice {
-    background-color: #816560;
+    background-color: color.adjust(#A1887F, $lightness: -10%);
     color: #f6f6f6;
-    padding: 0 1rem;
+    padding: 0.5rem 1rem;
     text-align: center;
     font-size: 0.9rem;
     position: relative;
     z-index: 1031;
-    border-bottom: 3px solid darken(#A1887F, 10%); // A darker, secondary-brown border
+    border-bottom: 3px solid color.adjust(#A1887F, $lightness: -20%);
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 
     strong {
-        font-weight: 600; // Make the "توجه" text bolder
+        font-weight: 600;
         margin-left: 5px;
     }
 }
@@ -78,8 +78,6 @@
 // Responsive adjustments for product card footer on mobile
 @media (max-width: 575.98px) {
     .product-card .btn-group .add-to-cart-btn {
-        // When the "view" button is hidden via display:none, the "add-to-cart"
-        // button is the only one left. We restore its corner radius.
         border-radius: var(--bs-border-radius-sm) !important;
     }
 }

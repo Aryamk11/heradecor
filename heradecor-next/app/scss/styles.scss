@@ -1,0 +1,12 @@
+// app/scss/styles.scss
+
+// 1. Import your custom variables BEFORE Bootstrap to override defaults.
+@import './partials/variables';
+
+// 2. Import the entire Bootstrap SCSS framework.
+// The '~' alias points to your node_modules directory, configured in next.config.mjs.
+@import '~bootstrap/scss/bootstrap';
+
+// 3. Import your custom layout and component styles.
+@import './partials/layout';
+@import './partials/components';
