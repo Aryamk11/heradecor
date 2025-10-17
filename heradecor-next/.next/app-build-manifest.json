@@ -1,0 +1,44 @@
+{
+  "pages": {
+    "/about/page": [
+      "static/chunks/a80dc_next_dist_3ff8e533._.js",
+      "static/chunks/heradecor-next_app_favicon_ico_mjs_df43b938._.js",
+      "static/chunks/a80dc_@supabase_node-fetch_browser_24935cbf.js",
+      "static/chunks/a80dc_73db9b8d._.js",
+      "static/chunks/heradecor-next_app_4ba1954a._.js",
+      "static/chunks/[root-of-the-server]__0c038e80._.css",
+      "static/chunks/heradecor-next_app_layout_tsx_1d60c51d._.js",
+      "static/chunks/a80dc_next_dist_client_components_builtin_global-error_04feacae.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_9c0dfc39._.js",
+      "static/chunks/a80dc_next_dist_compiled_react-dom_9c233edf._.js",
+      "static/chunks/a80dc_next_dist_compiled_next-devtools_index_e65ce737.js",
+      "static/chunks/a80dc_next_dist_compiled_c7461903._.js",
+      "static/chunks/a80dc_next_dist_client_bac3acf8._.js",
+      "static/chunks/a80dc_next_dist_7c40d46c._.js",
+      "static/chunks/a80dc_@swc_helpers_cjs_443519db._.js",
+      "static/chunks/heradecor-next_a0ff3932._.js",
+      "static/chunks/turbopack-heradecor-next_94968bdd._.js"
+    ],
+    "/page": [
+      "static/chunks/a80dc_next_dist_3ff8e533._.js",
+      "static/chunks/heradecor-next_app_favicon_ico_mjs_df43b938._.js",
+      "static/chunks/a80dc_@supabase_node-fetch_browser_24935cbf.js",
+      "static/chunks/a80dc_73db9b8d._.js",
+      "static/chunks/heradecor-next_app_4ba1954a._.js",
+      "static/chunks/[root-of-the-server]__0c038e80._.css",
+      "static/chunks/heradecor-next_app_layout_tsx_1d60c51d._.js",
+      "static/chunks/a80dc_next_dist_client_components_builtin_global-error_04feacae.js",
+      "static/chunks/heradecor-next_app_components_AddToCartButton_tsx_49ae4a5b._.js",
+      "static/chunks/heradecor-next_app_page_tsx_04feacae._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_9c0dfc39._.js",
+      "static/chunks/a80dc_next_dist_compiled_react-dom_9c233edf._.js",
+      "static/chunks/a80dc_next_dist_compiled_next-devtools_index_e65ce737.js",
+      "static/chunks/a80dc_next_dist_compiled_c7461903._.js",
+      "static/chunks/a80dc_next_dist_client_bac3acf8._.js",
+      "static/chunks/a80dc_next_dist_7c40d46c._.js",
+      "static/chunks/a80dc_@swc_helpers_cjs_443519db._.js",
+      "static/chunks/heradecor-next_a0ff3932._.js",
+      "static/chunks/turbopack-heradecor-next_94968bdd._.js"
+    ]
+  }
+}

@@ -1,0 +1,269 @@
+// app/scss/partials/_layout.scss
+@use 'variables' as var;
+@use 'sass:color';
+
+// 5. استایل‌های هدر یکپارچه
+// ===================================
+header.sticky-top {
+    // This is the intended style from your file, overriding Bootstrap's 'bg-light'
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background-color: rgba(var.$body-bg, 0.85) !important; 
+    box-shadow: none !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+    .form-control:focus {
+        background-color: rgba(255, 255, 255, 0.8);
+        border-color: var.$primary;
+        box-shadow: 0 0 0 0.25rem rgba(color.red(var.$primary), color.green(var.$primary), color.blue(var.$primary), 0.35) !important;
+    }
+
+    .text-end .btn {
+        border-radius: var.$main-border-radius;
+        border: 1px solid transparent;
+        background-color: rgba(228, 222, 219, 0.4);
+        &:focus, &:focus-visible {
+             box-shadow: 0 0 0 0.25rem rgba(color.red(var.$primary), color.green(var.$primary), color.blue(var.$primary), 0.35) !important;
+        }
+        &:hover {
+            background-color: rgba(228, 222, 219, 0.8);
+        }
+        
+        // This rule seems incorrect in your original file, as it styles the first button, not the user icon.
+        // Keeping it as-is from your file.
+        &:first-child {
+            border-color: var.$primary;
+            color: var.$primary;
+            i { color: var.$primary; }
+            &:hover {
+                background-color: var.$primary;
+                color: #fff;
+                i { color: #fff; }
+            }
+        }
+    }
+}
+
+
+// 6. استایل‌های منوی اصلی (Navbar)
+// ===================================
+.nav-link {
+    border-radius: var.$main-border-radius;
+    margin: 0 0.25rem;
+    &:focus, &:focus-visible {
+        box-shadow: 0 0 0 0.25rem rgba(color.red(var.$primary), color.green(var.$primary), color.blue(var.$primary), 0.35) !important;
+    }
+    &:hover, &.link-secondary {
+        background-color: var.$primary;
+        color: #fff !important;
+        i { color: #fff; }
+    }
+}
+
+// *** ADDED: Active link styles from screenshot ***
+.nav-link.active,
+.accordion-button.active {
+    color: #fff !important;
+    background-color: var.$primary; // Using your SCSS variable
+    border-radius: 0.25rem;
+}
+
+.nav-link.active:hover,
+.accordion-button.active:hover,
+.accordion-button.active:not(.collapsed) {
+    color: #fff !important;
+    background-color: color.adjust(var.$primary, $lightness: -8%); // Darker brown for hover/open
+}
+
+.accordion-button.active i {
+    color: #fff !important;
+}
+
+.accordion-button.active:focus {
+    box-shadow: none;
+    border-color: transparent;
+}
+// *** END: Active link styles ***
+
+
+.dropdown-menu {
+    border-radius: var.$main-border-radius;
+    border: 1px solid rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    padding: 0.5rem;
+}
+
+.dropdown-item {
+    border-radius: var.$main-border-radius * 0.75;
+    padding: 0.5rem 1rem;
+     &:focus, &:focus-visible {
+        box-shadow: 0 0 0 0.25rem rgba(color.red(var.$primary), color.green(var.$primary), color.blue(var.$primary), 0.35) !important;
+    }
+    &:hover {
+        background-color: var.$primary;
+        color: #fff;
+    }
+}
+
+
+// 10. Cart Page Layout & Item Styling (Final Version)
+// ======================================================
+.cart-layout-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: flex-start;
+
+    @media (min-width: 992px) {
+        grid-template-columns: 1fr 350px;
+    }
+}
+
+.cart-summary-wrapper {
+    grid-row: 2;
+    @media (min-width: 992px) {
+        grid-row: 1;
+        grid-column: 2;
+        position: sticky;
+        top: 80px;
+    }
+}
+
+.cart-items-wrapper {
+    grid-row: 1;
+    @media (min-width: 992px) {
+        grid-column: 1;
+    }
+}
+
+#cart-update-bar {
+    position: sticky;
+    bottom: 1rem;
+    z-index: 100;
+}
+
+// --- New Cart Item Row Styling (Final) ---
+.cart-item-row {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid #dee2e6;
+    transition: background-color 0.3s ease;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    &.is-changed-increase { background-color: #d1e7dd; }
+    &.is-changed-decrease { background-color: #fff3cd; }
+    &.is-removed {
+        background-color: #f8d7da;
+        opacity: 0.7;
+        .item-name { text-decoration: line-through; }
+    }
+}
+
+.cart-item-image-wrapper {
+    width: 90px;
+    height: 90px;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.cart-item-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.item-info {}
+
+.item-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+.item-quantity-controls {
+    width: 120px;
+}
+
+/* 13. Mobile Navigation */
+// ===================================
+.navbar-toggler {
+    border: none;
+    padding: 0;
+    &:focus {
+        box-shadow: none;
+    }
+}
+
+#main-nav-collapse {
+    .accordion-button {
+        padding: 0.75rem 1rem;
+        background-color: transparent;
+        color: var.$body-color;
+        font-weight: 400;
+        
+        &::after {
+            margin-right: auto;
+            margin-left: 0;
+        }
+
+        &:not(.collapsed) {
+            background-color: color.adjust(var.$light, $lightness: -3%);
+        }
+        
+        &:focus {
+            box-shadow: 0 0 0 0.25rem rgba(color.red(var.$primary), color.green(var.$primary), color.blue(var.$primary), 0.35);
+        }
+    }
+    
+    .accordion-body {
+        padding: 0 0 0.5rem 0;
+        .dropdown-item {
+            padding: 0.5rem 1.5rem;
+        }
+    }
+    .nav-link {
+         padding: 0.75rem 1rem;
+    }
+
+    // *** ADDED: Mobile icon color fix ***
+    .accordion-button i {
+        color: var.$body-color;
+    }
+
+    .accordion-button:not(.collapsed) i {
+        // Find the BS variable for active color or set it explicitly
+        color: var(--bs-accordion-active-color); 
+    }
+
+    .accordion-button.active:not(.collapsed) i {
+        color: #fff !important;
+    }
+}
+
+/* 14. Mobile Header Adjustments */
+// ===================================
+.mobile-brand-name {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var.$primary !important;
+    letter-spacing: -0.5px;
+    white-space: nowrap;
+}
+
+
