@@ -127,26 +127,43 @@ export default function Header() {
               کادو هنری هرا
             </Link>
 
-            {/* --- GROUP 4: Search + Icons --- */}
-            <div className="d-flex align-items-center col-auto">
-              <form className="me-5 d-none d-lg-block" role="search">
-                <input type="search" className="form-control" placeholder="جستجو..." aria-label="Search" />
-              </form>
-              <div className="text-end d-flex">
-                <a href="#" className="btn btn-light me-3">
-                      <i className="bi bi-person fs-5"></i>
-                </a>
-                <Link href="/cart" className="btn btn-light position-relative">
-                  <i className="bi bi-cart3 fs-5"></i>
-                  {/* Badge position from your screenshots (top-left in RTL) */}
-                  <span id="cart-badge" className="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-danger right-span-2">
-                      <span className="visually-hidden">محصول در سبد خرید</span>
-                  </span>
-                </Link>
-              </div>
-            </div>
-          </div>
+{/* --- GROUP 4: Search + Icons --- */}
 
+{/* FIX 1: Added `gap-4` here to create space between the 
+  search form and the icon group. This is cleaner than using `me-5`.
+*/}
+<div className="d-flex align-items-center col-auto gap-4">
+
+  {/* Search Form - Removed `me-5` */}
+  <form className="d-none d-lg-block" role="search">
+    <input type="search" className="form-control" placeholder="جستجو..." aria-label="Search" />
+  </form>
+
+  {/* FIX 2: Added `gap-3` here to separate the profile
+    and cart icons. This is cleaner than `me-3` on the icon.
+  */}
+  <div className="text-end d-flex gap-3">
+    
+    {/* Profile Icon - Removed `me-3` */}
+    <a href="#" className="btn btn-light">
+      <i className="bi bi-person fs-5"></i>
+    </a>
+
+    {/* Cart Icon */}
+    <Link href="/cart" className="btn btn-light position-relative">
+      <i className="bi bi-cart3 fs-5"></i>
+      
+      {/* FIX 3: 
+        - Removed invalid 'right-span-2' class.
+        - Added "9" so the badge is visible.
+      */}
+      <span id="cart-badge" className="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-danger">
+        9 
+        <span className="visually-hidden">محصول در سبد خرید</span>
+      </span>
+    </Link>
+  </div>
+</div>
           {/* --- Mobile Collapsible Navigation --- */}
           <div className="collapse navbar-collapse d-lg-none" id="main-nav-collapse">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0 mt-3">
