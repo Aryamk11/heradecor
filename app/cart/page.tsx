@@ -6,6 +6,9 @@ import { getCartWithProductDetails, saveCart, updateCartBadge } from '../lib/car
 import Link from 'next/link';
 import Image from 'next/image'; // Import next/image
 
+
+
+
 // Define a type for our detailed cart items
 type CartItem = {
   id: number;
@@ -117,8 +120,12 @@ export default function CartPage() {
   const difference = stagedTotal - originalTotal;
   const hasChanges = JSON.stringify(originalCart) !== JSON.stringify(stagedCart);
 
-  if (isLoading) {
-    return <p className="text-center">در حال بارگذاری سبد خرید...</p>;
+if (isLoading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '60vh' }}>
+        <p className="text-center fs-4">در حال بارگذاری سبد خرید...</p>
+      </div>
+    );
   }
 
   return (
