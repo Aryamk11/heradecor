@@ -36,14 +36,14 @@ export default function Header() {
 
   return (
     <>
-<div className="dev-notice" style={{padding: 0}}>
-  <strong>توجه:</strong> این وب‌‌سایت در حال توسعه است و صرفاً جهت نمایش نمونه کار می‌باشد.
-</div>
+      <div className="dev-notice" style={{padding: 0}}>
+        <strong>توجه:</strong> این وب‌‌سایت در حال توسعه است و صرفاً جهت نمایش نمونه کار می‌باشد.
+      </div>
 
       {/* The `bg-light` class is likely overridden by your SCSS, which is fine */}
       <header className="p-3 shadow-sm sticky-top bg-light">
         <div className="container">
-{/* --- Main header bar --- */}
+          {/* --- Main header bar --- */}
           <div className="d-flex flex-wrap align-items-center justify-content-between position-relative">
             
             {/* --- NEW PARENT GROUP (BRAND + NAV) --- */}
@@ -101,18 +101,14 @@ export default function Header() {
                     <li><a className="dropdown-item" href="#">شمع و خوشبوکننده</a></li>
                   </ul>
                 </li>
-                <li>
-                  <a href="#" className={`nav-link px-1 d-flex align-items-center ${pathname === '/discounts' ? 'active' : 'link-dark'}`}>
-                    <i className="bi bi-tag me-2"></i>تخفیف‌ها
-                  </a>
-                </li>
+                {/* Discounts link removed as requested */}
                 <li>
                   <Link href="/about" className={`nav-link px-1 d-flex align-items-center ${pathname === '/about' ? 'active' : 'link-dark'}`}>
                     <i className="bi bi-info-circle me-2"></i>درباره ما
                   </Link>
                 </li>
                 <li>
-                  <a href="#" className={`nav-link px-1 d-flex align-items-center ${pathname === '/contact' ? 'active' : 'link-dark'}`}>
+                  <a href="/contact" className={`nav-link px-1 d-flex align-items-center ${pathname === '/contact' ? 'active' : 'link-dark'}`}>
                     <i className="bi bi-telephone me-2"></i>تماس با ما
                   </a>
                 </li>
@@ -127,44 +123,37 @@ export default function Header() {
               کادو هنری هرا
             </Link>
 
-{/* --- GROUP 4: Search + Icons --- */}
+            {/* --- GROUP 4: Search + Icons --- */}
+            <div className="d-flex align-items-center col-auto gap-4">
 
-{/* FIX 1: Added `gap-4` here to create space between the 
-  search form and the icon group. This is cleaner than using `me-5`.
-*/}
-<div className="d-flex align-items-center col-auto gap-4">
+              {/* Search Form - Removed `me-5` */}
+              <form className="d-none d-lg-block" role="search">
+                <input type="search" className="form-control" placeholder="جستجو..." aria-label="Search" />
+              </form>
 
-  {/* Search Form - Removed `me-5` */}
-  <form className="d-none d-lg-block" role="search">
-    <input type="search" className="form-control" placeholder="جستجو..." aria-label="Search" />
-  </form>
+              {/* FIX 2: Added `gap-3` here */}
+              <div className="text-end d-flex gap-3">
+                
+                {/* Profile Icon - Removed `me-3` */}
+                <a href="#" className="btn btn-light">
+                  <i className="bi bi-person fs-5"></i>
+                </a>
 
-  {/* FIX 2: Added `gap-3` here to separate the profile
-    and cart icons. This is cleaner than `me-3` on the icon.
-  */}
-  <div className="text-end d-flex gap-3">
-    
-    {/* Profile Icon - Removed `me-3` */}
-    <a href="#" className="btn btn-light">
-      <i className="bi bi-person fs-5"></i>
-    </a>
-
-    {/* Cart Icon */}
-    <Link href="/cart" className="btn btn-light position-relative">
-      <i className="bi bi-cart3 fs-5"></i>
-      
-      {/* FIX 3: 
-        - Removed invalid 'right-span-2' class.
-        - Added "9" so the badge is visible.
-      */}
-      <span id="cart-badge" className="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-danger">
-        9 
-        <span className="visually-hidden">محصول در سبد خرید</span>
-      </span>
-    </Link>
-  </div>
-</div>
-          {/* --- Mobile Collapsible Navigation --- */}
+                {/* Cart Icon */}
+                <Link href="/cart" className="btn btn-light position-relative">
+                  <i className="bi bi-cart3 fs-5"></i>
+                  
+                  <span id="cart-badge" className="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-danger">
+                    0
+                    <span className="visually-hidden">محصول در سبد خرید</span>
+                  </span>
+                </Link>
+              </div>
+            </div>
+          </div>
+          
+          {/* --- Mobile Collapsible Navigation (MOVED HERE) --- */}
+          {/* This is now a direct child of .container, so it won't affect the height of the .position-relative div above */}
           <div className="collapse navbar-collapse d-lg-none" id="main-nav-collapse">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0 mt-3">
               <li className="nav-item mb-2">
@@ -205,25 +194,20 @@ export default function Header() {
                   </div>
                 </div>
               </li>
-              <li className="nav-item">
-                <a className={`nav-link ${pathname === '/discounts' ? 'active' : ''}`} href="#">
-                  <i className="bi bi-tag me-2"></i>تخفیف‌ها
-                </a>
-              </li>
+              {/* Discounts link removed as requested */}
               <li className="nav-item">
                 <Link className={`nav-link ${pathname === '/about' ? 'active' : ''}`} href="/about">
                   <i className="bi bi-info-circle me-2"></i>درباره ما
                 </Link>
               </li>
               <li className="nav-item">
-                <a className={`nav-link ${pathname === '/contact' ? 'active' : ''}`} href="#">
+                <a className={`nav-link ${pathname === '/contact' ? 'active' : ''}`} href="/contact">
                   <i className="bi bi-telephone me-2"></i>تماس با ما
                 </a>
               </li>
             </ul>
           </div>
         </div>
-      </div>
       </header>
     </>
   );

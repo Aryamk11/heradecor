@@ -1,19 +1,19 @@
-declare module '*.scss';
-declare module '*.css';
-
 // declarations.d.ts
 
-// Define a minimal interface for the parts of bootstrap we use globally
-interface Bootstrap {
-  Dropdown: new (element: Element | string, options?: object) => any; 
+// This tells TypeScript that importing a .scss file is valid
+declare module '*.scss' {
+  const content: { [className: string]: string };
+  export default content;
 }
 
-declare global {
-  interface Window {
-    // Use the specific Bootstrap interface instead of any
-    bootstrap?: Bootstrap;
-  }
+// This tells TypeScript that importing a .css file is valid
+declare module '*.css' {
+  const content: { [className: string]: string };
+  export default content;
 }
 
-// This export is needed to treat the file as a module.
-export {};
+// This is for the global bootstrap object
+interface Window {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  bootstrap: any;
+}

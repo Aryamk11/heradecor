@@ -22,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     // Apply the font className to the html tag
-    <html lang="fa" dir="rtl" className={vazirmatn.className}>
+  <html lang="fa" dir="rtl" className={vazirmatn.className} data-scroll-behavior="smooth">
       <body>
         <Header />
         <main className="container my-5">

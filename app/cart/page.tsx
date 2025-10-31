@@ -2,8 +2,9 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { getCartWithProductDetails, saveCart } from '../lib/cart-service';
+import { getCartWithProductDetails, saveCart, updateCartBadge } from '../lib/cart-service';
 import Link from 'next/link';
+import Image from 'next/image'; // Import next/image
 
 // Define a type for our detailed cart items
 type CartItem = {
@@ -13,6 +14,16 @@ type CartItem = {
   image: string;
   quantity: number;
   status: 'idle' | 'increase' | 'decrease' | 'removed';
+};
+
+// DEFINE TYPE for the data from getCartWithProductDetails
+type DetailedProduct = {
+  id: number;
+  name: string;
+  priceValue: number;
+  image: string;
+  quantity: number;
+  // ...any other properties from supabase
 };
 
 // Helper function from ui-renderer.js
@@ -29,8 +40,9 @@ export default function CartPage() {
   // Fetch initial cart data on component mount
   useEffect(() => {
     async function loadCart() {
-      const detailedCart = await getCartWithProductDetails();
-      const initialItems = detailedCart.map(item => ({ ...item, status: 'idle' })) as CartItem[];
+      const detailedCart: DetailedProduct[] = await getCartWithProductDetails();
+      // <-- FIX: Apply 'DetailedProduct' type to 'item'
+      const initialItems = detailedCart.map((item: DetailedProduct) => ({ ...item, status: 'idle' })) as CartItem[];
       setOriginalCart(JSON.parse(JSON.stringify(initialItems))); // Deep copy
       setStagedCart(JSON.parse(JSON.stringify(initialItems))); // Deep copy
       setIsLoading(false);
@@ -77,10 +89,12 @@ export default function CartPage() {
     const cartToSave = finalCart.map(item => ({ id: String(item.id), quantity: item.quantity }));
     
     saveCart(cartToSave);
+    updateCartBadge();
     
     // Refresh the state to match the new saved cart
-    const newDetailedCart = await getCartWithProductDetails();
-    const newItems = newDetailedCart.map(item => ({ ...item, status: 'idle' })) as CartItem[];
+    const newDetailedCart: DetailedProduct[] = await getCartWithProductDetails();
+    // <-- FIX: Apply 'DetailedProduct' type to 'item'
+    const newItems = newDetailedCart.map((item: DetailedProduct) => ({ ...item, status: 'idle' })) as CartItem[];
     setOriginalCart(JSON.parse(JSON.stringify(newItems)));
     setStagedCart(JSON.parse(JSON.stringify(newItems)));
     
@@ -169,7 +183,14 @@ export default function CartPage() {
                   return (
                     <div className={`cart-item-row ${statusClass}`} data-id={item.id} key={item.id}>
                       <div className="cart-item-image-wrapper">
-                        <img src={item.image} alt={item.name} className="img-fluid rounded" />
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          width={90}
+                          height={90}
+                          className="img-fluid rounded"
+                          style={{ objectFit: 'cover' }}
+                        />
                       </div>
                       <div className="cart-item-content">
                         <div className="item-info">

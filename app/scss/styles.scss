@@ -8,5 +8,6 @@
 @import '~bootstrap/scss/bootstrap';
 
 // 3. Import your custom layout and component styles.
+@import './partials/_base';
 @import './partials/layout';
 @import './partials/components';
