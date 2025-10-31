@@ -2,7 +2,8 @@ import path from 'path';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', // <-- ADD THIS
+  // output: 'export', // <-- Ensure this line is deleted
+  
   sassOptions: {
     includePaths: [
       path.join(process.cwd(), 'app/scss'),
@@ -13,7 +14,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'eqktbcdlgrfgaqnindmm.supabase.co',
+        hostname: 'eqktbcdigrfgaqnindmm.supabase.co', // It was 'l', now it is 'i'
         port: '',
         pathname: '/storage/v1/object/public/product-images/**',
       },

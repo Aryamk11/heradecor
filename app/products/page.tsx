@@ -1,6 +1,7 @@
 // app/products/page.tsx
 import { fetchAllProducts } from "../lib/product-service";
 import Link from 'next/link';
+import Image from 'next/image'; // <-- IMPORT
 
 // Reusable helper function
 function formatPrice(value: number) {
@@ -22,7 +23,14 @@ export default async function ProductsPage() {
           <div className="col" key={product.id}>
             <div className="card shadow-sm product-card h-100">
               <Link href={`/products/${product.id}`} className="text-decoration-none text-dark">
-                <img src={product.image} className="card-img-top" alt={product.name} />
+                <Image 
+                  src={product.image} 
+                  className="card-img-top" 
+                  alt={product.name}
+                  width={300}  // Set a base width
+                  height={300} // Set a base height
+                  style={{ aspectRatio: '1 / 1', objectFit: 'cover' }} // Maintain aspect ratio
+                />
               </Link>
               <div className="card-body d-flex flex-column">
                 <h5 className="card-title">

@@ -1,13 +1,24 @@
 // app/scss/styles.scss
 
-// 1. Import your custom variables BEFORE Bootstrap to override defaults.
-@import './partials/variables';
+// 1. Use variables.scss
+@use './partials/variables' as vars;
 
-// 2. Import the entire Bootstrap SCSS framework.
-// The '~' alias points to your node_modules directory, configured in next.config.mjs.
-@import '~bootstrap/scss/bootstrap';
+// 2. Import Bootstrap and *configure* it with our variables.
+@use '~bootstrap/scss/bootstrap' with (
+  $primary: vars.$primary,
+  $secondary: vars.$secondary,
+  $light: vars.$light,
+  $body-bg: vars.$body-bg,
+  $body-color: vars.$body-color,
+  $font-family-sans-serif: vars.$font-family-sans-serif,
+  
+  // Map your custom radius to Bootstrap's core radius variables
+  $border-radius: vars.$main-border-radius,
+  $border-radius-sm: vars.$main-border-radius * 0.75,
+  $border-radius-lg: vars.$main-border-radius * 1.5
+);
 
 // 3. Import your custom layout and component styles.
-@import './partials/_base';
-@import './partials/layout';
-@import './partials/components';
+@use './partials/base';
+@use './partials/layout';
+@use './partials/components';

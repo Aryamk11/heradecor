@@ -1,6 +1,7 @@
 // app/page.tsx
 import { fetchProducts } from "./lib/product-service";
 import Link from 'next/link';
+import Image from 'next/image'; // <-- IMPORT
 import AddToCartButton from './components/AddToCartButton'; // Import the client component
 
 function formatPrice(value: number) {
@@ -34,7 +35,15 @@ export default async function HomePage() {
               <div className="col" key={product.id}>
                 <div className="card shadow-sm product-card h-100">
                    <Link href={`/products/${product.id}`} className="text-decoration-none text-dark">
-                      <img src={product.image} className="card-img-top" alt={product.name} />
+                      {/* --- THIS IS THE FIX --- */}
+                      <Image 
+                        src={product.image} 
+                        className="card-img-top" 
+                        alt={product.name}
+                        width={300}  // Set a base width
+                        height={300} // Set a base height
+                        style={{ aspectRatio: '1 / 1', objectFit: 'cover' }} // Maintain aspect ratio
+                      />
                    </Link>
                    <div className="card-body d-flex flex-column">
                        <h5 className="card-title">
@@ -44,7 +53,6 @@ export default async function HomePage() {
                        <div className="d-flex justify-content-between align-items-center mt-auto">
                            <div className="btn-group">
                                <Link href={`/products/${product.id}`} className="btn btn-sm btn-outline-secondary d-none d-sm-inline-block">مشاهده</Link>
-                               {/* CORRECTED: Use the functional button component */}
                                <AddToCartButton productId={product.id} />
                            </div>
                            <small className="text-muted">{formatPrice(product.priceValue)}</small>
