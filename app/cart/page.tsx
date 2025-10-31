@@ -4,12 +4,8 @@
 import { useState, useEffect } from 'react';
 import { getCartWithProductDetails, saveCart, updateCartBadge } from '../lib/cart-service';
 import Link from 'next/link';
-import Image from 'next/image'; // Import next/image
+import Image from 'next/image';
 
-
-
-
-// Define a type for our detailed cart items
 type CartItem = {
   id: number;
   name: string;
@@ -19,17 +15,14 @@ type CartItem = {
   status: 'idle' | 'increase' | 'decrease' | 'removed';
 };
 
-// DEFINE TYPE for the data from getCartWithProductDetails
 type DetailedProduct = {
   id: number;
   name: string;
   priceValue: number;
   image: string;
   quantity: number;
-  // ...any other properties from supabase
 };
 
-// Helper function from ui-renderer.js
 function formatPrice(value: number) {
   if (typeof value !== 'number') return 'ناعدد';
   return `${value.toLocaleString('fa-IR')} تومان`;
@@ -40,14 +33,12 @@ export default function CartPage() {
   const [stagedCart, setStagedCart] = useState<CartItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch initial cart data on component mount
   useEffect(() => {
     async function loadCart() {
       const detailedCart: DetailedProduct[] = await getCartWithProductDetails();
-      // <-- FIX: Apply 'DetailedProduct' type to 'item'
       const initialItems = detailedCart.map((item: DetailedProduct) => ({ ...item, status: 'idle' })) as CartItem[];
-      setOriginalCart(JSON.parse(JSON.stringify(initialItems))); // Deep copy
-      setStagedCart(JSON.parse(JSON.stringify(initialItems))); // Deep copy
+      setOriginalCart(JSON.parse(JSON.stringify(initialItems)));
+      setStagedCart(JSON.parse(JSON.stringify(initialItems)));
       setIsLoading(false);
     }
     loadCart();
@@ -94,9 +85,7 @@ export default function CartPage() {
     saveCart(cartToSave);
     updateCartBadge();
     
-    // Refresh the state to match the new saved cart
     const newDetailedCart: DetailedProduct[] = await getCartWithProductDetails();
-    // <-- FIX: Apply 'DetailedProduct' type to 'item'
     const newItems = newDetailedCart.map((item: DetailedProduct) => ({ ...item, status: 'idle' })) as CartItem[];
     setOriginalCart(JSON.parse(JSON.stringify(newItems)));
     setStagedCart(JSON.parse(JSON.stringify(newItems)));
@@ -105,7 +94,7 @@ export default function CartPage() {
   };
 
   const handleCancelUpdate = () => {
-    setStagedCart(JSON.parse(JSON.stringify(originalCart))); // Revert to original
+    setStagedCart(JSON.parse(JSON.stringify(originalCart)));
   };
 
   const handleEmptyCart = () => {
@@ -114,18 +103,13 @@ export default function CartPage() {
     }
   };
 
-  // --- Calculations for rendering ---
   const stagedTotal = stagedCart.filter(item => item.status !== 'removed').reduce((total, item) => total + (item.priceValue * item.quantity), 0);
   const originalTotal = originalCart.reduce((total, item) => total + (item.priceValue * item.quantity), 0);
   const difference = stagedTotal - originalTotal;
   const hasChanges = JSON.stringify(originalCart) !== JSON.stringify(stagedCart);
 
-if (isLoading) {
-    return (
-      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '60vh' }}>
-        <p className="text-center fs-4">در حال بارگذاری سبد خرید...</p>
-      </div>
-    );
+  if (isLoading) {
+    return <p className="text-center">در حال بارگذاری سبد خرید...</p>;
   }
 
   return (
@@ -196,7 +180,7 @@ if (isLoading) {
                           width={90}
                           height={90}
                           className="img-fluid rounded"
-                          style={{ objectFit: 'cover' }}
+                          style={{ width: '9D0px', height: '90px', objectFit: 'cover' }} // Fixes aspect ratio
                         />
                       </div>
                       <div className="cart-item-content">
@@ -242,4 +226,3 @@ if (isLoading) {
     </div>
   );
 }
-

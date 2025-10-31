@@ -75,9 +75,3 @@
     }
 }
 
-// Responsive adjustments for product card footer on mobile
-@media (max-width: 575.98px) {
-    .product-card .btn-group .add-to-cart-btn {
-        border-radius: var(--bs-border-radius-sm) !important;
-    }
-}

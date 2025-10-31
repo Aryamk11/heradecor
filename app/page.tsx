@@ -1,8 +1,8 @@
 // app/page.tsx
 import { fetchProducts } from "./lib/product-service";
 import Link from 'next/link';
-import Image from 'next/image'; // <-- IMPORT
-import AddToCartButton from './components/AddToCartButton'; // Import the client component
+import Image from 'next/image';
+import AddToCartButton from './components/AddToCartButton';
 
 function formatPrice(value: number) {
     if (typeof value !== 'number') return 'ناعدد';
@@ -31,18 +31,18 @@ export default async function HomePage() {
         <div className="container">
           <h2 className="text-center mb-4">محصولات منتخب</h2>
           <div id="featured-products-grid" className="row row-cols-2 row-cols-sm-2 row-cols-lg-4 g-4">
-            {featuredProducts.map(product => (
+            {featuredProducts.map((product, index) => (
               <div className="col" key={product.id}>
                 <div className="card shadow-sm product-card h-100">
                    <Link href={`/products/${product.id}`} className="text-decoration-none text-dark">
-                      {/* --- THIS IS THE FIX --- */}
                       <Image 
                         src={product.image} 
                         className="card-img-top" 
                         alt={product.name}
-                        width={300}  // Set a base width
-                        height={300} // Set a base height
-                        style={{ aspectRatio: '1 / 1', objectFit: 'cover' }} // Maintain aspect ratio
+                        width={300}
+                        height={300}
+                        style={{ height: 'auto', objectFit: 'cover' }} // Fixes aspect ratio warning
+                        priority={index === 0} // Fixes LCP warning
                       />
                    </Link>
                    <div className="card-body d-flex flex-column">

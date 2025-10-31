@@ -1,15 +1,13 @@
 // app/products/page.tsx
 import { fetchAllProducts } from "../lib/product-service";
 import Link from 'next/link';
-import Image from 'next/image'; // <-- IMPORT
+import Image from 'next/image';
 
-// Reusable helper function
 function formatPrice(value: number) {
     if (typeof value !== 'number') return 'ناعدد';
     return `${value.toLocaleString('fa-IR')} تومان`;
 }
 
-// Note: We will create this client component next.
 import AddToCartButton from '../components/AddToCartButton';
 
 export default async function ProductsPage() {
@@ -27,9 +25,9 @@ export default async function ProductsPage() {
                   src={product.image} 
                   className="card-img-top" 
                   alt={product.name}
-                  width={300}  // Set a base width
-                  height={300} // Set a base height
-                  style={{ aspectRatio: '1 / 1', objectFit: 'cover' }} // Maintain aspect ratio
+                  width={300}
+                  height={300}
+                  style={{ height: 'auto', objectFit: 'cover' }} // Fixes aspect ratio warning
                 />
               </Link>
               <div className="card-body d-flex flex-column">
