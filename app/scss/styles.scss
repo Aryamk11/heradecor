@@ -22,3 +22,7 @@
 @use './partials/base';
 @use './partials/layout';
 @use './partials/components';
+
+// 4. Correct Bootstrap's LTR-only compiled output for this dir="rtl" site.
+//    Must stay last so its logical properties override the physical ones.
+@use './partials/rtl';

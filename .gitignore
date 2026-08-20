@@ -42,3 +42,6 @@ pnpm-debug.log*
 *.sw?
 
 .env
+
+# TypeScript incremental build cache
+*.tsbuildinfo

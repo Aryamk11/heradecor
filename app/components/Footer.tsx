@@ -1,26 +1,30 @@
 // app/components/Footer.tsx
-import Link from 'next/link';
+import ProgressLink from './ProgressLink';
 
 export default function Footer() {
+  const year = new Date().getFullYear();
+
   return (
     <footer className="container py-5">
       <div className="row">
         <div className="col-12 col-md">
-          <h5>کادو هنری هرا</h5>
-          <small className="d-block mb-3 text-muted">&copy; 2023–2025</small>
+          <h2 className="h5">کادو هنری هرا</h2>
+          <small className="d-block mb-3 text-muted">&copy; {`2023–${year}`}</small>
         </div>
         <div className="col-6 col-md">
-          <h5>دسترسی سریع</h5>
+          <h2 className="h5">دسترسی سریع</h2>
           <ul className="list-unstyled text-small">
-            <li><Link href="/products" className="link-secondary text-decoration-none">محصولات</Link></li>
-            <li><a className="link-secondary text-decoration-none" href="#">قوانین و مقررات</a></li>
+            <li><ProgressLink href="/products" className="link-secondary text-decoration-none">محصولات</ProgressLink></li>
+            <li><ProgressLink href="/cart" className="link-secondary text-decoration-none">سبد خرید</ProgressLink></li>
+            {/* No terms page exists yet; shown as inactive instead of a link to "#". */}
+            <li><span className="text-muted">قوانین و مقررات (به‌زودی)</span></li>
           </ul>
         </div>
         <div className="col-6 col-md">
-          <h5>درباره ما</h5>
+          <h2 className="h5">درباره ما</h2>
           <ul className="list-unstyled text-small">
-            <li><Link href="/about" className="link-secondary text-decoration-none">داستان هرا</Link></li>
-            <li><a className="link-secondary text-decoration-none" href="#">تماس با ما</a></li>
+            <li><ProgressLink href="/about" className="link-secondary text-decoration-none">داستان هرا</ProgressLink></li>
+            <li><ProgressLink href="/contact" className="link-secondary text-decoration-none">تماس با ما</ProgressLink></li>
           </ul>
         </div>
       </div>

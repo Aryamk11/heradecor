@@ -44,28 +44,6 @@ h1, h2, h3, h4, h5, h6 {
         box-shadow: 0 0 0 0.25rem rgba(color.red(var.$secondary), color.green(var.$secondary), color.blue(var.$secondary), 0.5) !important;
     }
 }
-// 9. Cart Item Status Highlighting
-// ===================================
-.cart-item {
-    transition: background-color 0.3s ease;
-
-    &.is-changed-increase {
-        background-color: #d1e7dd;
-    }
-
-    &.is-changed-decrease {
-        background-color: #fff3cd;
-    }
-
-    &.is-removed {
-        background-color: #f8d7da;
-        opacity: 0.6;
-
-        h5, .item-subtotal {
-            text-decoration: line-through;
-        }
-    }
-}
 // 11. Form Control Adjustments
 // ===================================
 .cart-quantity-input {

@@ -1,0 +1,124 @@
+// RTL corrections
+// =============================================================================
+// Bootstrap ships two prebuilt stylesheets: an LTR one, and an RTL one produced
+// by running RTLCSS over the compiled output. There is no $enable-rtl switch in
+// the SCSS source, so compiling bootstrap/scss ourselves — which we do, to keep
+// the theming in _variables.scss — always yields the LTR build.
+//
+// On this document every physical direction property therefore lands on the
+// mirrored side: btn-group/input-group flatten their *outer* corners instead of
+// the inner ones, the -1px join margin pulls elements apart, and every
+// .me-*/.ms-* utility is reversed.
+//
+// This file assumes the RTL direction that layout.tsx hardcodes (<html dir="rtl"
+// lang="fa">) and states the mirrored values physically. Logical properties were
+// the obvious alternative, but the CSS minifier rewrites them into :lang()-gated
+// physical rules and drops !important in the process, which silently loses the
+// specificity battle against Bootstrap. If an LTR locale is ever added, replace
+// this file with an RTLCSS build step instead of extending it.
+//
+// Bootstrap's own rules are never !important, so !important here reliably wins;
+// within this file plain specificity decides, restores being deliberately weaker
+// than the flattening rules that follow them.
+
+$rtl-spacers: (0: 0, 1: .25rem, 2: .5rem, 3: 1rem, 4: 1.5rem, 5: 3rem);
+
+// --- Spacing utilities -------------------------------------------------------
+// In RTL the inline start is the right edge and the inline end is the left edge.
+@each $key, $value in $rtl-spacers {
+    .ms-#{$key} { margin-left: 0 !important; margin-right: $value !important; }
+    .me-#{$key} { margin-right: 0 !important; margin-left: $value !important; }
+    .ps-#{$key} { padding-left: 0 !important; padding-right: $value !important; }
+    .pe-#{$key} { padding-right: 0 !important; padding-left: $value !important; }
+}
+
+.ms-auto { margin-left: 0 !important; margin-right: auto !important; }
+.me-auto { margin-right: 0 !important; margin-left: auto !important; }
+
+// --- Text alignment ----------------------------------------------------------
+.text-start { text-align: right !important; }
+.text-end { text-align: left !important; }
+
+// --- Edge positioning --------------------------------------------------------
+.start-0 { left: auto !important; right: 0 !important; }
+.end-0 { right: auto !important; left: 0 !important; }
+.start-50 { left: auto !important; right: 50% !important; }
+.end-50 { right: auto !important; left: 50% !important; }
+.start-100 { left: auto !important; right: 100% !important; }
+.end-100 { right: auto !important; left: 100% !important; }
+
+// --- Button groups -----------------------------------------------------------
+// Restore all four corners first (weak selector, but !important beats
+// Bootstrap's non-important LTR flattening)...
+.btn-group > .btn,
+.btn-group > .btn-group > .btn {
+    border-radius: var(--bs-btn-border-radius) !important;
+}
+
+.btn-group > :not(.btn-check:first-child) + .btn,
+.btn-group > .btn-group:not(:first-child) {
+    margin-left: 0 !important;
+    margin-right: calc(-1 * var(--bs-border-width)) !important;
+}
+
+// ...then flatten the joins. These out-specify the restore above, so an element
+// matching both rules (a middle button) ends up square on both sides.
+.btn-group > .btn:not(:last-child):not(.dropdown-toggle),
+.btn-group > .btn.dropdown-toggle-split:first-child,
+.btn-group > .btn-group:not(:last-child) > .btn {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+
+.btn-group > .btn:nth-child(n + 3),
+.btn-group > :not(.btn-check) + .btn,
+.btn-group > .btn-group:not(:first-child) > .btn {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+// --- Input groups ------------------------------------------------------------
+.input-group > .form-control,
+.input-group > .form-select,
+.input-group > .btn,
+.input-group > .input-group-text {
+    border-radius: var(--bs-border-radius) !important;
+}
+
+// Size variants follow the generic restore so they win at equal specificity.
+.input-group-sm > .form-control,
+.input-group-sm > .form-select,
+.input-group-sm > .btn,
+.input-group-sm > .input-group-text {
+    border-radius: var(--bs-border-radius-sm) !important;
+}
+
+.input-group-lg > .form-control,
+.input-group-lg > .form-select,
+.input-group-lg > .btn,
+.input-group-lg > .input-group-text {
+    border-radius: var(--bs-border-radius-lg) !important;
+}
+
+.input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+    margin-left: 0 !important;
+    margin-right: calc(-1 * var(--bs-border-width)) !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.input-group > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+
+// --- Dropdowns ---------------------------------------------------------------
+.dropdown-menu {
+    text-align: right;
+}
+
+// --- Accordion ---------------------------------------------------------------
+.accordion-button::after {
+    margin-left: 0;
+    margin-right: auto;
+}

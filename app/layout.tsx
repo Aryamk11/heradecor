@@ -1,39 +1,48 @@
 // app/layout.tsx
 import type { Metadata } from "next";
-import Script from "next/script";
-import { Vazirmatn } from 'next/font/google'; // Import the font
+import { Suspense } from "react";
+import { Vazirmatn } from 'next/font/google';
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import BootstrapClient from "./components/BootstrapClient";
+import NavigationProgress from "./components/NavigationProgress";
+import { fetchCategories } from "./lib/product-service";
 import "./scss/styles.scss";
-import 'bootstrap-icons/font/bootstrap-icons.css'; // Import Bootstrap Icons
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
-// Configure the font
-const vazirmatn = Vazirmatn({ subsets: ['arabic'] });
+const vazirmatn = Vazirmatn({ subsets: ['arabic'], display: 'swap' });
 
 export const metadata: Metadata = {
-  title: "فروشگاه آنلاین هرا دکور",
+  title: {
+    default: "فروشگاه آنلاین هرا دکور",
+    template: "%s | هرا دکور",
+  },
   description: "زیبایی را به خانه خود بیاورید",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const categories = await fetchCategories();
+
   return (
-    // Apply the font className to the html tag
-  <html lang="fa" dir="rtl" className={vazirmatn.className} data-scroll-behavior="smooth">
-      <body>
-        <Header />
-        <main className="container my-5">
+    <html lang="fa" dir="rtl" className={vazirmatn.className} data-scroll-behavior="smooth">
+      <body className="d-flex flex-column min-vh-100">
+        {/* Both read useSearchParams, which needs a boundary to keep the rest of
+            the tree statically renderable. */}
+        <Suspense fallback={null}>
+          <NavigationProgress />
+        </Suspense>
+        <Suspense fallback={null}>
+          <Header categories={categories} />
+        </Suspense>
+        <main className="container my-5 flex-grow-1">
           {children}
         </main>
         <Footer />
-        <Script
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-          crossOrigin="anonymous"
-        />
+        <BootstrapClient />
       </body>
     </html>
   );
